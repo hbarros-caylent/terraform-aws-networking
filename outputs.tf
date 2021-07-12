@@ -1,9 +1,32 @@
-output "null_resource_id" {
-  value       = "${null_resource.foo.id}"
-  description = "An arbitrary value that changes each time the resource is replaced."
+output "vpc_id" {
+  value = module.vpc.vpc_id
 }
 
-output "example_value" {
-  value       = "${var.example}"
-  description = "Example variable."
+output "vpc_cidr_block" {
+  value = module.vpc.vpc_cidr_block
+}
+
+
+output "ec2_subnet_id" {
+  value = module.vpc.private_subnets[2]
+}
+
+output "tamr_ec2_subnet_id" {
+  value = module.vpc.private_subnets[0]
+}
+
+output "tamr_ec2_subnet_cidr_block" {
+  value = module.vpc.private_subnets_cidr_blocks[0]
+}
+
+output "rds_subnet_group_ids" {
+  value = ["${module.vpc.private_subnets[2]}", "${module.vpc.private_subnets[3]}"]
+}
+
+output "tamr_ec2_availability_zone" {
+  value = module.vpc.azs[0]
+}
+
+output "public_subnet_ids" {
+  value = module.vpc.public_subnets
 }

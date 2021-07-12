@@ -1,68 +1,23 @@
-# Terraform Module Template
-This is a template github repo, for a terraform module. A new terraform module, should use this as its starting point.
-This repo follows the [terraform standard module structure](https://www.terraform.io/docs/modules/index.html#standard-module-structure).
-
-# Examples
-## Basic
-Inline example implementation of the module.  This is the most basic example of what it would look like to use this module.
-```
-module "minimal" {
-  source = "git::https://github.com/Datatamer/terraform-template-repo?ref=0.1.0"
-}
-```
-## Minimal
-Smallest complete fully working example. This example might require extra resources to run the example.
-- [Minimal](https://github.com/Datatamer/terraform-template-repo/tree/master/examples/minimal)
-
-# Resources Created
-This modules creates:
-* a null resource
-
-<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
-## Requirements
-
-| Name | Version |
-|------|---------|
-| terraform | >= 0.12 |
-
-## Providers
-
-| Name | Version |
-|------|---------|
-| null | n/a |
+# Tamr Networking Module
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| example | Example variable. | `string` | `"default value"` | no |
+| ingress_cidr_blocks | n/a | `list(string)` | <pre>[<br>  "0.0.0.0/0"<br>]</pre> | yes |
+| vpc_cidr_block | n/a | `string` | \"\" | no |
+| availability_zones | n/a | `list(string)` | n/a | yes |
+| create_public_subnets | n/a | `string` | n/a | yes |
+| name-enable_nat_gateway | n/a | `string` | `"public-facing-example"` | no |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
-| example\_value | Example variable. |
-| null\_resource\_id | An arbitrary value that changes each time the resource is replaced. |
-
-<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
-
-# References
-This repo is based on:
-* [terraform standard module structure](https://www.terraform.io/docs/modules/index.html#standard-module-structure)
-* [templated terraform module](https://github.com/tmknom/template-terraform-module)
-
-# Development
-## Generating Docs
-Run `make terraform/docs` to generate the section of docs around terraform inputs, outputs and requirements.
-
-## Checkstyles
-Run `make lint`, this will run terraform fmt, in addition to a few other checks to detect whitespace issues.
-NOTE: this requires having docker working on the machine running the test
-
-## Releasing new versions
-* Update version contained in `VERSION`
-* Document changes in `CHANGELOG.md`
-* Create a tag in github for the commit associated with the version
-
-# License
-Apache 2 Licensed. See LICENSE for full details.
+| vpc_id | The URL of the loadbalancer |
+| ec2_subnet_id| The subnet id for the EMR nodes|
+| tamr_ec2_subnet_id| The subnet id of the tamr vm|
+| tamr_ec2_subnet_cidr_block| The cidr block of the tamr vm's subnet|
+| rds_subnet_group_ids| Ids for the RDS subnet groups|
+| tamr_ec2_availability_zone| The AZ of the tamr vm|
+| public_subnet_ids| The ids of the public subnets|
