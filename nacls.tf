@@ -106,7 +106,7 @@ resource "aws_network_acl" "application_subnet" {
 }
 resource "aws_network_acl" "compute_subnet" {
   vpc_id     = module.vpc.vpc_id
-  subnet_ids = module.vpc.private_subnets[1]
+  subnet_ids = [module.vpc.private_subnets[1]]
   tags = {
     Name = "compute_subnet"
   }
