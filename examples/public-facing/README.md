@@ -1,19 +1,30 @@
 # Public Facing Example
 
+<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+## Requirements
+
+No requirements.
+
+## Providers
+
+No provider.
+
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| ingress_cidr_blocks | n/a | `list(string)` | <pre>[<br>  "0.0.0.0/0"<br>]</pre> | yes |
-| tls_certificate_arn | n/a | `string` | \"\" | no |
-| availability_zones | n/a | `list(string)` | n/a | yes |
-| ami_id | n/a | `string` | n/a | yes |
+| ami\_id | The AMI to use for the tamr vm | `string` | n/a | yes |
+| availability\_zones | The list of availability zones where we should deploy resources | `list(string)` | n/a | yes |
+| key\_pair | n/a | `string` | n/a | yes |
+| ingress\_cidr\_blocks | The cidr range that will be accessing the tamr vm | `list(string)` | <pre>[<br>  "0.0.0.0/0"<br>]</pre> | no |
 | name-prefix | n/a | `string` | `"public-facing-example"` | no |
-| key_pair | n/a | `string` | n/a | yes |
+| tls\_certificate\_arn | The tls certificate ARN | `string` | `""` | no |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
-| alb_url | The URL of the loadbalancer |
+| alb\_url | n/a |
+
+<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
