@@ -231,39 +231,55 @@ resource "aws_network_acl" "public_subnets" {
         to_port    = 0
      }
   }
-  // Enable access to the internet for nat gateway
-  // Double check this is required
-  dynamic "egress" {
-     for_each = var.enable_nat_gateway ? ["1"] : []
-     content {
+  // Enable VPC traffic
+  egress {
         protocol   = "-1"
         rule_no    = "200"
         action     = "allow"
-        cidr_block = "0.0.0.0/0"
+        cidr_block = module.vpc.vpc_cidr_block
         from_port  = 0
         to_port    = 0
-     }
   }
+  ingress {
+        protocol   = "-1"
+        rule_no    = "201"
+        action     = "allow"
+        cidr_block = module.vpc.vpc_cidr_block
+        from_port  = 0
+        to_port    = 0
+  }
+  // Enable access to the internet for nat gateway
   dynamic "egress" {
      for_each = var.enable_nat_gateway ? ["1"] : []
      content {
         protocol   = "tcp"
-        rule_no    = "201"
+        rule_no    = "300"
         action     = "allow"
         cidr_block = "0.0.0.0/0"
         from_port  = 80
         to_port    = 80
      }
   }
+  dynamic "egress" {
+     for_each = var.enable_nat_gateway ? ["1"] : []
+     content {
+        protocol   = "tcp"
+        rule_no    = "301"
+        action     = "allow"
+        cidr_block = "0.0.0.0/0"
+        from_port  = 443
+        to_port    = 443
+     }
+  }
   dynamic "ingress" {
      for_each = var.enable_nat_gateway ? ["1"] : []
      content {
-        protocol   = "-1"
-        rule_no    = "200"
+        protocol   = "tcp"
+        rule_no    = "302"
         action     = "allow"
         cidr_block = "0.0.0.0/0"
-        from_port  = 0
-        to_port    = 0
+        from_port  = 1024
+        to_port    = 65535
      }
   }
 }
