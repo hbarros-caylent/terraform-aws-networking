@@ -106,7 +106,7 @@ resource "aws_network_acl" "application_subnet" {
 }
 resource "aws_network_acl" "compute_subnet" {
   vpc_id     = module.vpc.vpc_id
-  subnet_ids = ["${module.vpc.private_subnets[1]}"]
+  subnet_ids = module.vpc.private_subnets[1]
   tags = {
     Name = "compute_subnet"
   }
@@ -167,7 +167,7 @@ resource "aws_network_acl" "compute_subnet" {
 
 resource "aws_network_acl" "data_subnets" {
   vpc_id     = module.vpc.vpc_id
-  subnet_ids = ["${module.vpc.private_subnets[2]}", "${module.vpc.private_subnets[3]}"]
+  subnet_ids = [module.vpc.private_subnets[2], module.vpc.private_subnets[3]]
   tags = {
     Name = "data_subnets"
   }
@@ -204,7 +204,7 @@ resource "aws_network_acl" "data_subnets" {
 
 resource "aws_network_acl" "public_subnets" {
   vpc_id     = module.vpc.vpc_id
-  subnet_ids = var.create_public_subnets ? ["${module.vpc.public_subnets[0]}", "${module.vpc.public_subnets[1]}"] : []
+  subnet_ids = var.create_public_subnets ? [module.vpc.public_subnets[0], module.vpc.public_subnets[1]] : []
   tags = {
     Name = "public_subnets"
   }
