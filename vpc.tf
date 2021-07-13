@@ -1,9 +1,11 @@
 locals {
   private_subnets_cidrs = concat(
-    var.application_subnet_cidr_block,
-    var.compute_subnet_cidr_block,
-    var.data_subnet_cidr_blocks,
-  )
+      flatten([
+        [var.application_subnet_cidr_block],
+        [var.compute_subnet_cidr_block],
+        [var.data_subnet_cidr_blocks]
+      ])
+    )
   public_subnets_cidrs  = var.public_subnets_cidr_blocks
 }
 
