@@ -3,9 +3,8 @@ module "https_lb" {
 
   name        = "web"
   description = "Security group for tamr-vm with HTTPS ports open within VPC"
-  vpc_id      = module.tamr_networking.vpc_id 
+  vpc_id      = module.tamr_networking.vpc_id
   ingress_cidr_blocks      = var.ingress_cidr_blocks
-  
   ingress_rules            = var.tls_certificate_arn == "" ? ["http-80-tcp"] : ["https-443-tcp"]
   egress_with_source_security_group_id = [
     {

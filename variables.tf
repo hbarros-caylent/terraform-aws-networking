@@ -11,18 +11,18 @@ variable "vpc_cidr_block" {
 }
 
 variable "availability_zones" {
-  type = list(string)
+  type        = list(string)
   description = "The list of availability zones where we should deploy resources (At least 2)"
 }
 
 variable "create_public_subnets" {
-  type = bool
+  type        = bool
   description = "Enable the creation of public subnets for accessing Tamr from the internet"
-  default = false
+  default     = false
 }
 
 variable "enable_nat_gateway" {
-  type = bool
+  type        = bool
   description = "Enable the creation of a NAT gateway"
-  default = false
+  default     = false
 }
