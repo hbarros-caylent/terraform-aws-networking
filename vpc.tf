@@ -1,3 +1,9 @@
+locals {
+  cidrs           = cidrsubnets(var.vpc_cidr_block, 8, 8, 8, 8, 8, 8)
+  private_subnets = slice(local.cidrs, 0, 4)
+  public_subnets  = slice(local.cidrs, 4, 6)
+}
+
 module "vpc" {
   source = "terraform-aws-modules/vpc/aws"
 
@@ -24,10 +30,4 @@ module "vpc" {
     Terraform   = "true"
     Environment = "Terraform Managed"
   }
-}
-
-locals {
-  cidrs           = cidrsubnets(var.vpc_cidr_block, 8, 8, 8, 8, 8, 8)
-  private_subnets = slice(local.cidrs, 0, 4)
-  public_subnets  = slice(local.cidrs, 4, 6)
 }
