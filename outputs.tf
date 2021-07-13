@@ -7,19 +7,19 @@ output "vpc_cidr_block" {
 }
 
 
-output "ec2_subnet_id" {
+output "compute_subnet_id" {
   value = module.vpc.private_subnets[2]
 }
 
-output "tamr_ec2_subnet_id" {
+output "application_subnet_id" {
   value = module.vpc.private_subnets[0]
 }
 
-output "tamr_ec2_subnet_cidr_block" {
+output "application_subnet_cidr_block" {
   value = module.vpc.private_subnets_cidr_blocks[0]
 }
 
-output "rds_subnet_group_ids" {
+output "data_subnet_group_ids" {
   value = ["${module.vpc.private_subnets[2]}", "${module.vpc.private_subnets[3]}"]
 }
 
