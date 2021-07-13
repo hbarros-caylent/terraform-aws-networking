@@ -13,9 +13,9 @@ No provider.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| ami\_id | The AMI to use for the tamr vm | `string` | n/a | yes |
-| availability\_zones | The list of availability zones where we should deploy resources | `list(string)` | n/a | yes |
 | key\_pair | n/a | `string` | n/a | yes |
+| ami\_id | The AMI to use for the tamr vm | `string` | `"ami-09a51f80998749f6d"` | no |
+| availability\_zones | The list of availability zones where we should deploy resources | `list(string)` | <pre>[<br>  "us-west-1a",<br>  "us-west-1b"<br>]</pre> | no |
 | ingress\_cidr\_blocks | The cidr range that will be accessing the tamr vm | `list(string)` | <pre>[<br>  "0.0.0.0/0"<br>]</pre> | no |
 | name-prefix | n/a | `string` | `"public-facing-example"` | no |
 | tls\_certificate\_arn | The tls certificate ARN | `string` | `""` | no |
