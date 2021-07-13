@@ -24,7 +24,7 @@ module "tamr-vm" {
   key_name          = var.key_pair
   availability_zone = var.availability_zones[0]
   vpc_id            = module.tamr_networking.vpc_id
-  subnet_id         = module.tamr_networking.tamr_ec2_subnet_id
+  subnet_id         = module.tamr_networking.application_subnet_id
   bootstrap_scripts = [
     file("./install-nginx.sh")
   ]
