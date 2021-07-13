@@ -1,7 +1,10 @@
 locals {
-  cidrs           = cidrsubnets(var.vpc_cidr_block, 8, 8, 8, 8, 8, 8)
-  private_subnets = slice(local.cidrs, 0, 4)
-  public_subnets  = slice(local.cidrs, 4, 6)
+  private_subnets_cidrs = concat(
+    var.application_subnet_cidr_block,
+    var.compute_subnet_cidr_block,
+    var.data_subnet_cidr_blocks,
+  )
+  public_subnets_cidrs  = var.public_subnets_cidr_blocks
 }
 
 module "vpc" {
@@ -11,8 +14,8 @@ module "vpc" {
   cidr = var.vpc_cidr_block
 
   azs                    = var.availability_zones
-  private_subnets        = local.private_subnets
-  public_subnets         = var.create_public_subnets ? local.public_subnets : []
+  private_subnets        = local.private_subnets_cidrs
+  public_subnets         = var.create_public_subnets ? local.public_subnets_cidrs : []
   enable_nat_gateway     = var.enable_nat_gateway && var.create_public_subnets ? true : false
   single_nat_gateway     = var.enable_nat_gateway ? true : false
   one_nat_gateway_per_az = false
