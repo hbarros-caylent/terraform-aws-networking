@@ -41,3 +41,19 @@
 | vpc\_cidr\_block | n/a |
 | vpc\_id | n/a |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+
+# Development
+## Generating Docs
+Run `make terraform/docs` to generate the section of docs around terraform inputs, outputs and requirements.
+
+## Checkstyles
+Run `make lint`, this will run terraform fmt, in addition to a few other checks to detect whitespace issues.
+NOTE: this requires having docker working on the machine running the test
+
+## Releasing new versions
+* Update version contained in `VERSION`
+* Document changes in `CHANGELOG.md`
+* Create a tag in github for the commit associated with the version
+
+# License
+Apache 2 Licensed. See LICENSE for full details.
