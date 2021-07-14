@@ -1,4 +1,4 @@
-module "aws-sg" {
+module "sg_vm_web" {
   source = "git::git@github.com:Datatamer/terraform-aws-security-groups.git?ref=1.0.0"
   vpc_id = module.tamr_networking.vpc_id
   egress_cidr_blocks = [
