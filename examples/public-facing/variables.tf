@@ -25,7 +25,7 @@ variable "ami_id" {
 variable "name-prefix" {
   type = string
   description = ""
-  default = "public-facing-example"
+  default = "tamr-"
 }
 
 variable "key_pair" {
