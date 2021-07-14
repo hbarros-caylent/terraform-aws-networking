@@ -1,13 +1,17 @@
 locals {
-  application_subnets = [module.vpc.private_subnets[0]]
+  application_subnet = module.vpc.private_subnets[0]
+  application_subnet_cidr_block = module.vpc.private_subnets_cidr_blocks[0]
   data_subnets        = [module.vpc.private_subnets[2], module.vpc.private_subnets[3]]
-  compute_subnets     = [module.vpc.private_subnets[1]]
+  data_subnets_cidr_blocks = [module.vpc.private_subnets_cidr_blocks[2], module.vpc.private_subnets_cidr_blocks[3]]
+  compute_subnet    = module.vpc.private_subnets[1]
+  compute_subnet_cidr_block = module.vpc.private_subnets_cidr_blocks[1]
   public_subnets      = module.vpc.public_subnets
+  public_subnets_cidr_blocks      = module.vpc.public_subnets_cidr_blocks
 }
 
 resource "aws_network_acl" "application_subnet" {
   vpc_id     = module.vpc.vpc_id
-  subnet_ids = local.application_subnets
+  subnet_ids = [local.application_subnet]
   tags       = var.tags
 
   // allow vpc traffic
@@ -112,7 +116,7 @@ resource "aws_network_acl" "application_subnet" {
 }
 resource "aws_network_acl" "compute_subnet" {
   vpc_id     = module.vpc.vpc_id
-  subnet_ids = local.compute_subnets
+  subnet_ids = [local.compute_subnet]
   tags       = var.tags
 
   // allow vpc traffic
