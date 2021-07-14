@@ -256,39 +256,71 @@ resource "aws_network_acl" "public_subnets" {
     to_port    = 0
   }
   // Enable access to the internet for nat gateway
-  dynamic "egress" {
-    for_each = var.enable_nat_gateway ? ["1"] : []
-    content {
+  /*
+  egress {
+    count = var.enable_nat_gateway ? 1 : 0
       protocol   = "tcp"
       rule_no    = "300"
       action     = "allow"
       cidr_block = "0.0.0.0/0"
       from_port  = 80
       to_port    = 80
-    }
   }
-  dynamic "egress" {
-    for_each = var.enable_nat_gateway ? ["1"] : []
-    content {
+  egress {
+    count = var.enable_nat_gateway ? 1 : 0
       protocol   = "tcp"
       rule_no    = "301"
       action     = "allow"
       cidr_block = "0.0.0.0/0"
       from_port  = 443
       to_port    = 443
-    }
+    
   }
-  dynamic "ingress" {
-    for_each = var.enable_nat_gateway ? ["1"] : []
-    content {
+  ingress {
+    count = var.enable_nat_gateway ? 1 : 0
       protocol   = "tcp"
       rule_no    = "302"
       action     = "allow"
       cidr_block = "0.0.0.0/0"
       from_port  = 1024
       to_port    = 65535
-    }
-  }
+    
+  }*/
+}
+
+resource "aws_network_acl_rule" "internet_access_80" {
+  egress = true
+  count = var.enable_nat_gateway ? 1 : 0
+  network_acl_id = aws_network_acl.public_subnets.id
+  protocol   = "tcp"
+  rule_number    = "300"
+  rule_action     = "allow"
+  cidr_block = "0.0.0.0/0"
+  from_port  = 80
+  to_port    = 80
+
+}
+resource "aws_network_acl_rule" "internet_access_443" {
+  egress = true
+  count = var.enable_nat_gateway ? 1 : 0
+  network_acl_id = aws_network_acl.public_subnets.id
+  protocol   = "tcp"
+  rule_number   = "301"
+  rule_action     = "allow"
+  cidr_block = "0.0.0.0/0"
+  from_port  = 443
+  to_port    = 443
+}
+resource "aws_network_acl_rule" "internet_access_ephemeral" {
+  egress = false
+  count = var.enable_nat_gateway ? 1 : 0
+  network_acl_id = aws_network_acl.public_subnets.id
+  protocol   = "tcp"
+  rule_number    = "302"
+  rule_action     = "allow"
+  cidr_block = "0.0.0.0/0"
+  from_port  = 1024
+  to_port    = 65535
 }
 
 data "aws_region" "current" {}
