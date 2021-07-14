@@ -19,7 +19,7 @@
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | application\_subnet\_cidr\_block | The application subnet's CIDR range | `string` | `"10.0.0.0/24"` | no |
-| availability\_zones | The list of availability zones where we should deploy resources (At least 2) | `list(string)` | <pre>[<br>  "us-west-1a",<br>  "us-west-1b"<br>]</pre> | no |
+| availability\_zones | The list of availability zones where we should deploy resources (At least 2) | `list(string)` | `[]` | no |
 | compute\_subnet\_cidr\_block | The data subnet CIDR range | `string` | `"10.0.1.0/24"` | no |
 | create\_public\_subnets | Enable the creation of public subnets for accessing Tamr from the internet | `bool` | `false` | no |
 | data\_subnet\_cidr\_blocks | The data subnet's CIDR range | `list(string)` | <pre>[<br>  "10.0.2.0/24",<br>  "10.0.3.0/24"<br>]</pre> | no |
@@ -30,6 +30,7 @@
 | vpc\_cidr\_block | The cidr range for the vpc | `string` | `"10.0.0.0/16"` | no |
 
 ## Outputs
+
 | Name | Description |
 |------|-------------|
 | application\_subnet\_cidr\_block | n/a |
@@ -40,6 +41,7 @@
 | tamr\_ec2\_availability\_zone | n/a |
 | vpc\_cidr\_block | n/a |
 | vpc\_id | n/a |
+
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
 # Development

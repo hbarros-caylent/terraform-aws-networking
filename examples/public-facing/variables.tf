@@ -5,27 +5,27 @@ variable "ingress_cidr_blocks" {
 }
 
 variable "tls_certificate_arn" {
-  type = string
+  type        = string
   description = "The tls certificate ARN"
-  default = ""
+  default     = ""
 }
 
 variable "availability_zones" {
-  type = list(string)
+  type        = list(string)
   description = "The list of availability zones where we should deploy resources"
   default     = []
 }
 
 variable "ami_id" {
-  type = string
+  type        = string
   description = "The AMI to use for the tamr vm"
-  default = ""
+  default     = ""
 }
 
 variable "name-prefix" {
-  type = string
+  type        = string
   description = ""
-  default = "tamr-"
+  default     = "tamr-"
 }
 
 variable "key_pair" {
