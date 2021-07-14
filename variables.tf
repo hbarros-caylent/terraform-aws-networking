@@ -37,7 +37,7 @@ variable "public_subnets_cidr_blocks" {
 variable "availability_zones" {
   type        = list(string)
   description = "The list of availability zones where we should deploy resources (At least 2)"
-  default     = ["us-west-1a","us-west-1b"]
+  default     = ["us-west-1a", "us-west-1b"]
 }
 
 variable "create_public_subnets" {
@@ -50,4 +50,10 @@ variable "enable_nat_gateway" {
   type        = bool
   description = "Enable the creation of a NAT gateway"
   default     = false
+}
+
+variable "tags" {
+  type        = map(string)
+  description = "A map of tags to add to all resources. Replaces `additional_tags`."
+  default     = {}
 }

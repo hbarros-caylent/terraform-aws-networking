@@ -1,16 +1,15 @@
 locals {
-  application_subnets = [ module.vpc.private_subnets[0] ]
-  data_subnets = [ module.vpc.private_subnets[2], module.vpc.private_subnets[3] ]
-  compute_subnets  = [ module.vpc.private_subnets[1] ]
-  public_subnets = module.vpc.public_subnets
+  application_subnets = [module.vpc.private_subnets[0]]
+  data_subnets        = [module.vpc.private_subnets[2], module.vpc.private_subnets[3]]
+  compute_subnets     = [module.vpc.private_subnets[1]]
+  public_subnets      = module.vpc.public_subnets
 }
 
 resource "aws_network_acl" "application_subnet" {
   vpc_id     = module.vpc.vpc_id
   subnet_ids = local.application_subnets
-  tags = {
-    Name = "application_subnet"
-  }
+  tags       = var.tags
+
   // allow vpc traffic
   egress {
     protocol   = "-1"
@@ -114,9 +113,8 @@ resource "aws_network_acl" "application_subnet" {
 resource "aws_network_acl" "compute_subnet" {
   vpc_id     = module.vpc.vpc_id
   subnet_ids = local.compute_subnets
-  tags = {
-    Name = "compute_subnet"
-  }
+  tags       = var.tags
+
   // allow vpc traffic
   egress {
     protocol   = "-1"
@@ -175,9 +173,8 @@ resource "aws_network_acl" "compute_subnet" {
 resource "aws_network_acl" "data_subnets" {
   vpc_id     = module.vpc.vpc_id
   subnet_ids = local.data_subnets
-  tags = {
-    Name = "data_subnets"
-  }
+  tags       = var.tags
+
   // allow vpc traffic
   egress {
     protocol   = "-1"
@@ -212,9 +209,8 @@ resource "aws_network_acl" "data_subnets" {
 resource "aws_network_acl" "public_subnets" {
   vpc_id     = module.vpc.vpc_id
   subnet_ids = var.create_public_subnets ? local.public_subnets : []
-  tags = {
-    Name = "public_subnets"
-  }
+  tags       = var.tags
+
   // Enable access to and from the ingress CIDR blocks
   dynamic "egress" {
     for_each = var.ingress_cidr_blocks

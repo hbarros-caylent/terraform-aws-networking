@@ -9,7 +9,7 @@ module "alb" {
   vpc_id             = module.tamr_networking.vpc_id
   subnets            = module.tamr_networking.public_subnet_ids
   security_groups    = [ module.https_lb.security_group_id  ]
-
+  tags = var.tags
   target_groups = [
     {
       name_prefix      = "pref-"

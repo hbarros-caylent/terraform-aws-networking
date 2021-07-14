@@ -31,3 +31,11 @@ variable "name-prefix" {
 variable "key_pair" {
   type = string
 }
+
+variable "tags" {
+  type        = map(string)
+  description = "A map of tags to add to all resources. Replaces `additional_tags`."
+  default     = {
+    application = "tamr_public_facing_example"
+  }
+}

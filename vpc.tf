@@ -1,12 +1,12 @@
 locals {
   private_subnets_cidrs = concat(
-      flatten([
-        [var.application_subnet_cidr_block],
-        [var.compute_subnet_cidr_block],
-        [var.data_subnet_cidr_blocks]
-      ])
-    )
-  public_subnets_cidrs  = var.public_subnets_cidr_blocks
+    flatten([
+      [var.application_subnet_cidr_block],
+      [var.compute_subnet_cidr_block],
+      [var.data_subnet_cidr_blocks]
+    ])
+  )
+  public_subnets_cidrs = var.public_subnets_cidr_blocks
 }
 
 module "vpc" {
@@ -31,8 +31,5 @@ module "vpc" {
   manage_default_network_acl    = false
   manage_default_route_table    = var.enable_nat_gateway
 
-  tags = {
-    Terraform   = "true"
-    Environment = "Terraform Managed"
-  }
+  tags = var.tags
 }

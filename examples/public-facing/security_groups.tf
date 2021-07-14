@@ -15,4 +15,5 @@ module "https_lb" {
       source_security_group_id = module.tamr-vm.tamr_security_groups[0]
     }
   ]
+  tags = var.tags
 }

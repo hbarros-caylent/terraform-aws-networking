@@ -11,4 +11,5 @@ module "endpoints" {
       route_table_ids = module.vpc.private_route_table_ids
     }
   }
+  tags = var.tags
 }
