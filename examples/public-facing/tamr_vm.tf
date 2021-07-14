@@ -32,7 +32,7 @@ module "tamr-vm" {
     module.tamr_networking
   ]
 
-  security_group_ids = module.aws-sg.security_group_ids
+  security_group_ids = module.sg_vm_web.security_group_ids
   // DEPRECATED. USE TAGS INSTEAD
   tamr_instance_tags = var.tags
 }
