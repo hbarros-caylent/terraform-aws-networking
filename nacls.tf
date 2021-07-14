@@ -1,12 +1,12 @@
 locals {
-  application_subnet = module.vpc.private_subnets[0]
+  application_subnet            = module.vpc.private_subnets[0]
   application_subnet_cidr_block = module.vpc.private_subnets_cidr_blocks[0]
-  data_subnets        = [module.vpc.private_subnets[2], module.vpc.private_subnets[3]]
-  data_subnets_cidr_blocks = [module.vpc.private_subnets_cidr_blocks[2], module.vpc.private_subnets_cidr_blocks[3]]
-  compute_subnet    = module.vpc.private_subnets[1]
-  compute_subnet_cidr_block = module.vpc.private_subnets_cidr_blocks[1]
-  public_subnets      = module.vpc.public_subnets
-  public_subnets_cidr_blocks      = module.vpc.public_subnets_cidr_blocks
+  data_subnets                  = [module.vpc.private_subnets[2], module.vpc.private_subnets[3]]
+  data_subnets_cidr_blocks      = [module.vpc.private_subnets_cidr_blocks[2], module.vpc.private_subnets_cidr_blocks[3]]
+  compute_subnet                = module.vpc.private_subnets[1]
+  compute_subnet_cidr_block     = module.vpc.private_subnets_cidr_blocks[1]
+  public_subnets                = module.vpc.public_subnets
+  public_subnets_cidr_blocks    = module.vpc.public_subnets_cidr_blocks
 }
 
 resource "aws_network_acl" "application_subnet" {
@@ -255,72 +255,40 @@ resource "aws_network_acl" "public_subnets" {
     from_port  = 0
     to_port    = 0
   }
-  // Enable access to the internet for nat gateway
-  /*
-  egress {
-    count = var.enable_nat_gateway ? 1 : 0
-      protocol   = "tcp"
-      rule_no    = "300"
-      action     = "allow"
-      cidr_block = "0.0.0.0/0"
-      from_port  = 80
-      to_port    = 80
-  }
-  egress {
-    count = var.enable_nat_gateway ? 1 : 0
-      protocol   = "tcp"
-      rule_no    = "301"
-      action     = "allow"
-      cidr_block = "0.0.0.0/0"
-      from_port  = 443
-      to_port    = 443
-    
-  }
-  ingress {
-    count = var.enable_nat_gateway ? 1 : 0
-      protocol   = "tcp"
-      rule_no    = "302"
-      action     = "allow"
-      cidr_block = "0.0.0.0/0"
-      from_port  = 1024
-      to_port    = 65535
-    
-  }*/
 }
 
 resource "aws_network_acl_rule" "internet_access_80" {
-  egress = true
-  count = var.enable_nat_gateway ? 1 : 0
+  egress         = true
+  count          = var.enable_nat_gateway ? 1 : 0
   network_acl_id = aws_network_acl.public_subnets.id
-  protocol   = "tcp"
+  protocol       = "tcp"
   rule_number    = "300"
-  rule_action     = "allow"
-  cidr_block = "0.0.0.0/0"
-  from_port  = 80
-  to_port    = 80
-
+  rule_action    = "allow"
+  cidr_block     = "0.0.0.0/0"
+  from_port      = 80
+  to_port        = 80
 }
 resource "aws_network_acl_rule" "internet_access_443" {
-  egress = true
-  count = var.enable_nat_gateway ? 1 : 0
+  egress         = true
+  count          = var.enable_nat_gateway ? 1 : 0
   network_acl_id = aws_network_acl.public_subnets.id
-  protocol   = "tcp"
-  rule_number   = "301"
-  rule_action     = "allow"
-  cidr_block = "0.0.0.0/0"
-  from_port  = 443
-  to_port    = 443
+  protocol       = "tcp"
+  rule_number    = "301"
+  rule_action    = "allow"
+  cidr_block     = "0.0.0.0/0"
+  from_port      = 443
+  to_port        = 443
 }
 resource "aws_network_acl_rule" "internet_access_ephemeral" {
-  egress = false
-  count = var.enable_nat_gateway ? 1 : 0
+  egress         = false
+  count          = var.enable_nat_gateway ? 1 : 0
   network_acl_id = aws_network_acl.public_subnets.id
-  protocol   = "tcp"
+  protocol       = "tcp"
   rule_number    = "302"
-  rule_action     = "allow"
-  cidr_block = "0.0.0.0/0"
-  from_port  = 1024
-  to_port    = 65535
+  rule_action    = "allow"
+  cidr_block     = "0.0.0.0/0"
+  from_port      = 1024
+  to_port        = 65535
 }
 
 data "aws_region" "current" {}

@@ -1,6 +1,6 @@
 locals {
   ami_id = var.ami_id != "" ? var.ami_id : data.aws_ami.tamr-vm.id
-  az = length(var.availability_zones) > 0 ? var.availability_zones[0] : data.aws_availability_zones.available.names[0]
+  az     = length(var.availability_zones) > 0 ? var.availability_zones[0] : data.aws_availability_zones.available.names[0]
 }
 
 data "aws_availability_zones" "available" {
@@ -9,10 +9,10 @@ data "aws_availability_zones" "available" {
 
 data "aws_ami" "tamr-vm" {
   most_recent = true
-  owners = ["679593333241"]
-  name_regex       = "^Ubuntu 18.04 Tamr.*"
+  owners      = ["679593333241"]
+  name_regex  = "^Ubuntu 18.04 Tamr.*"
   filter {
-    name = "product-code"
+    name   = "product-code"
     values = ["832nkbrayw00cnivlh6nbbi6p"]
   }
 }
@@ -23,11 +23,11 @@ module "sg_vm_web" {
   egress_cidr_blocks = [
     "0.0.0.0/0"
   ]
-  egress_protocol = "all"
+  egress_protocol         = "all"
   ingress_security_groups = [module.sg_https_lb.security_group_id]
-  ingress_protocol = "tcp"
-  ingress_ports  = ["9100"]
-  sg_name_prefix = var.name-prefix
+  ingress_protocol        = "tcp"
+  ingress_ports           = ["9100"]
+  sg_name_prefix          = var.name-prefix
 }
 
 module "tamr-vm" {
@@ -36,7 +36,7 @@ module "tamr-vm" {
   aws_instance_profile_name   = format("%s-tamr-ec2-instance-profile", var.name-prefix)
   aws_emr_creator_policy_name = format("%sEmrCreatorPolicy", var.name-prefix)
   s3_policy_arns = [
-  #  module.s3-bucket.rw_policy_arn,
+    #  module.s3-bucket.rw_policy_arn,
   ]
   ami               = local.ami_id
   instance_type     = "r5.2xlarge"

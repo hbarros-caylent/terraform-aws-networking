@@ -10,18 +10,20 @@
 
 ## Providers
 
-No provider.
+| Name | Version |
+|------|---------|
+| aws | >= 3.40 |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | key\_pair | n/a | `string` | n/a | yes |
-| ami\_id | The AMI to use for the tamr vm | `string` | `"ami-09a51f80998749f6d"` | no |
-| availability\_zones | The list of availability zones where we should deploy resources | `list(string)` | <pre>[<br>  "us-west-1a",<br>  "us-west-1b"<br>]</pre> | no |
+| ami\_id | The AMI to use for the tamr vm | `string` | `""` | no |
+| availability\_zones | The list of availability zones where we should deploy resources | `list(string)` | `[]` | no |
 | ingress\_cidr\_blocks | The cidr range that will be accessing the tamr vm | `list(string)` | <pre>[<br>  "0.0.0.0/0"<br>]</pre> | no |
-| name-prefix | n/a | `string` | `"public-facing-example"` | no |
-| tags | A map of tags to add to all resources. Replaces `additional_tags`. | `map(string)` | <pre>{<br>  "application": "tamr_public_facing_example"<br>}</pre> | no |
+| name-prefix | n/a | `string` | `"tamr-"` | no |
+| tags | A map of tags to add to all resources. Replaces `additional_tags`. | `map(string)` | `{}` | no |
 | tls\_certificate\_arn | The tls certificate ARN | `string` | `""` | no |
 
 ## Outputs
