@@ -1,7 +1,8 @@
 module "https_lb" {
   source = "terraform-aws-modules/security-group/aws//modules/https-443"
 
-  name        = "web"
+  name            = "web"
+  use_name_prefix = true
   description = "Security group for tamr-vm with HTTPS ports open within VPC"
   vpc_id      = module.tamr_networking.vpc_id
   ingress_cidr_blocks      = var.ingress_cidr_blocks
