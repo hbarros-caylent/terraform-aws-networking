@@ -13,13 +13,13 @@ variable "tls_certificate_arn" {
 variable "availability_zones" {
   type = list(string)
   description = "The list of availability zones where we should deploy resources"
-  default     = ["us-west-1a","us-west-1b"]
+  default     = []
 }
 
 variable "ami_id" {
   type = string
   description = "The AMI to use for the tamr vm"
-  default = "ami-09a51f80998749f6d"
+  default = ""
 }
 
 variable "name-prefix" {

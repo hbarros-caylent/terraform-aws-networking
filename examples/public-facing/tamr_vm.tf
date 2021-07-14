@@ -1,3 +1,22 @@
+locals {
+  ami_id = var.ami_id != "" ? var.ami_id : data.aws_ami.tamr-vm.id
+  az = length(var.availability_zones) > 0 ? var.availability_zones[0] : data.aws_availability_zones.available.names[0]
+}
+
+data "aws_availability_zones" "available" {
+  state = "available"
+}
+
+data "aws_ami" "tamr-vm" {
+  most_recent = true
+  owners = ["679593333241"]
+  name_regex       = "^Ubuntu 18.04 Tamr.*"
+  filter {
+    name = "product-code"
+    values = ["832nkbrayw00cnivlh6nbbi6p"]
+  }
+}
+
 module "sg_vm_web" {
   source = "git::git@github.com:Datatamer/terraform-aws-security-groups.git?ref=1.0.0"
   vpc_id = module.tamr_networking.vpc_id
@@ -19,10 +38,10 @@ module "tamr-vm" {
   s3_policy_arns = [
   #  module.s3-bucket.rw_policy_arn,
   ]
-  ami               = var.ami_id
+  ami               = local.ami_id
   instance_type     = "r5.2xlarge"
   key_name          = var.key_pair
-  availability_zone = var.availability_zones[0]
+  availability_zone = local.az
   vpc_id            = module.tamr_networking.vpc_id
   subnet_id         = module.tamr_networking.application_subnet_id
   bootstrap_scripts = [
