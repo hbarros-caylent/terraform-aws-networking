@@ -6,7 +6,7 @@ module "sg_vm_web" {
   ]
   egress_protocol = "all"
   ingress_security_groups = [module.https_lb.security_group_id]
-  ingress_protocol = "all"
+  ingress_protocol = "tcp"
   ingress_ports  = ["9100"]
   sg_name_prefix = var.name-prefix
 }
