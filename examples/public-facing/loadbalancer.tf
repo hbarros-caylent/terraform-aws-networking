@@ -1,11 +1,8 @@
 module "alb" {
   source  = "terraform-aws-modules/alb/aws"
   version = "~> 6.0"
-
   name = "tamr-external"
-
   load_balancer_type = "application"
-
   vpc_id             = module.tamr_networking.vpc_id
   subnets            = module.tamr_networking.public_subnet_ids
   security_groups    = [ module.https_lb.security_group_id  ]
@@ -38,4 +35,3 @@ module "alb" {
     }
   ]
 }
-

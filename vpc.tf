@@ -10,10 +10,10 @@ locals {
 }
 
 module "vpc" {
-  source = "terraform-aws-modules/vpc/aws"
+  source  = "terraform-aws-modules/vpc/aws"
   version = "3.2.0"
-  name = "tamr-vpc"
-  cidr = var.vpc_cidr_block
+  name    = "tamr-vpc"
+  cidr    = var.vpc_cidr_block
 
   azs                    = var.availability_zones
   private_subnets        = local.private_subnets_cidrs

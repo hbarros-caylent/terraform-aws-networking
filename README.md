@@ -30,7 +30,6 @@
 | vpc\_cidr\_block | The cidr range for the vpc | `string` | `"10.0.0.0/16"` | no |
 
 ## Outputs
-
 | Name | Description |
 |------|-------------|
 | application\_subnet\_cidr\_block | n/a |
@@ -41,5 +40,4 @@
 | tamr\_ec2\_availability\_zone | n/a |
 | vpc\_cidr\_block | n/a |
 | vpc\_id | n/a |
-
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->

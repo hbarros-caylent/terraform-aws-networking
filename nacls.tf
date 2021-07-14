@@ -293,4 +293,3 @@ data "aws_ip_ranges" "s3_cidrs" {
   regions  = [data.aws_region.current.name]
   services = ["s3"]
 }
-

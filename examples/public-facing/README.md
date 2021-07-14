@@ -31,4 +31,3 @@ No provider.
 | alb\_url | n/a |
 
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
-
