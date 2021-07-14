@@ -11,7 +11,7 @@ locals {
 
 module "vpc" {
   source = "terraform-aws-modules/vpc/aws"
-
+  version = "3.2.0"
   name = "tamr-vpc"
   cidr = var.vpc_cidr_block
 
