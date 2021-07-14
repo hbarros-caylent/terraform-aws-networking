@@ -1,4 +1,4 @@
-module "https_lb" {
+module "sg_https_lb" {
   source = "terraform-aws-modules/security-group/aws//modules/https-443"
 
   name            = "web"
