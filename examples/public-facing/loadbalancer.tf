@@ -9,7 +9,7 @@ module "alb" {
   tags = var.tags
   target_groups = [
     {
-      name_prefix      = "pref-"
+      name_prefix      = "tamr-vm-"
       backend_protocol = "HTTP"
       backend_port     = 9100
       target_type      = "instance"
