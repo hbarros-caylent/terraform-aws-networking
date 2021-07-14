@@ -8,19 +8,19 @@ output "vpc_cidr_block" {
 
 
 output "compute_subnet_id" {
-  value = module.vpc.private_subnets[2]
+  value = local.compute_subnet
 }
 
 output "application_subnet_id" {
-  value = module.vpc.private_subnets[0]
+  value = local.application_subnet
 }
 
 output "application_subnet_cidr_block" {
-  value = module.vpc.private_subnets_cidr_blocks[0]
+  value = var.application_subnet_cidr_block
 }
 
 output "data_subnet_group_ids" {
-  value = ["${module.vpc.private_subnets[2]}", "${module.vpc.private_subnets[3]}"]
+  value = local.data_subnets
 }
 
 output "tamr_ec2_availability_zone" {
@@ -28,5 +28,5 @@ output "tamr_ec2_availability_zone" {
 }
 
 output "public_subnet_ids" {
-  value = module.vpc.public_subnets
+  value = local.public_subnets
 }
