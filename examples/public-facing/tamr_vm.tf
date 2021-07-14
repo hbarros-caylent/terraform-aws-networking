@@ -33,5 +33,6 @@ module "tamr-vm" {
   ]
 
   security_group_ids = module.aws-sg.security_group_ids
-  tags = var.tags
+  // DEPRECATED. USE TAGS INSTEAD
+  tamr_instance_tags = var.tags
 }
