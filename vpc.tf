@@ -7,6 +7,11 @@ locals {
     ])
   )
   public_subnets_cidrs = var.public_subnets_cidr_blocks
+  azs                  = length(var.availability_zones) > 0 ? var.availability_zones : data.aws_availability_zones.available.names
+}
+
+data "aws_availability_zones" "available" {
+  state = "available"
 }
 
 module "vpc" {
@@ -15,7 +20,7 @@ module "vpc" {
   name    = "tamr-vpc"
   cidr    = var.vpc_cidr_block
 
-  azs                    = var.availability_zones
+  azs                    = local.azs
   private_subnets        = local.private_subnets_cidrs
   public_subnets         = var.create_public_subnets ? local.public_subnets_cidrs : []
   enable_nat_gateway     = var.enable_nat_gateway && var.create_public_subnets ? true : false
