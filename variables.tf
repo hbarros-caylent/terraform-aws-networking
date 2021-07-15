@@ -37,7 +37,7 @@ variable "public_subnets_cidr_blocks" {
 variable "availability_zones" {
   type        = list(string)
   description = "The list of availability zones where we should deploy resources (At least 2)"
-  default     = ["us-west-1a", "us-west-1b"]
+  default     = []
 }
 
 variable "create_public_subnets" {
