@@ -102,11 +102,22 @@ resource "aws_network_acl" "application_subnet" {
       to_port    = 443
     }
   }
+  dynamic "egress" {
+    for_each = data.aws_ip_ranges.s3_cidrs.cidr_blocks
+    content {
+      protocol   = "tcp"
+      rule_no    = "41${index(data.aws_ip_ranges.s3_cidrs.cidr_blocks, egress.value)}"
+      action     = "allow"
+      cidr_block = egress.value
+      from_port  = 80
+      to_port    = 80
+    }
+  }
   dynamic "ingress" {
     for_each = data.aws_ip_ranges.s3_cidrs.cidr_blocks
     content {
       protocol   = "tcp"
-      rule_no    = "41${index(data.aws_ip_ranges.s3_cidrs.cidr_blocks, ingress.value)}"
+      rule_no    = "42${index(data.aws_ip_ranges.s3_cidrs.cidr_blocks, ingress.value)}"
       action     = "allow"
       cidr_block = ingress.value
       from_port  = 1024
@@ -149,11 +160,22 @@ resource "aws_network_acl" "compute_subnet" {
       to_port    = 443
     }
   }
+  dynamic "egress" {
+    for_each = data.aws_ip_ranges.s3_cidrs.cidr_blocks
+    content {
+      protocol   = "tcp"
+      rule_no    = "21${index(data.aws_ip_ranges.s3_cidrs.cidr_blocks, egress.value)}"
+      action     = "allow"
+      cidr_block = egress.value
+      from_port  = 80
+      to_port    = 80
+    }
+  }
   dynamic "ingress" {
     for_each = data.aws_ip_ranges.s3_cidrs.cidr_blocks
     content {
       protocol   = "tcp"
-      rule_no    = "21${index(data.aws_ip_ranges.s3_cidrs.cidr_blocks, ingress.value)}"
+      rule_no    = "22${index(data.aws_ip_ranges.s3_cidrs.cidr_blocks, ingress.value)}"
       action     = "allow"
       cidr_block = ingress.value
       from_port  = 1024
