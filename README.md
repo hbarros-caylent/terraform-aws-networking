@@ -35,7 +35,13 @@ module "tamr_vpc" {
 }
 ```
 ### Public facing
-Includes a loadbalancer, optional HTTPS, Tamr-VM with a sample website for validation.
+Includes the following resources:
+- Application Loadbalancer
+- Public subnets (2)
+- NAT gateway
+- (optional) HTTPS
+- The Tamr-VM with a sample website for validation.
+
 - [Public facing](./examples/public-facing)
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
