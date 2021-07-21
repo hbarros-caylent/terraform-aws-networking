@@ -7,7 +7,6 @@ variable "ingress_cidr_blocks" {
 variable "vpc_cidr_block" {
   type        = string
   description = "The cidr range for the vpc"
-  default     = "10.0.0.0/16"
 }
 
 variable "data_subnet_cidr_blocks" {
