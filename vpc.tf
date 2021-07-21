@@ -23,8 +23,8 @@ module "vpc" {
   azs                    = local.azs
   private_subnets        = local.private_subnets_cidrs
   public_subnets         = var.create_public_subnets ? local.public_subnets_cidrs : []
-  enable_nat_gateway     = var.enable_nat_gateway && var.create_public_subnets ? true : false
-  single_nat_gateway     = var.enable_nat_gateway ? true : false
+  enable_nat_gateway     = var.enable_nat_gateway && var.create_public_subnets
+  single_nat_gateway     = var.enable_nat_gateway
   one_nat_gateway_per_az = false
   enable_vpn_gateway     = false
   // if disabled, EMR throws Error waiting for EMR Cluster state to be "WAITING" or "RUNNING"
