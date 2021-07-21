@@ -42,6 +42,7 @@ Includes the following resources:
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| vpc\_cidr\_block | The cidr range for the vpc | `string` | n/a | yes |
 | application\_subnet\_cidr\_block | The application subnet's CIDR range | `string` | `"10.0.0.0/24"` | no |
 | availability\_zones | The list of availability zones where we should deploy resources (At least 2) | `list(string)` | `[]` | no |
 | compute\_subnet\_cidr\_block | The data subnet CIDR range | `string` | `"10.0.1.0/24"` | no |
@@ -50,8 +51,7 @@ Includes the following resources:
 | enable\_nat\_gateway | Enable the creation of a NAT gateway | `bool` | `false` | no |
 | ingress\_cidr\_blocks | The cidr range that will be accessing the tamr vm. | `list(string)` | <pre>[<br>  "0.0.0.0/0"<br>]</pre> | no |
 | public\_subnets\_cidr\_blocks | The public subnets' CIDR range | `list(string)` | <pre>[<br>  "10.0.100.0/24",<br>  "10.0.101.0/24"<br>]</pre> | no |
-| tags | A map of tags to add to all resources. Replaces `additional_tags`. | `map(string)` | `{}` | no |
-| vpc\_cidr\_block | The cidr range for the vpc | `string` | `"10.0.0.0/16"` | no |
+| tags | A map of tags to add to all resources. | `map(string)` | `{}` | no |
 
 ## Outputs
 
