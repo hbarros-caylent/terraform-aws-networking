@@ -7,6 +7,7 @@ locals {
   compute_subnet_cidr_block     = module.vpc.private_subnets_cidr_blocks[1]
   public_subnets                = module.vpc.public_subnets
   public_subnets_cidr_blocks    = module.vpc.public_subnets_cidr_blocks
+  loadbalancing_subnets         = var.create_loadbalancing_subnets ? [module.vpc.private_subnets[4], module.vpc.private_subnets[5]] : []
 }
 
 resource "aws_network_acl" "application_subnet" {
@@ -235,6 +236,53 @@ resource "aws_network_acl" "data_subnets" {
 resource "aws_network_acl" "public_subnets" {
   vpc_id     = module.vpc.vpc_id
   subnet_ids = var.create_public_subnets ? local.public_subnets : []
+  tags       = var.tags
+
+  // Enable access to and from the ingress CIDR blocks
+  dynamic "egress" {
+    for_each = var.ingress_cidr_blocks
+    content {
+      protocol   = "-1"
+      rule_no    = "10${index(var.ingress_cidr_blocks, egress.value)}"
+      action     = "allow"
+      cidr_block = egress.value
+      from_port  = 0
+      to_port    = 0
+    }
+  }
+  dynamic "ingress" {
+    for_each = var.ingress_cidr_blocks
+    content {
+      protocol   = "-1"
+      rule_no    = "11${index(var.ingress_cidr_blocks, ingress.value)}"
+      action     = "allow"
+      cidr_block = ingress.value
+      from_port  = 0
+      to_port    = 0
+    }
+  }
+  // Enable VPC traffic
+  egress {
+    protocol   = "-1"
+    rule_no    = "200"
+    action     = "allow"
+    cidr_block = module.vpc.vpc_cidr_block
+    from_port  = 0
+    to_port    = 0
+  }
+  ingress {
+    protocol   = "-1"
+    rule_no    = "201"
+    action     = "allow"
+    cidr_block = module.vpc.vpc_cidr_block
+    from_port  = 0
+    to_port    = 0
+  }
+}
+
+resource "aws_network_acl" "loadbalancing_subnets" {
+  vpc_id     = module.vpc.vpc_id
+  subnet_ids = var.create_loadbalancing_subnets ? local.loadbalancing_subnets : []
   tags       = var.tags
 
   // Enable access to and from the ingress CIDR blocks
