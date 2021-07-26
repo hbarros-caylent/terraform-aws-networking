@@ -7,7 +7,6 @@ variable "ingress_cidr_blocks" {
 variable "tls_certificate_arn" {
   type        = string
   description = "The tls certificate ARN"
-  default     = ""
 }
 
 variable "availability_zones" {
