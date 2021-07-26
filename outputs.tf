@@ -30,3 +30,7 @@ output "tamr_ec2_availability_zone" {
 output "public_subnet_ids" {
   value = local.public_subnets
 }
+
+output "loadbalancing_subnet_ids" {
+  value = local.loadbalancing_subnets
+}
