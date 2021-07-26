@@ -19,12 +19,12 @@
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | key\_pair | n/a | `string` | n/a | yes |
+| tls\_certificate\_arn | The tls certificate ARN | `string` | n/a | yes |
 | ami\_id | The AMI to use for the tamr vm | `string` | `""` | no |
 | availability\_zones | The list of availability zones where we should deploy resources | `list(string)` | `[]` | no |
 | ingress\_cidr\_blocks | The cidr range that will be accessing the tamr vm | `list(string)` | <pre>[<br>  "0.0.0.0/0"<br>]</pre> | no |
 | name-prefix | n/a | `string` | `"tamr-"` | no |
 | tags | A map of tags to add to all resources. Replaces `additional_tags`. | `map(string)` | `{}` | no |
-| tls\_certificate\_arn | The tls certificate ARN | `string` | `""` | no |
 
 ## Outputs
 
