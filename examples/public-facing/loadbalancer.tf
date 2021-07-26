@@ -22,12 +22,19 @@ module "alb" {
       ]
     }
   ]
-  http_tcp_listeners = var.tls_certificate_arn == "" ? [{
-    port               = 80
-    protocol           = "HTTP"
-    target_group_index = 0
-  }] : []
-  https_listeners = var.tls_certificate_arn == "" ? [] : [
+  http_tcp_listeners = [
+    {
+      port        = 80
+      protocol    = "HTTP"
+      action_type = "redirect"
+      redirect = {
+        port        = "443"
+        protocol    = "HTTPS"
+        status_code = "HTTP_301"
+      }
+    }
+  ]
+  https_listeners = [
     {
       port               = 443
       protocol           = "HTTPS"
