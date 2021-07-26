@@ -33,6 +33,13 @@ variable "public_subnets_cidr_blocks" {
   default     = ["10.0.100.0/24", "10.0.101.0/24"]
 }
 
+variable "loadbalancing_subnets_cidr_blocks" {
+  type        = list(string)
+  description = "The loadbalancing subnets' CIDR range"
+  default     = ["10.0.4.0/24", "10.0.5.0/24"]
+}
+
+
 variable "availability_zones" {
   type        = list(string)
   description = "The list of availability zones where we should deploy resources (At least 2)"
@@ -41,7 +48,13 @@ variable "availability_zones" {
 
 variable "create_public_subnets" {
   type        = bool
-  description = "Enable the creation of public subnets for accessing Tamr from the internet"
+  description = "Enable the creation of public subnets for internet facing resources"
+  default     = false
+}
+
+variable "create_loadbalancing_subnets" {
+  type        = bool
+  description = "Enable the creation of loadbalancing subnets for deploying a loadbalancer"
   default     = false
 }
 
