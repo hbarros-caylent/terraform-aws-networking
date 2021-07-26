@@ -31,7 +31,7 @@ module "sg_vm_web" {
 }
 
 module "tamr-vm" {
-  source                      = "git::git@github.com:Datatamer/terraform-aws-tamr-vm.git?ref=3.1.0"
+  source                      = "git::git@github.com:Datatamer/terraform-aws-tamr-vm.git?ref=3.2.0"
   aws_role_name               = format("%s-tamr-ec2-role", var.name-prefix)
   aws_instance_profile_name   = format("%s-tamr-ec2-instance-profile", var.name-prefix)
   aws_emr_creator_policy_name = format("%sEmrCreatorPolicy", var.name-prefix)
@@ -44,6 +44,7 @@ module "tamr-vm" {
   bootstrap_scripts = [
     file("./install-nginx.sh")
   ]
+  s3_policy_arns = []
   depends_on = [
     module.tamr_networking
   ]
