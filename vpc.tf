@@ -5,9 +5,9 @@ locals {
     [var.data_subnet_cidr_blocks],
     [local.loadbalancing_subnets_cidr_blocks]
   ])
-  loadbalancing_subnets_cidr_blocks         = var.create_loadbalancing_subnets ? var.loadbalancing_subnets_cidr_blocks : []
-  public_subnets_cidrs = var.public_subnets_cidr_blocks
-  azs                  = length(var.availability_zones) > 0 ? var.availability_zones : data.aws_availability_zones.available.names
+  loadbalancing_subnets_cidr_blocks = var.create_loadbalancing_subnets ? var.loadbalancing_subnets_cidr_blocks : []
+  public_subnets_cidrs              = var.public_subnets_cidr_blocks
+  azs                               = length(var.availability_zones) > 0 ? var.availability_zones : data.aws_availability_zones.available.names
 }
 
 data "aws_availability_zones" "available" {
@@ -15,10 +15,10 @@ data "aws_availability_zones" "available" {
 }
 
 module "vpc" {
-  source  = "terraform-aws-modules/vpc/aws"
-  version = "3.2.0"
-  name    = "tamr-vpc"
-  cidr    = var.vpc_cidr_block
+  source                 = "terraform-aws-modules/vpc/aws"
+  version                = "3.2.0"
+  name                   = "tamr-vpc"
+  cidr                   = var.vpc_cidr_block
   azs                    = local.azs
   private_subnets        = local.private_subnets_cidrs
   public_subnets         = var.create_public_subnets ? local.public_subnets_cidrs : []
@@ -34,5 +34,5 @@ module "vpc" {
   private_dedicated_network_acl = false
   manage_default_network_acl    = false
   manage_default_route_table    = var.enable_nat_gateway
-  tags = var.tags
+  tags                          = var.tags
 }
