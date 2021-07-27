@@ -1,4 +1,4 @@
-module "tamr_vpc" {
+module "tamr_networking" {
     source = "git::https://github.com/Datatamer/terraform-aws-networking.git?ref=1.0"
     ingress_cidr_blocks = ["172.16.0.0/16"]
     vpc_cidr_block = "10.0.0.0/16"
@@ -9,6 +9,7 @@ module "tamr_vpc" {
     create_public_subnets = false
     enable_nat_gateway = false
     tags = {
+        "Name": "tamr"
         "application": "tamr",
         "Terraform": "true"
     }
