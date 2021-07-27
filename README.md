@@ -18,12 +18,12 @@ Includes a VPC with all the variables configured.
 ### Public facing
 Includes the following resources:
 - Application Loadbalancer
-- Public subnets (2)
+- Loadbalancing subnets (2)
 - NAT gateway
-- (optional) HTTPS
+- HTTPS
 - The Tamr-VM with a sample website for validation.
 
-- [Public facing](./examples/public-facing)
+- [ALB With SSL](./examples/ssl-alb)
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
 
