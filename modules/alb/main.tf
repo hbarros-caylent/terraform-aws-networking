@@ -68,4 +68,3 @@ module "sg_https_lb" {
   ]
   tags = var.tags
 }
-
