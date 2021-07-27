@@ -1,5 +1,11 @@
-# Public Facing Example
+# TLS ALB Example
+The following example will deploy the necessary resources to access Tamr using HTTPS. 
 
+# Description
+This example deploys the following resources:
+- VPC
+- Tamr VM instance with nginx for validation purposes.
+- Application Loadbalancer
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
 
