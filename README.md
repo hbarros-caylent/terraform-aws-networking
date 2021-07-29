@@ -3,6 +3,7 @@ Tamr’s AWS resources need to be launched into an existing Virtual Private Clou
 
 ## Description
 The Tamr VPC spans two Availability Zones (AZs) and includes the following resources by default:
+- Load balancing Subnets (2): hosts the Application Load Balancer.
 - Application subnet (1): hosts the EC2 Instance where the Tamr application is deployed (also known as Tamr VM).
 - Compute subnet (1): hosts the Amazon EMR clusters and is launched in the same AZ as the Application subnet.
 - Data subnets (2): used for deploying a Multi-AZ PostgreSQL Relational Database Service (RDS) instance and a Multi-AZ Amazon ElasticSearch (ES) Service domain.

@@ -4,6 +4,7 @@ The following example will deploy the necessary resources to access Tamr using H
 # Description
 This example deploys the following resources:
 - VPC
+- NAT Gateway
 - Tamr VM instance with nginx for validation purposes.
 - Application load_balancer
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
