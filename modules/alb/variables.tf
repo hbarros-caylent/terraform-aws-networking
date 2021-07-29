@@ -1,6 +1,6 @@
 variable "ingress_cidr_blocks" {
   type        = list(string)
-  description = "The cidr range that will be accessing the loadbalancer"
+  description = "The cidr range that will be accessing the load_balancer"
   default     = ["0.0.0.0/0"]
 }
 
@@ -22,12 +22,12 @@ variable "ec2_instance_id" {
 
 variable "vpc_id" {
     type = string
-    description = "The id of the VPC where we will deploy the loadbalancer"
+    description = "The id of the VPC where we will deploy the load balancer"
 }
 
 variable "subnet_ids" {
     type = list(string)
-    description = "The ids of the subnets where we will deploy the loadbalancer"
+    description = "The ids of the subnets where we will deploy the load balancer"
 }
 
 variable "tags" {

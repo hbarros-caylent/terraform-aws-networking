@@ -31,6 +31,6 @@ output "public_subnet_ids" {
   value = local.public_subnets
 }
 
-output "loadbalancing_subnet_ids" {
-  value = local.loadbalancing_subnets
+output "load_balancing_subnet_ids" {
+  value = local.load_balancing_subnets
 }

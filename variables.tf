@@ -33,9 +33,9 @@ variable "public_subnets_cidr_blocks" {
   default     = ["10.0.100.0/24", "10.0.101.0/24"]
 }
 
-variable "loadbalancing_subnets_cidr_blocks" {
+variable "load_balancing_subnets_cidr_blocks" {
   type        = list(string)
-  description = "The loadbalancing subnets' CIDR range"
+  description = "The load_balancing subnets' CIDR range"
   default     = ["10.0.4.0/24", "10.0.5.0/24"]
 }
 
@@ -52,9 +52,9 @@ variable "create_public_subnets" {
   default     = false
 }
 
-variable "create_loadbalancing_subnets" {
+variable "create_load_balancing_subnets" {
   type        = bool
-  description = "Enable the creation of loadbalancing subnets for deploying a loadbalancer"
+  description = "Enable the creation of load balancing subnets for deploying a load balancer"
   default     = false
 }
 

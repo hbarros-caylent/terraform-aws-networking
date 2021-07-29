@@ -5,6 +5,6 @@ module "tamr_networking" {
   availability_zones    = var.availability_zones
   create_public_subnets = true
   enable_nat_gateway    = true
-  create_loadbalancing_subnets = true
+  create_load_balancing_subnets = true
   tags                  = var.tags
 }

@@ -1,9 +1,9 @@
 # Tamr ALB Module
-In order to access Tamr using TLS encryption, we recommend using an Application Loadbalancer. This module provides the resources necessary to make the deployment easy.
+In order to access Tamr using TLS encryption, we recommend using an Application Load Balancer. This module provides the resources necessary to make the deployment easy.
 
 ## Description
 This module creates the following resources:
-- Loadbalancer with HTTP (80) to HTTPS(443) redirection
+- Load Balancer with HTTP (80) to HTTPS(443) redirection
 - Security Groups
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
@@ -25,10 +25,10 @@ This module creates the following resources:
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | ec2\_instance\_id | The Tamr VM instance id | `string` | n/a | yes |
-| subnet\_ids | The ids of the subnets where we will deploy the loadbalancer | `list(string)` | n/a | yes |
+| subnet\_ids | The ids of the subnets where we will deploy the load\_balancer | `list(string)` | n/a | yes |
 | tls\_certificate\_arn | The tls certificate ARN | `string` | n/a | yes |
-| vpc\_id | The id of the VPC where we will deploy the loadbalancer | `string` | n/a | yes |
-| ingress\_cidr\_blocks | The cidr range that will be accessing the loadbalancer | `list(string)` | <pre>[<br>  "0.0.0.0/0"<br>]</pre> | no |
+| vpc\_id | The id of the VPC where we will deploy the load\_balancer | `string` | n/a | yes |
+| ingress\_cidr\_blocks | The cidr range that will be accessing the load\_balancer | `list(string)` | <pre>[<br>  "0.0.0.0/0"<br>]</pre> | no |
 | name-prefix | n/a | `string` | `"tamr-"` | no |
 | tags | A map of tags to add to all resources. | `map(string)` | `{}` | no |
 
@@ -37,7 +37,7 @@ This module creates the following resources:
 | Name | Description |
 |------|-------------|
 | lb\_security\_group\_id | n/a |
-| loadbalancer | n/a |
+| load\_balancer | n/a |
 
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
