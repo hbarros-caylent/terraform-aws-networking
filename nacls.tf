@@ -7,7 +7,7 @@ locals {
   compute_subnet_cidr_block     = module.vpc.private_subnets_cidr_blocks[1]
   public_subnets                = module.vpc.public_subnets
   public_subnets_cidr_blocks    = module.vpc.public_subnets_cidr_blocks
-  loadbalancing_subnets         = var.create_loadbalancing_subnets ? [module.vpc.private_subnets[4], module.vpc.private_subnets[5]] : []
+  load_balancing_subnets        = var.create_load_balancing_subnets ? [module.vpc.private_subnets[4], module.vpc.private_subnets[5]] : []
 }
 
 resource "aws_network_acl" "application_subnet" {
@@ -280,9 +280,9 @@ resource "aws_network_acl" "public_subnets" {
   }
 }
 
-resource "aws_network_acl" "loadbalancing_subnets" {
+resource "aws_network_acl" "load_balancing_subnets" {
   vpc_id     = module.vpc.vpc_id
-  subnet_ids = var.create_loadbalancing_subnets ? local.loadbalancing_subnets : []
+  subnet_ids = var.create_load_balancing_subnets ? local.load_balancing_subnets : []
   tags       = var.tags
 
   // Enable access to and from the ingress CIDR blocks

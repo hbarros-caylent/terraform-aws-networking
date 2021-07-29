@@ -1,4 +1,4 @@
-output "loadbalancer" {
+output "load_balancer" {
   value = module.alb
 }
 

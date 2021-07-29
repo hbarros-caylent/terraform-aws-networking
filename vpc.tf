@@ -3,11 +3,11 @@ locals {
     [var.application_subnet_cidr_block],
     [var.compute_subnet_cidr_block],
     [var.data_subnet_cidr_blocks],
-    [local.loadbalancing_subnets_cidr_blocks]
+    [local.load_balancing_subnets_cidr_blocks]
   ])
-  loadbalancing_subnets_cidr_blocks = var.create_loadbalancing_subnets ? var.loadbalancing_subnets_cidr_blocks : []
-  public_subnets_cidrs              = var.public_subnets_cidr_blocks
-  azs                               = length(var.availability_zones) > 0 ? var.availability_zones : data.aws_availability_zones.available.names
+  load_balancing_subnets_cidr_blocks = var.create_load_balancing_subnets ? var.load_balancing_subnets_cidr_blocks : []
+  public_subnets_cidrs               = var.public_subnets_cidr_blocks
+  azs                                = length(var.availability_zones) > 0 ? var.availability_zones : data.aws_availability_zones.available.names
 }
 
 data "aws_availability_zones" "available" {

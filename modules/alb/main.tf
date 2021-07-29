@@ -62,7 +62,7 @@ module "sg_https_lb" {
       from_port                = 9100
       to_port                  = 9100
       protocol                 = "tcp"
-      description              = "Web from the loadbalancer"
+      description              = "Web from the load balancer"
       source_security_group_id = tolist(data.aws_instance.tamr-vm.vpc_security_group_ids)[0]
     }
   ]
