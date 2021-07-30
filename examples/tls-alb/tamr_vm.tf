@@ -50,6 +50,5 @@ module "tamr-vm" {
   ]
 
   security_group_ids = module.sg_vm_web.security_group_ids
-  // DEPRECATED. USE TAGS INSTEAD
-  tamr_instance_tags = var.tags
+  tags = var.tags
 }
