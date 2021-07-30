@@ -7,7 +7,7 @@ locals {
   ])
   load_balancing_subnets_cidr_blocks = var.create_load_balancing_subnets ? var.load_balancing_subnets_cidr_blocks : []
   public_subnets_cidrs               = var.public_subnets_cidr_blocks
-  azs                                = length(var.availability_zones) > 0 ? var.availability_zones : data.aws_availability_zones.available.names
+  azs                                = length(var.availability_zones) > 0 ? var.availability_zones : slice(data.aws_availability_zones.available.names, 0, 2)
 }
 
 data "aws_availability_zones" "available" {
