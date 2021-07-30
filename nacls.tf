@@ -86,8 +86,8 @@ resource "aws_network_acl" "application_subnet" {
       rule_no    = "31${index(var.ingress_cidr_blocks, ingress.value)}"
       action     = "allow"
       cidr_block = ingress.value
-      from_port  = 9100
-      to_port    = 9100
+      from_port  = var.tamr_unify_port
+      to_port    = var.tamr_unify_port
     }
   }
   // S3 Access

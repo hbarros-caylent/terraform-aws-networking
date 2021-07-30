@@ -15,6 +15,12 @@ variable "availability_zones" {
   default     = []
 }
 
+variable "tamr_unify_port" {
+  type        = string
+  description = "Identifies the default access HTTP port"
+  default     = "9100"
+}
+
 variable "ami_id" {
   type        = string
   description = "The AMI to use for the tamr vm"

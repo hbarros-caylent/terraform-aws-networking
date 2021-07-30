@@ -26,7 +26,7 @@ module "sg_vm_web" {
   egress_protocol         = "all"
   ingress_security_groups = [module.alb.lb_security_group_id]
   ingress_protocol        = "tcp"
-  ingress_ports           = ["9100"]
+  ingress_ports           = [var.tamr_unify_port]
   sg_name_prefix          = var.name-prefix
 }
 

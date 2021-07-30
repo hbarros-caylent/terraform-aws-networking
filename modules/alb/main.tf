@@ -16,12 +16,12 @@ module "alb" {
     {
       name_prefix      = "tamr-"
       backend_protocol = "HTTP"
-      backend_port     = 9100
+      backend_port     = var.tamr_unify_port
       target_type      = "instance"
       targets = [
         {
           target_id = var.ec2_instance_id
-          port      = 9100
+          port      = var.tamr_unify_port
         }
       ]
     }
@@ -59,8 +59,8 @@ module "sg_https_lb" {
   ingress_rules       = var.tls_certificate_arn == "" ? ["http-80-tcp"] : ["https-443-tcp"]
   egress_with_source_security_group_id = [
     {
-      from_port                = 9100
-      to_port                  = 9100
+      from_port                = var.tamr_unify_port
+      to_port                  = var.tamr_unify_port
       protocol                 = "tcp"
       description              = "Web from the load balancer"
       source_security_group_id = tolist(data.aws_instance.tamr-vm.vpc_security_group_ids)[0]
