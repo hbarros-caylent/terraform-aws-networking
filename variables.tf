@@ -69,3 +69,9 @@ variable "tags" {
   description = "A map of tags to add to all resources."
   default     = {}
 }
+
+variable "tamr_unify_port" {
+  type        = string
+  description = "Identifies the default access HTTP port"
+  default     = "9100"
+}
