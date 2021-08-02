@@ -25,12 +25,13 @@ This module creates the following resources:
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | ec2\_instance\_id | The Tamr VM instance id | `string` | n/a | yes |
-| subnet\_ids | The ids of the subnets where we will deploy the load\_balancer | `list(string)` | n/a | yes |
+| subnet\_ids | The ids of the subnets where we will deploy the load balancer | `list(string)` | n/a | yes |
 | tls\_certificate\_arn | The tls certificate ARN | `string` | n/a | yes |
-| vpc\_id | The id of the VPC where we will deploy the load\_balancer | `string` | n/a | yes |
+| vpc\_id | The id of the VPC where we will deploy the load balancer | `string` | n/a | yes |
 | ingress\_cidr\_blocks | The cidr range that will be accessing the load\_balancer | `list(string)` | <pre>[<br>  "0.0.0.0/0"<br>]</pre> | no |
 | name-prefix | n/a | `string` | `"tamr-"` | no |
 | tags | A map of tags to add to all resources. | `map(string)` | `{}` | no |
+| tamr\_unify\_port | Identifies the default access HTTP port | `string` | `"9100"` | no |
 
 ## Outputs
 
