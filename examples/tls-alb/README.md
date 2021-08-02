@@ -32,6 +32,7 @@ This example deploys the following resources:
 | ingress\_cidr\_blocks | The cidr range that will be accessing the tamr vm | `list(string)` | <pre>[<br>  "0.0.0.0/0"<br>]</pre> | no |
 | name-prefix | n/a | `string` | `"tamr-"` | no |
 | tags | A map of tags to add to all resources. | `map(string)` | `{}` | no |
+| tamr\_unify\_port | Identifies the default access HTTP port | `string` | `"9100"` | no |
 
 ## Outputs
 
