@@ -12,31 +12,28 @@ variable "vpc_cidr_block" {
 variable "data_subnet_cidr_blocks" {
   type        = list(string)
   description = "The data subnet's CIDR range"
-  default     = ["10.0.2.0/24", "10.0.3.0/24"]
 }
 
 variable "application_subnet_cidr_block" {
   type        = string
   description = "The application subnet's CIDR range"
-  default     = "10.0.0.0/24"
 }
 
 variable "compute_subnet_cidr_block" {
   type        = string
   description = "The data subnet CIDR range"
-  default     = "10.0.1.0/24"
 }
 
 variable "public_subnets_cidr_blocks" {
   type        = list(string)
   description = "The public subnets' CIDR range"
-  default     = ["10.0.100.0/24", "10.0.101.0/24"]
+  default     = ["0.0.0.0/0", "0.0.0.0/0"]
 }
 
 variable "load_balancing_subnets_cidr_blocks" {
   type        = list(string)
   description = "The load_balancing subnets' CIDR range"
-  default     = ["10.0.4.0/24", "10.0.5.0/24"]
+  default     = ["0.0.0.0/0", "0.0.0.0/0"]
 }
 
 
