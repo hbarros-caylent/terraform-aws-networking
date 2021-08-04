@@ -8,12 +8,12 @@ locals {
   application_subnet                 = module.vpc.private_subnets[0]
   application_subnet_cidr_block      = module.vpc.private_subnets_cidr_blocks[0]
   data_subnets                       = [module.vpc.private_subnets[1], module.vpc.private_subnets[2]]
-  data_subnets_cidr_blocks           = [module.vpc.private_subnets_cidr_blocks[1], module.vpc.private_subnets_cidr_blocks[2]]
+  data_subnets_cidr_blocks           = [module.vpc.private_subnets_cidr_blocks[2], module.vpc.private_subnets_cidr_blocks[1]]
   compute_subnet                     = aws_subnet.compute_subnet.id
   compute_subnet_cidr_block          = aws_subnet.compute_subnet.cidr_block
   public_subnets                     = module.vpc.public_subnets
   public_subnets_cidr_blocks         = module.vpc.public_subnets_cidr_blocks
-  load_balancing_subnets             = var.create_load_balancing_subnets ? [module.vpc.private_subnets[3], module.vpc.private_subnets[4]] : []
+  load_balancing_subnets             = var.create_load_balancing_subnets ? [module.vpc.private_subnets[4], module.vpc.private_subnets[3]] : []
   load_balancing_subnets_cidr_blocks = var.create_load_balancing_subnets ? var.load_balancing_subnets_cidr_blocks : []
   public_subnets_cidrs               = var.public_subnets_cidr_blocks
   azs                                = var.availability_zones
