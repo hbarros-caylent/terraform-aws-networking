@@ -1,15 +1,3 @@
-locals {
-  application_subnet            = module.vpc.private_subnets[0]
-  application_subnet_cidr_block = module.vpc.private_subnets_cidr_blocks[0]
-  data_subnets                  = [module.vpc.private_subnets[2], module.vpc.private_subnets[3]]
-  data_subnets_cidr_blocks      = [module.vpc.private_subnets_cidr_blocks[2], module.vpc.private_subnets_cidr_blocks[3]]
-  compute_subnet                = module.vpc.private_subnets[1]
-  compute_subnet_cidr_block     = module.vpc.private_subnets_cidr_blocks[1]
-  public_subnets                = module.vpc.public_subnets
-  public_subnets_cidr_blocks    = module.vpc.public_subnets_cidr_blocks
-  load_balancing_subnets        = var.create_load_balancing_subnets ? [module.vpc.private_subnets[4], module.vpc.private_subnets[5]] : []
-}
-
 resource "aws_network_acl" "application_subnet" {
   vpc_id     = module.vpc.vpc_id
   subnet_ids = [local.application_subnet]
