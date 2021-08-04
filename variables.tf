@@ -42,7 +42,7 @@ variable "availability_zones" {
   description = "The list of availability zones where we should deploy resources"
   validation {
     condition     = length(var.availability_zones) == 2
-    error_message = "Please provide only two availability zones"
+    error_message = "Please provide only two availability zones."
   }
 }
 
