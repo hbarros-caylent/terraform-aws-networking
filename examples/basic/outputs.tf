@@ -19,8 +19,8 @@ output "application_subnet_cidr_block" {
   value = module.tamr_networking.application_subnet_cidr_block
 }
 
-output "data_subnet_group_ids" {
-  value = module.tamr_networking.data_subnet_group_ids
+output "data_subnet_ids" {
+  value = module.tamr_networking.data_subnet_ids
 }
 
 output "tamr_ec2_availability_zone" {
