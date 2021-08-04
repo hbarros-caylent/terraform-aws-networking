@@ -39,7 +39,11 @@ variable "load_balancing_subnets_cidr_blocks" {
 
 variable "availability_zones" {
   type        = list(string)
-  description = "The list of availability zones where we should deploy resources (At least 2)"
+  description = "The list of availability zones where we should deploy resources"
+  validation {
+    condition     = length(var.availability_zones) == 2
+    error_message = "Please provide only two availability zones"
+  }
 }
 
 variable "create_public_subnets" {
