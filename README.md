@@ -44,10 +44,10 @@ Includes the following resources:
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | application\_subnet\_cidr\_block | The application subnet's CIDR range | `string` | n/a | yes |
+| availability\_zones | The list of availability zones where we should deploy resources (At least 2) | `list(string)` | n/a | yes |
 | compute\_subnet\_cidr\_block | The data subnet CIDR range | `string` | n/a | yes |
 | data\_subnet\_cidr\_blocks | The data subnet's CIDR range | `list(string)` | n/a | yes |
 | vpc\_cidr\_block | The cidr range for the vpc | `string` | n/a | yes |
-| availability\_zones | The list of availability zones where we should deploy resources (At least 2) | `list(string)` | `[]` | no |
 | create\_load\_balancing\_subnets | Enable the creation of load balancing subnets for deploying a load balancer | `bool` | `false` | no |
 | create\_public\_subnets | Enable the creation of public subnets for internet facing resources | `bool` | `false` | no |
 | enable\_nat\_gateway | Enable the creation of a NAT gateway | `bool` | `false` | no |
@@ -64,7 +64,7 @@ Includes the following resources:
 | application\_subnet\_cidr\_block | n/a |
 | application\_subnet\_id | n/a |
 | compute\_subnet\_id | n/a |
-| data\_subnet\_group\_ids | n/a |
+| data\_subnet\_ids | n/a |
 | load\_balancing\_subnet\_ids | n/a |
 | public\_subnet\_ids | n/a |
 | tamr\_ec2\_availability\_zone | n/a |
