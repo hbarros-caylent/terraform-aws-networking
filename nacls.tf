@@ -94,14 +94,6 @@ resource "aws_network_acl" "application_subnet" {
   // See https://ip-ranges.amazonaws.com/ip-ranges.json for updates
   egress {
     protocol   = "tcp"
-    rule_no    = "400"
-    action     = "allow"
-    cidr_block = "0.0.0.0/0"
-    from_port  = 80
-    to_port    = 80
-  }
-  egress {
-    protocol   = "tcp"
     rule_no    = "401"
     action     = "allow"
     cidr_block = "0.0.0.0/0"
