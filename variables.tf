@@ -55,7 +55,7 @@ variable "create_public_subnets" {
 variable "create_load_balancing_subnets" {
   type        = bool
   description = "Enable the creation of load balancing subnets for deploying a load balancer"
-  default     = false
+  default     = true
 }
 
 variable "enable_nat_gateway" {
