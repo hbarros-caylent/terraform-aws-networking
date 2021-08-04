@@ -47,6 +47,10 @@ data "aws_subnet" "application_subnet" {
   id = local.application_subnet
 }
 
+data "aws_route_table" "application_subnet_rt" {
+  subnet_id = data.aws_subnet.application_subnet.id
+}
+
 resource "aws_subnet" "compute_subnet" {
   vpc_id            = module.vpc.vpc_id
   cidr_block        = var.compute_subnet_cidr_block
@@ -54,12 +58,7 @@ resource "aws_subnet" "compute_subnet" {
   tags              = var.tags
 }
 
-resource "aws_route_table" "compute_subnet_rt" {
-  vpc_id = module.vpc.vpc_id
-  tags   = var.tags
-}
-
 resource "aws_route_table_association" "compute_subnet_rta" {
   subnet_id      = aws_subnet.compute_subnet.id
-  route_table_id = aws_route_table.compute_subnet_rt.id
+  route_table_id = data.aws_route_table.application_subnet_rt.id
 }
