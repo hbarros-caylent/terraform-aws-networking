@@ -8,7 +8,7 @@ module "endpoints" {
       service_type    = "Gateway"
       service         = "s3"
       tags            = { Name = "s3-vpc-endpoint" }
-      route_table_ids = flatten([module.vpc.private_route_table_ids[0], [aws_route_table.compute_subnet_rt.id]])
+      route_table_ids = flatten([module.vpc.private_route_table_ids[0]])
     }
   }
   tags = var.tags
