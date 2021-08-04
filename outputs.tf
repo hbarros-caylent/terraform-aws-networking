@@ -19,7 +19,7 @@ output "application_subnet_cidr_block" {
   value = var.application_subnet_cidr_block
 }
 
-output "data_subnet_group_ids" {
+output "data_subnet_ids" {
   value = local.data_subnets
 }
 
