@@ -4,7 +4,7 @@ locals {
     [var.application_subnet_cidr_block],
     [local.load_balancing_subnets_cidr_blocks]
   ])
-  intra_subnets_cidrs = var.data_subnet_cidr_blocks
+  intra_subnets_cidrs                = var.data_subnet_cidr_blocks
   application_subnet                 = module.vpc.private_subnets[0]
   application_subnet_cidr_block      = module.vpc.private_subnets_cidr_blocks[0]
   data_subnets                       = [module.vpc.intra_subnets[0], module.vpc.intra_subnets[1]]

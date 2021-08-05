@@ -11,7 +11,7 @@ module "tamr_networking" {
     create_load_balancing_subnets = false
     enable_nat_gateway = false
     tags = {
-        "Name": "tamr-vpc"
+        "Name": "tamr-vpc-minimal"
         "application": "tamr",
         "Terraform": "true"
     }
