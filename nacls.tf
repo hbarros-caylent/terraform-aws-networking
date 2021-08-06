@@ -330,6 +330,18 @@ resource "aws_network_acl_rule" "internet_access_ephemeral" {
   to_port        = 65535
 }
 
+resource "aws_network_acl_rule" "internet_access_ephemeral_compute" {
+  egress         = false
+  count          = var.enable_nat_gateway ? 1 : 0
+  network_acl_id = aws_network_acl.compute_subnet.id
+  protocol       = "tcp"
+  rule_number    = "700"
+  rule_action    = "allow"
+  cidr_block     = "0.0.0.0/0"
+  from_port      = 1024
+  to_port        = 65535
+}
+
 data "aws_region" "current" {}
 
 data "aws_ip_ranges" "s3_cidrs" {
