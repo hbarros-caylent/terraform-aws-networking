@@ -153,7 +153,8 @@ resource "aws_network_acl" "compute_subnet" {
   }
   // Explicit deny when public subnets are configured
   dynamic "ingress" {
-    for_each = var.create_public_subnets ? module.vpc.public_subnets_cidr_blocks : []
+    # If there are public subnets but not a nat gateway we add the explicit deny. Otherwise we need it for enrichment services and dependency downloads
+    for_each = var.create_public_subnets && var.enable_nat_gateway == false ? module.vpc.public_subnets_cidr_blocks : []
     content {
       protocol   = "tcp"
       rule_no    = "60${index(module.vpc.public_subnets_cidr_blocks, ingress.value)}"
