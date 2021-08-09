@@ -35,12 +35,12 @@ module "tamr-vm" {
   aws_role_name               = format("%s-tamr-ec2-role", var.name-prefix)
   aws_instance_profile_name   = format("%s-tamr-ec2-instance-profile", var.name-prefix)
   aws_emr_creator_policy_name = format("%sEmrCreatorPolicy", var.name-prefix)
-  ami               = local.ami_id
-  instance_type     = "r5.2xlarge"
-  key_name          = var.key_pair
-  availability_zone = local.az
-  vpc_id            = module.tamr_networking.vpc_id
-  subnet_id         = module.tamr_networking.application_subnet_id
+  ami                         = local.ami_id
+  instance_type               = "r5.2xlarge"
+  key_name                    = var.key_pair
+  availability_zone           = local.az
+  vpc_id                      = module.tamr_networking.vpc_id
+  subnet_id                   = module.tamr_networking.application_subnet_id
   bootstrap_scripts = [
     file("./install-nginx.sh")
   ]
@@ -50,5 +50,5 @@ module "tamr-vm" {
   ]
 
   security_group_ids = module.sg_vm_web.security_group_ids
-  tags = var.tags
+  tags               = var.tags
 }

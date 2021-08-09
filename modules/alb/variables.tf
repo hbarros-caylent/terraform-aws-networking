@@ -21,13 +21,13 @@ variable "ec2_instance_id" {
 }
 
 variable "vpc_id" {
-    type = string
-    description = "The id of the VPC where we will deploy the load balancer"
+  type        = string
+  description = "The id of the VPC where we will deploy the load balancer"
 }
 
 variable "subnet_ids" {
-    type = list(string)
-    description = "The ids of the subnets where we will deploy the load balancer"
+  type        = list(string)
+  description = "The ids of the subnets where we will deploy the load balancer"
 }
 
 variable "tags" {
