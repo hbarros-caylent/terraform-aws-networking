@@ -22,7 +22,7 @@ resource "aws_network_acl" "application_subnet" {
   }
   // allow internet traffic if nat gateway is enabled
   dynamic "egress" {
-    for_each = var.enable_nat_gateway ? [module.vpc.public_subnets_cidr_blocks[0]] : []
+    for_each = var.enable_nat_gateway ? ["1"] : []
     content {
       protocol   = "tcp"
       rule_no    = "200"
@@ -33,7 +33,7 @@ resource "aws_network_acl" "application_subnet" {
     }
   }
   dynamic "egress" {
-    for_each = var.enable_nat_gateway ? [module.vpc.public_subnets_cidr_blocks[0]] : []
+    for_each = var.enable_nat_gateway ? ["1"] : []
     content {
       protocol   = "tcp"
       rule_no    = "201"
@@ -44,7 +44,7 @@ resource "aws_network_acl" "application_subnet" {
     }
   }
   dynamic "ingress" {
-    for_each = var.enable_nat_gateway ? [module.vpc.public_subnets_cidr_blocks[0]] : []
+    for_each = var.enable_nat_gateway ? ["1"] : []
     content {
       protocol   = "tcp"
       rule_no    = "202"
