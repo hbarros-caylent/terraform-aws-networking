@@ -5,20 +5,26 @@ resource "aws_network_acl" "application_subnet" {
 
   // allow vpc traffic
   egress {
-    protocol   = "-1"
-    rule_no    = "100"
-    action     = "allow"
-    cidr_block = module.vpc.vpc_cidr_block
-    from_port  = 0
-    to_port    = 0
+    protocol        = "-1"
+    icmp_code       = 0
+    icmp_type       = 0
+    ipv6_cidr_block = ""
+    rule_no         = "100"
+    action          = "allow"
+    cidr_block      = module.vpc.vpc_cidr_block
+    from_port       = 0
+    to_port         = 0
   }
   ingress {
-    protocol   = "-1"
-    rule_no    = "101"
-    action     = "allow"
-    cidr_block = module.vpc.vpc_cidr_block
-    from_port  = 0
-    to_port    = 0
+    protocol        = "-1"
+    icmp_code       = 0
+    icmp_type       = 0
+    ipv6_cidr_block = ""
+    rule_no         = "101"
+    action          = "allow"
+    cidr_block      = module.vpc.vpc_cidr_block
+    from_port       = 0
+    to_port         = 0
   }
   // allow internet traffic if nat gateway is enabled
   dynamic "egress" {
@@ -107,20 +113,26 @@ resource "aws_network_acl" "compute_subnet" {
 
   // allow vpc traffic
   egress {
-    protocol   = "-1"
-    rule_no    = "100"
-    action     = "allow"
-    cidr_block = module.vpc.vpc_cidr_block
-    from_port  = 0
-    to_port    = 0
+    protocol        = "-1"
+    icmp_code       = 0
+    icmp_type       = 0
+    ipv6_cidr_block = ""
+    rule_no         = "100"
+    action          = "allow"
+    cidr_block      = module.vpc.vpc_cidr_block
+    from_port       = 0
+    to_port         = 0
   }
   ingress {
-    protocol   = "-1"
-    rule_no    = "101"
-    action     = "allow"
-    cidr_block = module.vpc.vpc_cidr_block
-    from_port  = 0
-    to_port    = 0
+    protocol        = "-1"
+    icmp_code       = 0
+    icmp_type       = 0
+    ipv6_cidr_block = ""
+    rule_no         = "101"
+    action          = "allow"
+    cidr_block      = module.vpc.vpc_cidr_block
+    from_port       = 0
+    to_port         = 0
   }
   // S3 Access
   // See https://ip-ranges.amazonaws.com/ip-ranges.json for updates
@@ -185,20 +197,26 @@ resource "aws_network_acl" "data_subnets" {
 
   // allow vpc traffic
   egress {
-    protocol   = "-1"
-    rule_no    = "100"
-    action     = "allow"
-    cidr_block = module.vpc.vpc_cidr_block
-    from_port  = 0
-    to_port    = 0
+    protocol        = "-1"
+    icmp_code       = 0
+    icmp_type       = 0
+    ipv6_cidr_block = ""
+    rule_no         = "100"
+    action          = "allow"
+    cidr_block      = module.vpc.vpc_cidr_block
+    from_port       = 0
+    to_port         = 0
   }
   ingress {
-    protocol   = "-1"
-    rule_no    = "101"
-    action     = "allow"
-    cidr_block = module.vpc.vpc_cidr_block
-    from_port  = 0
-    to_port    = 0
+    protocol        = "-1"
+    icmp_code       = 0
+    icmp_type       = 0
+    ipv6_cidr_block = ""
+    rule_no         = "101"
+    action          = "allow"
+    cidr_block      = module.vpc.vpc_cidr_block
+    from_port       = 0
+    to_port         = 0
   }
   // Explicit deny when public subnets are configured
   dynamic "ingress" {
@@ -223,41 +241,53 @@ resource "aws_network_acl" "public_subnets" {
   dynamic "egress" {
     for_each = var.ingress_cidr_blocks
     content {
-      protocol   = "-1"
-      rule_no    = "10${index(var.ingress_cidr_blocks, egress.value)}"
-      action     = "allow"
-      cidr_block = egress.value
-      from_port  = 0
-      to_port    = 0
+      protocol        = "-1"
+      icmp_code       = 0
+      icmp_type       = 0
+      ipv6_cidr_block = ""
+      rule_no         = "10${index(var.ingress_cidr_blocks, egress.value)}"
+      action          = "allow"
+      cidr_block      = egress.value
+      from_port       = 0
+      to_port         = 0
     }
   }
   dynamic "ingress" {
     for_each = var.ingress_cidr_blocks
     content {
-      protocol   = "-1"
-      rule_no    = "11${index(var.ingress_cidr_blocks, ingress.value)}"
-      action     = "allow"
-      cidr_block = ingress.value
-      from_port  = 0
-      to_port    = 0
+      protocol        = "-1"
+      icmp_code       = 0
+      icmp_type       = 0
+      ipv6_cidr_block = ""
+      rule_no         = "11${index(var.ingress_cidr_blocks, ingress.value)}"
+      action          = "allow"
+      cidr_block      = ingress.value
+      from_port       = 0
+      to_port         = 0
     }
   }
   // Enable VPC traffic
   egress {
-    protocol   = "-1"
-    rule_no    = "200"
-    action     = "allow"
-    cidr_block = module.vpc.vpc_cidr_block
-    from_port  = 0
-    to_port    = 0
+    protocol        = "-1"
+    icmp_code       = 0
+    icmp_type       = 0
+    ipv6_cidr_block = ""
+    rule_no         = "200"
+    action          = "allow"
+    cidr_block      = module.vpc.vpc_cidr_block
+    from_port       = 0
+    to_port         = 0
   }
   ingress {
-    protocol   = "-1"
-    rule_no    = "201"
-    action     = "allow"
-    cidr_block = module.vpc.vpc_cidr_block
-    from_port  = 0
-    to_port    = 0
+    protocol        = "-1"
+    icmp_code       = 0
+    icmp_type       = 0
+    ipv6_cidr_block = ""
+    rule_no         = "201"
+    action          = "allow"
+    cidr_block      = module.vpc.vpc_cidr_block
+    from_port       = 0
+    to_port         = 0
   }
   # Internet access
   dynamic "ingress" {
@@ -304,41 +334,53 @@ resource "aws_network_acl" "load_balancing_subnets" {
   dynamic "egress" {
     for_each = var.ingress_cidr_blocks
     content {
-      protocol   = "-1"
-      rule_no    = "10${index(var.ingress_cidr_blocks, egress.value)}"
-      action     = "allow"
-      cidr_block = egress.value
-      from_port  = 0
-      to_port    = 0
+      protocol        = "-1"
+      icmp_code       = 0
+      icmp_type       = 0
+      ipv6_cidr_block = ""
+      rule_no         = "10${index(var.ingress_cidr_blocks, egress.value)}"
+      action          = "allow"
+      cidr_block      = egress.value
+      from_port       = 0
+      to_port         = 0
     }
   }
   dynamic "ingress" {
     for_each = var.ingress_cidr_blocks
     content {
-      protocol   = "-1"
-      rule_no    = "11${index(var.ingress_cidr_blocks, ingress.value)}"
-      action     = "allow"
-      cidr_block = ingress.value
-      from_port  = 0
-      to_port    = 0
+      protocol        = "-1"
+      icmp_code       = 0
+      icmp_type       = 0
+      ipv6_cidr_block = ""
+      rule_no         = "11${index(var.ingress_cidr_blocks, ingress.value)}"
+      action          = "allow"
+      cidr_block      = ingress.value
+      from_port       = 0
+      to_port         = 0
     }
   }
   // Enable VPC traffic
   egress {
-    protocol   = "-1"
-    rule_no    = "200"
-    action     = "allow"
-    cidr_block = module.vpc.vpc_cidr_block
-    from_port  = 0
-    to_port    = 0
+    protocol        = "-1"
+    icmp_code       = 0
+    icmp_type       = 0
+    ipv6_cidr_block = ""
+    rule_no         = "200"
+    action          = "allow"
+    cidr_block      = module.vpc.vpc_cidr_block
+    from_port       = 0
+    to_port         = 0
   }
   ingress {
-    protocol   = "-1"
-    rule_no    = "201"
-    action     = "allow"
-    cidr_block = module.vpc.vpc_cidr_block
-    from_port  = 0
-    to_port    = 0
+    protocol        = "-1"
+    icmp_code       = 0
+    icmp_type       = 0
+    ipv6_cidr_block = ""
+    rule_no         = "201"
+    action          = "allow"
+    cidr_block      = module.vpc.vpc_cidr_block
+    from_port       = 0
+    to_port         = 0
   }
 }
 
