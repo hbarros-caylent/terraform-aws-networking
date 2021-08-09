@@ -151,6 +151,18 @@ resource "aws_network_acl" "compute_subnet" {
       to_port    = 65535
     }
   }
+  # Internet access
+  dynamic "ingress" {
+    for_each = var.enable_nat_gateway ? ["1"] : []
+    content {
+      protocol   = "tcp"
+      rule_no    = "300"
+      action     = "allow"
+      cidr_block = "0.0.0.0/0"
+      from_port  = 1024
+      to_port    = 65535
+    }
+  }
   // Explicit deny when public subnets are configured
   dynamic "ingress" {
     # If there are public subnets but not a nat gateway we add the explicit deny. Otherwise we need it for enrichment services and dependency downloads
@@ -247,6 +259,40 @@ resource "aws_network_acl" "public_subnets" {
     from_port  = 0
     to_port    = 0
   }
+  # Internet access
+  dynamic "ingress" {
+    for_each = var.enable_nat_gateway ? ["1"] : []
+    content {
+      protocol   = "tcp"
+      rule_no    = "300"
+      action     = "allow"
+      cidr_block = "0.0.0.0/0"
+      from_port  = 1024
+      to_port    = 65535
+    }
+  }
+  dynamic "egress" {
+    for_each = var.enable_nat_gateway ? ["1"] : []
+    content {
+      protocol   = "tcp"
+      rule_no    = "300"
+      action     = "allow"
+      cidr_block = "0.0.0.0/0"
+      from_port  = 80
+      to_port    = 80
+    }
+  }
+  dynamic "egress" {
+    for_each = var.enable_nat_gateway ? ["1"] : []
+    content {
+      protocol   = "tcp"
+      rule_no    = "301"
+      action     = "allow"
+      cidr_block = "0.0.0.0/0"
+      from_port  = 443
+      to_port    = 443
+    }
+  }
 }
 
 resource "aws_network_acl" "load_balancing_subnets" {
@@ -294,52 +340,6 @@ resource "aws_network_acl" "load_balancing_subnets" {
     from_port  = 0
     to_port    = 0
   }
-}
-
-resource "aws_network_acl_rule" "internet_access_80" {
-  egress         = true
-  count          = var.enable_nat_gateway ? 1 : 0
-  network_acl_id = aws_network_acl.public_subnets.id
-  protocol       = "tcp"
-  rule_number    = "300"
-  rule_action    = "allow"
-  cidr_block     = "0.0.0.0/0"
-  from_port      = 80
-  to_port        = 80
-}
-resource "aws_network_acl_rule" "internet_access_443" {
-  egress         = true
-  count          = var.enable_nat_gateway ? 1 : 0
-  network_acl_id = aws_network_acl.public_subnets.id
-  protocol       = "tcp"
-  rule_number    = "301"
-  rule_action    = "allow"
-  cidr_block     = "0.0.0.0/0"
-  from_port      = 443
-  to_port        = 443
-}
-resource "aws_network_acl_rule" "internet_access_ephemeral" {
-  egress         = false
-  count          = var.enable_nat_gateway ? 1 : 0
-  network_acl_id = aws_network_acl.public_subnets.id
-  protocol       = "tcp"
-  rule_number    = "302"
-  rule_action    = "allow"
-  cidr_block     = "0.0.0.0/0"
-  from_port      = 1024
-  to_port        = 65535
-}
-
-resource "aws_network_acl_rule" "internet_access_ephemeral_compute" {
-  egress         = false
-  count          = var.enable_nat_gateway ? 1 : 0
-  network_acl_id = aws_network_acl.compute_subnet.id
-  protocol       = "tcp"
-  rule_number    = "700"
-  rule_action    = "allow"
-  cidr_block     = "0.0.0.0/0"
-  from_port      = 1024
-  to_port        = 65535
 }
 
 data "aws_region" "current" {}
