@@ -1,5 +1,5 @@
 module "tamr_networking" {
-  #source = "git::https://github.com/Datatamer/terraform-aws-networking.git?ref=1.0"
+  #source = "git::https://github.com/Datatamer/terraform-aws-networking.git?ref=0.1.0"
   source                        = "../../"
   ingress_cidr_blocks           = ["172.16.0.0/16"]
   vpc_cidr_block                = "10.0.0.0/16"
