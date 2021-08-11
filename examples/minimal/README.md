@@ -1,3 +1,5 @@
+# Public Facing Example
+
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
 
@@ -9,13 +11,21 @@ No provider.
 
 ## Inputs
 
-No input.
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:--------:|
+| availability\_zones | The list of availability zones where we should deploy resources | `list(string)` | n/a | yes |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
-| example\_value | Example variable. |
-| null\_resource\_id | An arbitrary value that changes each time the resource is replaced. |
+| application\_subnet\_cidr\_block | n/a |
+| application\_subnet\_id | n/a |
+| compute\_subnet\_id | n/a |
+| data\_subnet\_ids | n/a |
+| public\_subnet\_ids | n/a |
+| tamr\_ec2\_availability\_zone | n/a |
+| vpc\_cidr\_block | n/a |
+| vpc\_id | n/a |
 
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
