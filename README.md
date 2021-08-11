@@ -1,55 +1,77 @@
-# Terraform Module Template
-This is a template github repo, for a terraform module. A new terraform module, should use this as its starting point.
-This repo follows the [terraform standard module structure](https://www.terraform.io/docs/modules/index.html#standard-module-structure).
+# Tamr Networking Module
+Tamr’s AWS resources need to be launched into an existing Virtual Private Cloud (VPC) setup that meets certain requirements. The reference network architecture here described is designed to support the Tamr AWS scale-out deployment following security best practices.
 
-# Examples
-## Basic
-Inline example implementation of the module.  This is the most basic example of what it would look like to use this module.
-```
-module "minimal" {
-  source = "git::https://github.com/Datatamer/terraform-template-repo?ref=0.1.0"
-}
-```
-## Minimal
-Smallest complete fully working example. This example might require extra resources to run the example.
-- [Minimal](https://github.com/Datatamer/terraform-template-repo/tree/master/examples/minimal)
+## Description
+The Tamr VPC spans two Availability Zones (AZs) and includes the following resources by default:
+- Load balancing Subnets (2): hosts the Application Load Balancer.
+- Application subnet (1): hosts the EC2 Instance where the Tamr application is deployed (also known as Tamr VM).
+- Compute subnet (1): hosts the Amazon EMR clusters and is launched in the same AZ as the Application subnet.
+- Data subnets (2): used for deploying a Multi-AZ PostgreSQL Relational Database Service (RDS) instance and a Multi-AZ Amazon ElasticSearch (ES) Service domain.
+- S3 Gateway VPC Endpoint: provides a secure, reliable connection to Amazon S3 without requiring an Internet gateway or NAT device.
+- Network ACLs: grants access to subnets to only the resources they need and acts as another layer of security for the VPC.
 
-# Resources Created
-This modules creates:
-* a null resource
+## Examples
+### Basic
+Includes the most basic VPC that can support a Tamr deployment.
+### Complete
+Includes a VPC with all the variables configured.
 
+### Public facing
+Includes the following resources:
+- Application load_balancer
+- load_balancing subnets (2)
+- NAT gateway
+- HTTPS
+- The Tamr-VM with a sample website for validation.
+
+- [ALB With SSL](./examples/ssl-alb)
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
 
 | Name | Version |
 |------|---------|
-| terraform | >= 0.12 |
+| terraform | >= 0.13 |
+| aws | >= 3.36 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| null | n/a |
+| aws | >= 3.36 |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| example | Example variable. | `string` | `"default value"` | no |
+| application\_subnet\_cidr\_block | The application subnet's CIDR range | `string` | n/a | yes |
+| availability\_zones | The list of availability zones where we should deploy resources | `list(string)` | n/a | yes |
+| compute\_subnet\_cidr\_block | The data subnet CIDR range | `string` | n/a | yes |
+| data\_subnet\_cidr\_blocks | The data subnet's CIDR range | `list(string)` | n/a | yes |
+| vpc\_cidr\_block | The cidr range for the vpc | `string` | n/a | yes |
+| create\_load\_balancing\_subnets | Enable the creation of load balancing subnets for deploying a load balancer | `bool` | `true` | no |
+| create\_public\_subnets | Enable the creation of public subnets for internet facing resources | `bool` | `false` | no |
+| enable\_nat\_gateway | Enable the creation of a NAT gateway | `bool` | `false` | no |
+| ingress\_cidr\_blocks | The cidr range that will be accessing the tamr vm. | `list(string)` | <pre>[<br>  "0.0.0.0/0"<br>]</pre> | no |
+| load\_balancing\_subnets\_cidr\_blocks | The load\_balancing subnets' CIDR range | `list(string)` | <pre>[<br>  "0.0.0.0/0",<br>  "0.0.0.0/0"<br>]</pre> | no |
+| public\_subnets\_cidr\_blocks | The public subnets' CIDR range | `list(string)` | <pre>[<br>  "0.0.0.0/0",<br>  "0.0.0.0/0"<br>]</pre> | no |
+| tags | A map of tags to add to all resources. | `map(string)` | `{}` | no |
+| tamr\_unify\_port | Identifies the default access HTTP port | `string` | `"9100"` | no |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
-| example\_value | Example variable. |
-| null\_resource\_id | An arbitrary value that changes each time the resource is replaced. |
+| application\_subnet\_cidr\_block | n/a |
+| application\_subnet\_id | n/a |
+| compute\_subnet\_id | n/a |
+| data\_subnet\_ids | n/a |
+| load\_balancing\_subnet\_ids | n/a |
+| public\_subnet\_ids | n/a |
+| tamr\_ec2\_availability\_zone | n/a |
+| vpc\_cidr\_block | n/a |
+| vpc\_id | n/a |
 
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
-
-# References
-This repo is based on:
-* [terraform standard module structure](https://www.terraform.io/docs/modules/index.html#standard-module-structure)
-* [templated terraform module](https://github.com/tmknom/template-terraform-module)
 
 # Development
 ## Generating Docs
