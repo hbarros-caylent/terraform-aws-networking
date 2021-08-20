@@ -61,7 +61,7 @@ module "alb" {
 }
 
 resource "aws_lb_listener_rule" "dms" {
-  count = var.enable_dms ? 1 : 0
+  count        = var.enable_dms ? 1 : 0
   listener_arn = module.alb.https_listener_arns[0]
   priority     = 101
 
