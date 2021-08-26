@@ -48,17 +48,6 @@ func TestTerraformTamrNetwork(t *testing.T) {
 			availabilityZones:          make([]string, 2),
 			tags:                       make(map[string]string),
 		},
-		// {
-		// 	testName:                   "Test1",
-		// 	vpcCIDRBlock:               "172.38.0.0/24",
-		// 	ingressCIDRBlocks:          []string{"0.0.0.0/0"},
-		// 	dataSubnetCIDRBlocks:       []string{"172.38.0.0/28", "172.38.1.0/28"},
-		// 	applicationSubnetCIDRBlock: "172.38.2.0/28",
-		// 	computeSubnetCIDRBlock:     "172.38.3.0/28",
-		// 	publicSubnetCIDRBlocks:     []string{"172.38.4.0/28"},
-		// 	availabilityZones:          make([]string, 2),
-		// 	tags:                       make(map[string]string),
-		// },
 	}
 
 	awsRegion := aws.GetRandomStableRegion(t, []string{"us-east-1", "us-east-2", "us-west-1", "us-west-2"}, nil)
@@ -70,10 +59,6 @@ func TestTerraformTamrNetwork(t *testing.T) {
 
 		t.Run(testCase.testName, func(t *testing.T) {
 			t.Parallel()
-
-			// This is ugly - but attempt to stagger the test cases to
-			// avoid a concurrency issue
-			// time.Sleep(time.Duration(testCase.sleepDuration) * time.Second)
 
 			// this creates a tempTestFolder for each testCase
 			tempTestFolder := test_structure.CopyTerraformFolderToTemp(t, "..", "test_examples/minimal")
