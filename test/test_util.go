@@ -6,19 +6,14 @@ import (
 
 	"github.com/gruntwork-io/terratest/modules/aws"
 	"github.com/gruntwork-io/terratest/modules/terraform"
+	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
 
 type NetworkingModuleTestCase struct {
-	testName                   string
-	vpcCIDRBlock               string
-	ingressCIDRBlocks          []string
-	dataSubnetCIDRBlocks       []string
-	applicationSubnetCIDRBlock string
-	computeSubnetCIDRBlock     string
-	publicSubnetCIDRBlocks     []string
-	availabilityZones          []string
-	tags                       map[string]string
+	testName         string
+	vars             map[string]interface{}
+	expectApplyError bool
 }
 
 func validateNetwork(t *testing.T, terraformOptions *terraform.Options, awsRegion string, expectedVpcName string, expectedAzs []string) {
@@ -48,13 +43,13 @@ func validateNetwork(t *testing.T, terraformOptions *terraform.Options, awsRegio
 
 	t.Run("check_subnets_id", func(t *testing.T) {
 		for _, s := range subnets {
-			require.Contains(t, allSubnetsOutput, s.Id)
+			assert.Contains(t, allSubnetsOutput, s.Id)
 		}
 	})
 
 	t.Run("check_subnets_azs", func(t *testing.T) {
 		for _, s := range subnets {
-			require.Contains(t, expectedAzs, s.AvailabilityZone)
+			assert.Contains(t, expectedAzs, s.AvailabilityZone)
 		}
 	})
 }
