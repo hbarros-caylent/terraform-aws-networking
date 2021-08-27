@@ -26,12 +26,8 @@ func TestTerraformTamrNetwork(t *testing.T) {
 	// os.Setenv("TERRATEST_REGION", "us-east-1")
 
 	// os.Setenv("SKIP_setup_options", "true")
-	// os.Setenv("SKIP_create_bucket", "true")
-	// os.Setenv("SKIP_validate_bucket", "true")
-	// os.Setenv("SKIP_create_ro_objects", "true")
-	// os.Setenv("SKIP_setup_role_options", "true")
-	// os.Setenv("SKIP_create_role", "true")
-	// os.Setenv("SKIP_validate_bucket_and_policies", "true")
+	// os.Setenv("SKIP_create_network", "true")
+	// os.Setenv("SKIP_validate_network", "true")
 
 	// os.Setenv("SKIP_teardown", "true")
 
