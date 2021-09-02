@@ -12,28 +12,8 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func TestMinimalTamrNetwork(t *testing.T) {
-	t.Parallel()
-
-	// For convenience - uncomment these as well as the "os" import
-	// when doing local testing if you need to skip any sections.
-	//
-	// A common usage for this would be skipping teardown first (keeping infrastructure)
-	// and then in your next run skip the setup* and create* steps. This way you can keep testing
-	// your Go test against your infrastructure quicker. Be mindful of random-ids, as they would be updated
-	// on each run, which would make some assertions fail.
-
-	// os.Setenv("SKIP_", "true")
-	// os.Setenv("TERRATEST_REGION", "us-east-1")
-
-	// os.Setenv("SKIP_setup_options", "true")
-	// os.Setenv("SKIP_create_network", "true")
-	// os.Setenv("SKIP_validate_network", "true")
-
-	// os.Setenv("SKIP_teardown", "true")
-
-	// list of different buckets that will be created to be tested
-	var testCases = []NetworkingModuleTestCase{
+func initTestCases() []NetworkingModuleTestCase {
+	return []NetworkingModuleTestCase{
 		{
 			testName:         "Test1",
 			expectApplyError: false,
@@ -69,6 +49,29 @@ func TestMinimalTamrNetwork(t *testing.T) {
 			},
 		},
 	}
+}
+func TestMinimalTamrNetwork(t *testing.T) {
+	t.Parallel()
+
+	// For convenience - uncomment these as well as the "os" import
+	// when doing local testing if you need to skip any sections.
+	//
+	// A common usage for this would be skipping teardown first (keeping infrastructure)
+	// and then in your next run skip the setup* and create* steps. This way you can keep testing
+	// your Go test against your infrastructure quicker. Be mindful of random-ids, as they would be updated
+	// on each run, which would make some assertions fail.
+
+	// os.Setenv("SKIP_", "true")
+	// os.Setenv("TERRATEST_REGION", "us-east-1")
+
+	// os.Setenv("SKIP_setup_options", "true")
+	// os.Setenv("SKIP_create_network", "true")
+	// os.Setenv("SKIP_validate_network", "true")
+
+	// os.Setenv("SKIP_teardown", "true")
+
+	// list of different buckets that will be created to be tested
+	testCases := initTestCases()
 
 	awsRegion := aws.GetRandomStableRegion(t, []string{"us-east-1", "us-east-2", "us-west-1", "us-west-2"}, nil)
 
