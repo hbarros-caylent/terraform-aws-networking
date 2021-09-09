@@ -3,8 +3,15 @@ In order to access Tamr using TLS encryption, we recommend using an Application 
 
 ## Description
 This module creates the following resources:
-- Load Balancer with HTTP (80) to HTTPS(443) redirection
+- Load Balancer with HTTP (80) to HTTPS(443) redirection and optional host routing for DMS (See the 'Configuring DMS' section)
 - Security Groups
+
+## Configuring DMS
+
+This module supports host based routing to access different backends depending on the DNS that is being used to access the ALB. This allows many services to be accessed through the same port.
+To configure access to DMS we use the following variables:
+- tamr_dms_hosts (Specifies a list of DNS names that should be routed to the tamr_dms_port)
+- tamr_dms_port (Specifies what port DMS is configured to use)
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
