@@ -35,7 +35,7 @@ variable "enable_dms" {
 variable "tamr_dms_hosts" {
   type        = list(string)
   description = "Specify list of host headers to use in host based routing"
-  default     = []
+  default     = ["dms.*.*"]
 }
 
 variable "ami_id" {
