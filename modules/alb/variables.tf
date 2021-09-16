@@ -41,3 +41,21 @@ variable "tamr_unify_port" {
   description = "Identifies the default access HTTP port"
   default     = "9100"
 }
+
+variable "tamr_dms_port" {
+  type        = string
+  description = "Identifies the DMS access HTTP port"
+  default     = "9155"
+}
+
+variable "tamr_dms_hosts" {
+  type        = list(string)
+  description = "Specify list of host headers to use in host based routing"
+  default     = []
+}
+
+variable "enable_dms" {
+  type        = bool
+  description = "Enabled the DMS proxying on the port specified in tamr_dms_port"
+  default     = false
+}
