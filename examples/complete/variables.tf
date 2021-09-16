@@ -20,6 +20,24 @@ variable "tamr_unify_port" {
   default     = "9100"
 }
 
+variable "tamr_dms_port" {
+  type        = string
+  description = "Identifies the DMS access HTTP port"
+  default     = "9155"
+}
+
+variable "enable_dms" {
+  type        = bool
+  description = "Enabled the DMS proxying on the port specified in tamr_dms_port"
+  default     = true
+}
+
+variable "tamr_dms_hosts" {
+  type        = list(string)
+  description = "Specify list of host headers to use in host based routing"
+  default     = ["dms.*.*"]
+}
+
 variable "ami_id" {
   type        = string
   description = "The AMI to use for the tamr vm"

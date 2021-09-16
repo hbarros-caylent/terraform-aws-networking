@@ -24,6 +24,18 @@ module "alb" {
           port      = var.tamr_unify_port
         }
       ]
+    },
+    {
+      name_prefix      = "tamr-"
+      backend_protocol = "HTTP"
+      backend_port     = var.tamr_dms_port
+      target_type      = "instance"
+      targets = [
+        {
+          target_id = var.ec2_instance_id
+          port      = var.tamr_dms_port
+        }
+      ]
     }
   ]
   http_tcp_listeners = [
@@ -47,6 +59,24 @@ module "alb" {
     }
   ]
 }
+
+resource "aws_lb_listener_rule" "dms" {
+  count        = var.enable_dms ? 1 : 0
+  listener_arn = module.alb.https_listener_arns[0]
+  priority     = 101
+
+  action {
+    type             = "forward"
+    target_group_arn = module.alb.target_group_arns[1]
+  }
+
+  condition {
+    host_header {
+      values = var.tamr_dms_hosts
+    }
+  }
+}
+
 
 module "sg_https_lb" {
   source = "terraform-aws-modules/security-group/aws//modules/https-443"
