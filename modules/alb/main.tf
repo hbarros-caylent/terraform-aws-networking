@@ -1,7 +1,3 @@
-data "aws_instance" "tamr-vm" {
-  instance_id = var.ec2_instance_id
-}
-
 module "alb" {
   source             = "terraform-aws-modules/alb/aws"
   version            = "~> 6.0"
@@ -36,6 +32,42 @@ module "alb" {
           port      = var.tamr_dms_port
         }
       ]
+    },
+    {
+      name_prefix      = "tamr-"
+      backend_protocol = "HTTP"
+      backend_port     = "80"
+      target_type      = "instance"
+      targets = [
+        {
+          target_id = var.emr_master_instance_id
+          port      = "80"
+        }
+      ]
+    },
+    {
+      name_prefix      = "tamr-"
+      backend_protocol = "HTTP"
+      backend_port     = "16010"
+      target_type      = "instance"
+      targets = [
+        {
+          target_id = var.emr_master_instance_id
+          port      = "16010"
+        }
+      ]
+    },
+    {
+      name_prefix      = "tamr-"
+      backend_protocol = "HTTP"
+      backend_port     = "18080"
+      target_type      = "instance"
+      targets = [
+        {
+          target_id = var.emr_master_instance_id
+          port      = "18080"
+        }
+      ]
     }
   ]
   http_tcp_listeners = [
@@ -64,23 +96,64 @@ resource "aws_lb_listener_rule" "dms" {
   count        = var.enable_dms ? 1 : 0
   listener_arn = module.alb.https_listener_arns[0]
   priority     = 101
-
   action {
     type             = "forward"
     target_group_arn = module.alb.target_group_arns[1]
   }
-
   condition {
     host_header {
-      values = var.tamr_dms_hosts
+      values = lookup(var.host_routing_map, "dms", [""])
     }
   }
 }
 
+resource "aws_lb_listener_rule" "ganglia" {
+  count        = var.enable_dms ? 1 : 0
+  listener_arn = module.alb.https_listener_arns[0]
+  priority     = 102
+  action {
+    type             = "forward"
+    target_group_arn = module.alb.target_group_arns[2]
+  }
+  condition {
+    host_header {
+      values = lookup(var.host_routing_map, "ganglia", [""])
+    }
+  }
+}
+
+resource "aws_lb_listener_rule" "hbase" {
+  count        = var.enable_dms ? 1 : 0
+  listener_arn = module.alb.https_listener_arns[0]
+  priority     = 103
+  action {
+    type             = "forward"
+    target_group_arn = module.alb.target_group_arns[3]
+  }
+  condition {
+    host_header {
+      values = lookup(var.host_routing_map, "hbase", [""])
+    }
+  }
+}
+
+resource "aws_lb_listener_rule" "spark" {
+  count        = var.enable_dms ? 1 : 0
+  listener_arn = module.alb.https_listener_arns[0]
+  priority     = 104
+  action {
+    type             = "forward"
+    target_group_arn = module.alb.target_group_arns[4]
+  }
+  condition {
+    host_header {
+      values = lookup(var.host_routing_map, "spark", [""])
+    }
+  }
+}
 
 module "sg_https_lb" {
   source = "terraform-aws-modules/security-group/aws//modules/https-443"
-
   name                = "web"
   use_name_prefix     = true
   description         = "Security group for tamr-vm with HTTPS ports open within VPC"
@@ -98,3 +171,8 @@ module "sg_https_lb" {
   ]
   tags = var.tags
 }
+
+data "aws_instance" "tamr-vm" {
+  instance_id = var.ec2_instance_id
+}
+
