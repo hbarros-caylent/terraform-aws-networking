@@ -4,6 +4,12 @@ variable "ingress_cidr_blocks" {
   default     = ["0.0.0.0/0"]
 }
 
+variable "egress_cidr_blocks" {
+  type        = list(string)
+  description = "The cidr ranges that will be accessible from EMR"
+  default     = ["0.0.0.0/0"]
+}
+
 variable "tls_certificate_arn" {
   type        = string
   description = "The tls certificate ARN"
@@ -37,11 +43,16 @@ variable "tamr_dms_hosts" {
   description = "Specify list of host headers to use in host based routing"
   default     = ["dms.*.*"]
 }
-
 variable "ami_id" {
   type        = string
   description = "The AMI to use for the tamr vm"
   default     = ""
+}
+
+variable "abac_valid_tags" {
+  type        = map(list(string))
+  description = "Valid tags for maintaining resources when using ABAC IAM Policies with Tag Conditions. Make sure `tags` contain a key value specified here."
+  default     = {}
 }
 
 variable "name-prefix" {
@@ -52,6 +63,16 @@ variable "name-prefix" {
 
 variable "key_pair" {
   type = string
+}
+
+variable "bucket_name_for_logs" {
+  type        = string
+  description = "S3 bucket name for cluster logs."
+}
+
+variable "bucket_name_for_root_directory" {
+  type        = string
+  description = "S3 bucket name for storing root directory"
 }
 
 variable "tags" {
