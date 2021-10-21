@@ -18,17 +18,17 @@ data "aws_ami" "tamr-vm" {
 }
 
 data "template_file" "install_nginx" {
-  template = "${file("${path.module}/files/install-nginx.tpl")}"
+  template = file("${path.module}/files/install-nginx.tpl")
   vars = {
     tamr_unify_port = var.tamr_unify_port
   }
 }
 
 data "template_file" "setup_dms" {
-  template = "${file("${path.module}/files/setup-dms.tpl")}"
+  template = file("${path.module}/files/setup-dms.tpl")
   vars = {
     tamr_unify_port = var.tamr_unify_port
-    tamr_dms_port = var.tamr_dms_port
+    tamr_dms_port   = var.tamr_dms_port
   }
 }
 
@@ -42,7 +42,8 @@ module "sg_vm_web" {
   ingress_security_groups = [module.alb.lb_security_group_id]
   ingress_protocol        = "tcp"
   ingress_ports           = var.enable_dms ? [var.tamr_unify_port, var.tamr_dms_port] : [var.tamr_unify_port]
-  sg_name_prefix          = var.name-prefix
+  sg_name_prefix          = format("%s-%s", "example-complete", "tamr-vm")
+
 }
 
 module "tamr-vm" {

@@ -29,9 +29,7 @@ resource "tls_private_key" "emr_private_key" {
 
 # EMR Static Spark cluster
 module "emr-spark" {
-  #source = "git::git@github.com:Datatamer/terraform-aws-emr.git?ref=7.0.0"
-  source  = "git::git@github.com:franco-caylent/terraform-aws-emr.git?ref=feature/master-output"
-  #source = "../.."
+  source = "git::git@github.com:Datatamer/terraform-aws-emr.git?ref=7.0.1"
 
   # Configurations
   create_static_cluster = true
@@ -80,7 +78,7 @@ module "emr-spark" {
 }
 
 module "sg-ports" {
-  source  = "git::https://github.com/Datatamer/terraform-aws-emr.git//modules/aws-emr-ports?ref=6.2.0"
+  source = "git::https://github.com/Datatamer/terraform-aws-emr.git//modules/aws-emr-ports?ref=6.2.0"
   #source       = "../../modules/aws-emr-ports"
   applications = local.this_application
 }
@@ -90,7 +88,7 @@ module "aws-emr-sg-master" {
   vpc_id              = module.tamr_networking.vpc_id
   ingress_cidr_blocks = var.ingress_cidr_blocks
   egress_cidr_blocks  = var.egress_cidr_blocks
-  ingress_ports       = module.sg-ports.ingress_master_ports//, 16010, 80, 18080)
+  ingress_ports       = module.sg-ports.ingress_master_ports
   sg_name_prefix      = format("%s-%s", "example-complete", "-master")
   egress_protocol     = "all"
   ingress_protocol    = "tcp"
