@@ -32,17 +32,24 @@ variable "tamr_dms_port" {
   default     = "9155"
 }
 
-variable "enable_dms" {
+variable "enable_host_routing" {
   type        = bool
-  description = "Enabled the DMS proxying on the port specified in tamr_dms_port"
+  description = "Enable the proxying for EMR, Tamr and DMS"
   default     = true
 }
 
-variable "tamr_dms_hosts" {
-  type        = list(string)
-  description = "Specify list of host headers to use in host based routing"
-  default     = ["dms.*.*"]
+variable "host_routing_map" {
+  type        = map(list(string))
+  description = "Map with hosts that should be used for routing"
+  default = {
+    tamr    = ["tamr.*.*"]
+    dms     = ["dms.*.*"]
+    hbase   = ["hbase.*.*"]
+    spark   = ["spark.*.*"]
+    ganglia = ["ganglia.*.*"]
+  }
 }
+
 variable "ami_id" {
   type        = string
   description = "The AMI to use for the tamr vm"
