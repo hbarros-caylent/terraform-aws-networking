@@ -20,6 +20,10 @@ variable "ec2_instance_id" {
   description = "The Tamr VM instance id"
 }
 
+variable "emr_master_instance_id" {
+  type        = string
+  description = "The EMR Master instance id"
+}
 variable "vpc_id" {
   type        = string
   description = "The id of the VPC where we will deploy the load balancer"
