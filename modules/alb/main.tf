@@ -153,7 +153,7 @@ resource "aws_lb_listener_rule" "spark" {
 }
 
 module "sg_https_lb" {
-  source = "terraform-aws-modules/security-group/aws//modules/https-443"
+  source              = "terraform-aws-modules/security-group/aws//modules/https-443"
   name                = "web"
   use_name_prefix     = true
   description         = "Security group for tamr-vm with HTTPS ports open within VPC"
@@ -175,4 +175,3 @@ module "sg_https_lb" {
 data "aws_instance" "tamr-vm" {
   instance_id = var.ec2_instance_id
 }
-

@@ -32,10 +32,12 @@ To configure access to DMS we use the following variables:
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | ec2\_instance\_id | The Tamr VM instance id | `string` | n/a | yes |
+| emr\_master\_instance\_id | The EMR Master instance id | `string` | n/a | yes |
 | subnet\_ids | The ids of the subnets where we will deploy the load balancer | `list(string)` | n/a | yes |
 | tls\_certificate\_arn | The tls certificate ARN | `string` | n/a | yes |
 | vpc\_id | The id of the VPC where we will deploy the load balancer | `string` | n/a | yes |
 | enable\_dms | Enabled the DMS proxying on the port specified in tamr\_dms\_port | `bool` | `false` | no |
+| host\_routing\_map | Map with hosts that should be used for routing | `map(list(string))` | <pre>{<br>  "dms": [<br>    "dms.*.*"<br>  ],<br>  "ganglia": [<br>    "ganglia.*.*"<br>  ],<br>  "hbase": [<br>    "hbase.*.*"<br>  ],<br>  "spark": [<br>    "spark.*.*"<br>  ],<br>  "tamr": [<br>    "tamr.*.*"<br>  ]<br>}</pre> | no |
 | ingress\_cidr\_blocks | The cidr range that will be accessing the load\_balancer | `list(string)` | <pre>[<br>  "0.0.0.0/0"<br>]</pre> | no |
 | name-prefix | n/a | `string` | `"tamr-"` | no |
 | tags | A map of tags to add to all resources. | `map(string)` | `{}` | no |
