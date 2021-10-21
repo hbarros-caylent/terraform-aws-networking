@@ -93,7 +93,7 @@ module "alb" {
 }
 
 resource "aws_lb_listener_rule" "dms" {
-  count        = var.enable_dms ? 1 : 0
+  count        = var.enable_host_routing ? 1 : 0
   listener_arn = module.alb.https_listener_arns[0]
   priority     = 101
   action {
@@ -108,7 +108,7 @@ resource "aws_lb_listener_rule" "dms" {
 }
 
 resource "aws_lb_listener_rule" "ganglia" {
-  count        = var.enable_dms ? 1 : 0
+  count        = var.enable_host_routing ? 1 : 0
   listener_arn = module.alb.https_listener_arns[0]
   priority     = 102
   action {
@@ -123,7 +123,7 @@ resource "aws_lb_listener_rule" "ganglia" {
 }
 
 resource "aws_lb_listener_rule" "hbase" {
-  count        = var.enable_dms ? 1 : 0
+  count        = var.enable_host_routing ? 1 : 0
   listener_arn = module.alb.https_listener_arns[0]
   priority     = 103
   action {
@@ -138,7 +138,7 @@ resource "aws_lb_listener_rule" "hbase" {
 }
 
 resource "aws_lb_listener_rule" "spark" {
-  count        = var.enable_dms ? 1 : 0
+  count        = var.enable_host_routing ? 1 : 0
   listener_arn = module.alb.https_listener_arns[0]
   priority     = 104
   action {

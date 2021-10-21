@@ -5,7 +5,7 @@ module "alb" {
   ec2_instance_id        = module.tamr-vm.tamr_instance.ec2_instance_id
   vpc_id                 = module.tamr_networking.vpc_id
   subnet_ids             = module.tamr_networking.load_balancing_subnet_ids
-  enable_dms             = true
+  enable_host_routing    = true
   tamr_dms_hosts         = var.tamr_dms_hosts
   tags                   = var.tags
 }

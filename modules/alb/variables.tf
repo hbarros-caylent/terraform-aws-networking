@@ -71,7 +71,7 @@ variable "tamr_dms_hosts" {
   default     = []
 }
 
-variable "enable_dms" {
+variable "enable_host_routing" {
   type        = bool
   description = "Enabled the DMS proxying on the port specified in tamr_dms_port"
   default     = false
