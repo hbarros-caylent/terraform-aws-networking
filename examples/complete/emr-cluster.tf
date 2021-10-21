@@ -1,0 +1,119 @@
+locals {
+  this_application = ["Spark", "hbase", "ganglia"]
+}
+
+# Set up logs bucket with read/write permissions
+module "emr-logs-bucket" {
+  source      = "git::git@github.com:Datatamer/terraform-aws-s3.git?ref=1.1.0"
+  bucket_name = var.bucket_name_for_logs
+  read_write_actions = [
+    "s3:HeadBucket",
+    "s3:PutObject",
+  ]
+  read_write_paths = [""] # r/w policy permitting specified rw actions on entire bucket
+  tags             = var.tags
+}
+
+# Set up root directory bucket
+module "emr-rootdir-bucket" {
+  source           = "git::git@github.com:Datatamer/terraform-aws-s3.git?ref=1.1.0"
+  bucket_name      = var.bucket_name_for_root_directory
+  read_write_paths = [""] # r/w policy permitting default rw actions on entire bucket
+  tags             = var.tags
+}
+
+# Create new EC2 key pair
+resource "tls_private_key" "emr_private_key" {
+  algorithm = "RSA"
+}
+
+# EMR Static Spark cluster
+module "emr-spark" {
+  #source = "git::git@github.com:Datatamer/terraform-aws-emr.git?ref=7.0.0"
+  source  = "git::git@github.com:franco-caylent/terraform-aws-emr.git?ref=feature/master-output"
+  #source = "../.."
+
+  # Configurations
+  create_static_cluster = true
+  release_label         = "emr-5.29.0" # spark 2.4.4
+  applications          = local.this_application
+  emr_config_file_path  = "./emr-config.json"
+  tags                  = var.tags
+  abac_valid_tags       = var.abac_valid_tags
+
+  # Networking
+  subnet_id = module.tamr_networking.compute_subnet_id
+  vpc_id    = module.tamr_networking.vpc_id
+
+  # External resource references
+  bucket_name_for_root_directory = module.emr-rootdir-bucket.bucket_name
+  bucket_name_for_logs           = module.emr-logs-bucket.bucket_name
+  s3_policy_arns                 = [module.emr-logs-bucket.rw_policy_arn, module.emr-rootdir-bucket.rw_policy_arn]
+  bucket_path_to_logs            = "logs/spark-example-complete-cluster/"
+  key_pair_name                  = var.key_pair
+
+  # Names
+  cluster_name                  = format("%s-%s", "example-complete", "-EMR-Cluster")
+  emr_service_role_name         = format("%s-%s", "example-complete", "-service-role")
+  emr_ec2_role_name             = format("%s-%s", "example-complete", "-ec2-role")
+  emr_ec2_instance_profile_name = format("%s-%s", "example-complete", "-instance-profile")
+  emr_service_iam_policy_name   = format("%s-%s", "example-complete", "-service-policy")
+  emr_ec2_iam_policy_name       = format("%s-%s", "example-complete", "-ec2-policy")
+  master_instance_fleet_name    = format("%s-%s", "example-complete", "-MasterInstanceFleet")
+  core_instance_fleet_name      = format("%s-%s", "example-complete", "-CoreInstanceFleet")
+  emr_managed_master_sg_name    = format("%s-%s", "example-complete", "-EMR-Spark-Master")
+  emr_managed_core_sg_name      = format("%s-%s", "example-complete", "-EMR-Spark-Core")
+  emr_service_access_sg_name    = format("%s-%s", "example-complete", "-EMR-Spark-Service-Access")
+
+  # Scale
+  master_instance_on_demand_count = 1
+  core_instance_on_demand_count   = 2
+  master_instance_type            = "m4.large"
+  core_instance_type              = "r5.xlarge"
+  master_ebs_size                 = 50
+  core_ebs_size                   = 50
+
+  # Security Group IDs
+  emr_managed_master_sg_ids = module.aws-emr-sg-master.security_group_ids
+  emr_managed_core_sg_ids   = module.aws-emr-sg-core.security_group_ids
+  emr_service_access_sg_ids = module.aws-emr-sg-service-access.security_group_ids
+}
+
+module "sg-ports" {
+  source  = "git::https://github.com/Datatamer/terraform-aws-emr.git//modules/aws-emr-ports?ref=6.2.0"
+  #source       = "../../modules/aws-emr-ports"
+  applications = local.this_application
+}
+
+module "aws-emr-sg-master" {
+  source              = "git::git@github.com:Datatamer/terraform-aws-security-groups.git?ref=1.0.0"
+  vpc_id              = module.tamr_networking.vpc_id
+  ingress_cidr_blocks = var.ingress_cidr_blocks
+  egress_cidr_blocks  = var.egress_cidr_blocks
+  ingress_ports       = module.sg-ports.ingress_master_ports//, 16010, 80, 18080)
+  sg_name_prefix      = format("%s-%s", "example-complete", "-master")
+  egress_protocol     = "all"
+  ingress_protocol    = "tcp"
+}
+
+module "aws-emr-sg-core" {
+  source              = "git::git@github.com:Datatamer/terraform-aws-security-groups.git?ref=1.0.0"
+  vpc_id              = module.tamr_networking.vpc_id
+  ingress_cidr_blocks = var.ingress_cidr_blocks
+  egress_cidr_blocks  = var.egress_cidr_blocks
+  ingress_ports       = module.sg-ports.ingress_core_ports
+  sg_name_prefix      = format("%s-%s", "example-complete", "-core")
+  egress_protocol     = "all"
+  ingress_protocol    = "tcp"
+}
+
+module "aws-emr-sg-service-access" {
+  source              = "git::git@github.com:Datatamer/terraform-aws-security-groups.git?ref=1.0.0"
+  vpc_id              = module.tamr_networking.vpc_id
+  ingress_cidr_blocks = var.ingress_cidr_blocks
+  egress_cidr_blocks  = var.egress_cidr_blocks
+  ingress_ports       = module.sg-ports.ingress_service_access_ports
+  sg_name_prefix      = format("%s-%s", "example-complete", "-service-access")
+  egress_protocol     = "all"
+  ingress_protocol    = "tcp"
+}
