@@ -24,6 +24,19 @@ variable "emr_master_instance_id" {
   type        = string
   description = "The EMR Master instance id"
 }
+
+variable "host_routing_map" {
+  type = map(list(string))
+  description = "Map with hosts that should be used for routing"
+  default = {
+    tamr = ["tamr.*.*"]
+    dms = ["dms.*.*"]
+    hbase = ["hbase.*.*"]
+    spark = ["spark.*.*"]
+    ganglia = ["ganglia.*.*"]
+  }
+}
+
 variable "vpc_id" {
   type        = string
   description = "The id of the VPC where we will deploy the load balancer"
