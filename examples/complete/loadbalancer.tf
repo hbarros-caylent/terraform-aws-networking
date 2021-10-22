@@ -6,6 +6,6 @@ module "alb" {
   vpc_id                 = module.tamr_networking.vpc_id
   subnet_ids             = module.tamr_networking.load_balancing_subnet_ids
   enable_host_routing    = true
-  tamr_dms_hosts         = var.tamr_dms_hosts
+  host_routing_map       = var.host_routing_map
   tags                   = var.tags
 }
