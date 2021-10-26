@@ -74,7 +74,6 @@ func TestMinimalTamrNetwork(t *testing.T) {
 	awsRegion := aws.GetRandomStableRegion(t, []string{"us-east-1", "us-east-2", "us-west-1", "us-west-2"}, nil)
 
 	for _, testCase := range testCases {
-		t.Parallel()
 		// The following is necessary to make sure testCase's values don't
 		// get updated due to concurrency within the scope of t.Run(..) below
 		testCase := testCase
