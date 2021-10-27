@@ -131,13 +131,27 @@ resource "aws_lb_target_group" "target_groups" {
   protocol = "HTTP"
   vpc_id   = var.vpc_id
 } 
-
+/*
 resource "aws_lb_target_group_attachment" "tg_attachments" {
   for_each = aws_lb_target_group.target_groups
   target_group_arn = each.value.arn
-  target_id        = lookup(var.host_routing_map, each.key).instance_id
+  target_id        = lookup(var.host_routing_map, each.key).instance_id[0]
   port             = lookup(var.host_routing_map, each.key).port
 }
+*/
+
+resource "aws_lb_target_group_attachment" "tg_attachments" {
+  for_each = {for index, value in flatten([for tg in aws_lb_target_group.target_groups: [
+    for id in lookup(var.host_routing_map, tg.name).instance_ids: {
+      arn = tg.arn
+      instance = id
+    }
+  ]]): index => value}
+  target_group_arn = each.value.arn
+  target_id        = each.value.instance
+  #port             = lookup(var.host_routing_map, each.key).port
+}
+
 
 resource "aws_lb_listener_rule" "listeners" {
   for_each = aws_lb_target_group.target_groups

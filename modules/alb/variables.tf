@@ -39,14 +39,14 @@ variable "master_fleet_instance_count"{
 
 variable "host_routing_map" {
   type        = map(object({
-                        instance_id = string
+                        instance_ids = list(string)
                         hosts= list(string)
                         port = number
                       }))
   description = "Map with hosts that should be used for routing"
   default = {
     "tamr" = {
-      instance_id = "i-000000"
+      instance_ids = ["i-000000"]
       hosts = ["tamr.*.*"]
       port = 9100
     }

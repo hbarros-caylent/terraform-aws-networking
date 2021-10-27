@@ -12,31 +12,30 @@ module "alb" {
   enable_host_routing    = true
   host_routing_map       = {
     "tamr" = {
-      instance_id = module.tamr-vm.tamr_instance.ec2_instance_id
+      instance_ids = [module.tamr-vm.tamr_instance.ec2_instance_id]
       hosts= ["tamr.*.*"]
       port = var.tamr_unify_port
     }
     "dms" = {
-      instance_id = module.tamr-vm.tamr_instance.ec2_instance_id
+      instance_ids = [module.tamr-vm.tamr_instance.ec2_instance_id]
       hosts= ["dms.*.*"]
       port = var.tamr_dms_port
     }
     "hbase" = {
-      instance_id = data.aws_instances.masters.ids[0]
+      instance_ids = data.aws_instances.masters.ids
       hosts= ["hbase.*.*"]
       port = 16010
     }
     "ganglia" = {
-      instance_id = data.aws_instances.masters.ids[0]
+      instance_ids = data.aws_instances.masters.ids
       hosts= ["ganglia.*.*"]
       port = 80
     }
     "spark" = {
-      instance_id = data.aws_instances.masters.ids[0]
+      instance_ids = data.aws_instances.masters.ids
       hosts= ["spark.*.*"]
       port = 18080
     }
-    
   }
 }
 
