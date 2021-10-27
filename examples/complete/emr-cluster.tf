@@ -22,15 +22,10 @@ module "emr-rootdir-bucket" {
   tags             = var.tags
 }
 
-# Create new EC2 key pair
-resource "tls_private_key" "emr_private_key" {
-  algorithm = "RSA"
-}
-
 # EMR Static Spark cluster
 module "emr-spark" {
-  source = "git::git@github.com:Datatamer/terraform-aws-emr.git?ref=7.0.1"
-
+  //source = "git::git@github.com:Datatamer/terraform-aws-emr.git?ref=7.0.1"
+  source = "/Users/franco/Repos/terraform-aws-emr"
   # Configurations
   create_static_cluster = true
   release_label         = "emr-5.29.0" # spark 2.4.4
@@ -64,7 +59,7 @@ module "emr-spark" {
   emr_service_access_sg_name    = format("%s-%s", "example-complete", "-EMR-Spark-Service-Access")
 
   # Scale
-  master_instance_on_demand_count = 1
+  master_instance_on_demand_count = 3
   core_instance_on_demand_count   = 2
   master_instance_type            = "m4.large"
   core_instance_type              = "r5.xlarge"
