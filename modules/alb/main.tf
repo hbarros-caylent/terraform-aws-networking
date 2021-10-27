@@ -1,161 +1,130 @@
 
 data "aws_instances" "masters" {
-
   filter {
     name   = "tag:aws:elasticmapreduce:job-flow-id"
     values = [var.emr_cluster_id]
   }
-
   filter {
     name   = "tag:aws:elasticmapreduce:instance-group-role"
     values = ["MASTER"]
   }
-
 }
 
-data "aws_instance" "tamr_ec2" {
+data "aws_instance" "tamr-vm" {
   instance_id = var.ec2_instance_id
 }
 
-
 locals {
-  target_group_emr = length(data.aws_instances.masters.ids)
+  # Since for_each loops dont accept lists of objects, we convert to map using index as key
+  target_group_map = { for index, value in
+    # The lists will be nested, so we use flatten to leave just one level
+    flatten(
+      #For each target group created
+      [for tg in aws_lb_target_group.target_groups : [
+        #For each name in the target group, we look it up in the host_routing_map and get the instance list
+        for id in lookup(var.host_routing_map, tg.name).instance_ids : {
+          arn      = tg.arn
+          instance = id
+          port     = lookup(var.host_routing_map, tg.name).port
+        }
+  ]]) : index => value }
 }
 
-module "alb" {
-  source             = "terraform-aws-modules/alb/aws"
-  version            = "~> 6.0"
-  name               = "tamr-ssl-example"
-  load_balancer_type = "application"
-  vpc_id             = var.vpc_id
-  subnets            = var.subnet_ids
-  security_groups    = [module.sg_https_lb.security_group_id]
+resource "aws_lb" "alb" {
+  name               = "tamr-networking-complete-example"
   internal           = true
-  tags               = var.tags
-  target_groups = [
-    /*
-    {
-      name_prefix      = "tamr-"
-      backend_protocol = "HTTP"
-      backend_port     = var.tamr_unify_port
-      target_type      = "instance"
-      targets = [
-        {
-          target_id = var.ec2_instance_id
-          port      = var.tamr_unify_port
-        }
-      ]
-    },
-    {
-      name_prefix      = "tamr-"
-      backend_protocol = "HTTP"
-      backend_port     = var.tamr_dms_port
-      target_type      = "instance"
-      targets = [
-        {
-          target_id = var.ec2_instance_id
-          port      = var.tamr_dms_port
-        }
-      ]
-    },
-    {
-      name_prefix      = "tamr-"
-      backend_protocol = "HTTP"
-      backend_port     = "80"
-      target_type      = "instance"
-      targets = [
-        {
-          target_id = data.aws_instances.masters.ids[0]
-          port      = "80"
-        }
-      ]
-    },
-    {
-      name_prefix      = "tamr-"
-      backend_protocol = "HTTP"
-      backend_port     = "16010"
-      target_type      = "instance"
-      targets = [
-        {
-          target_id = data.aws_instances.masters.ids[0]
-          port      = "16010"
-        }
-      ]
-    },*/
-    {
-      name      = "tamr-default"
-      backend_protocol = "HTTP"
-      backend_port     = var.tamr_unify_port
-      target_type      = "instance"
-      targets = [
-        {
-          target_id = var.ec2_instance_id
-          port      = "9100"
-        }
-      ]
-    }
-  ]
-  http_tcp_listeners = [
-    {
-      port        = 80
-      protocol    = "HTTP"
-      action_type = "redirect"
-      redirect = {
-        port        = "443"
-        protocol    = "HTTPS"
-        status_code = "HTTP_301"
-      }
-    }
-  ]
-  https_listeners = [
-    {
-      port               = 443
-      protocol           = "HTTPS"
-      certificate_arn    = var.tls_certificate_arn
-      target_group_index = 0
-    }
-  ]
+  load_balancer_type = "application"
+  security_groups    = [module.sg_https_lb.security_group_id]
+  subnets            = var.subnet_ids
+  #enable_deletion_protection = true
 }
 
+resource "aws_lb_listener" "https" {
+  load_balancer_arn = aws_lb.alb.arn
+  port              = "443"
+  protocol          = "HTTPS"
+  ssl_policy        = "ELBSecurityPolicy-2016-08"
+  certificate_arn   = var.tls_certificate_arn
+
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.default_target_group.arn
+  }
+}
+
+resource "aws_lb_listener" "http" {
+  load_balancer_arn = aws_lb.alb.arn
+  port              = "80"
+  protocol          = "HTTP"
+  default_action {
+    type = "redirect"
+
+    redirect {
+      port        = "443"
+      protocol    = "HTTPS"
+      status_code = "HTTP_301"
+    }
+  }
+
+}
+
+/*
+The default target group will be tamr
+*/
+resource "aws_lb_target_group" "default_target_group" {
+  name = "tamr-default"
+  port = var.tamr_unify_port
+  health_check {
+    // We accept anything that indicates that the host is running. For future implementations
+    // we might add a field to the object to allow this to be configured.
+    enabled  = true
+    protocol = "HTTP"
+    matcher  = "200-499"
+  }
+  protocol = "HTTP"
+  vpc_id   = var.vpc_id
+}
+
+/*
+The default target group attachment is the tamr-vm
+*/
+resource "aws_lb_target_group_attachment" "default_tamr" {
+  target_group_arn = aws_lb_target_group.default_target_group.arn
+  target_id        = var.ec2_instance_id
+  port             = var.tamr_unify_port
+}
+
+/*
+Generates a target_group for each key in the host_routing_variable
+*/
 resource "aws_lb_target_group" "target_groups" {
-  for_each = var.host_routing_map
+  for_each = var.enable_host_routing ?  var.host_routing_map : {}
   name     = each.key
   port     = each.value.port
   health_check {
     // We accept anything that indicates that the host is running. For future implementations
     // we might add a field to the object to allow this to be configured.
-    enabled = true
+    enabled  = true
     protocol = "HTTP"
-    matcher = "200-499"
+    matcher  = "200-499"
   }
   protocol = "HTTP"
   vpc_id   = var.vpc_id
-} 
-/*
-resource "aws_lb_target_group_attachment" "tg_attachments" {
-  for_each = aws_lb_target_group.target_groups
-  target_group_arn = each.value.arn
-  target_id        = lookup(var.host_routing_map, each.key).instance_id[0]
-  port             = lookup(var.host_routing_map, each.key).port
 }
-*/
 
+/*
+Generates a target_group_attachment for each element in the target_group_map
+*/
 resource "aws_lb_target_group_attachment" "tg_attachments" {
-  for_each = {for index, value in flatten([for tg in aws_lb_target_group.target_groups: [
-    for id in lookup(var.host_routing_map, tg.name).instance_ids: {
-      arn = tg.arn
-      instance = id
-    }
-  ]]): index => value}
+  for_each         = var.enable_host_routing ? local.target_group_map : {}
   target_group_arn = each.value.arn
   target_id        = each.value.instance
-  #port             = lookup(var.host_routing_map, each.key).port
+  port             = each.value.port
 }
 
-
-resource "aws_lb_listener_rule" "listeners" {
-  for_each = aws_lb_target_group.target_groups
-  listener_arn = module.alb.https_listener_arns[0]
+resource "aws_lb_listener_rule" "listener_rules" {
+  for_each     = aws_lb_target_group.target_groups
+  listener_arn = aws_lb_listener.https.arn
   action {
     type             = "forward"
     target_group_arn = each.value.arn
@@ -166,90 +135,6 @@ resource "aws_lb_listener_rule" "listeners" {
     }
   }
 }
-
-/*
-resource "aws_lb_target_group" "ganglia" {
-  name     = "ganglia"
-  port     = 80
-  protocol = "HTTP"
-  vpc_id   = var.vpc_id
-}
-
-resource "aws_lb_target_group_attachment" "tamr" {
-  #for_each = data.aws_instances.masters.ids
-  target_group_arn = aws_lb_target_group.tamr.arn
-  target_id        = var.ec2_instance_id
-  port             = 9100
-}
-
-resource "aws_lb_target_group_attachment" "emr_masters_ganglia" {
-  count = var.master_fleet_instance_count
-  target_group_arn = aws_lb_target_group.ganglia.arn
-  target_id        = data.aws_instances.masters.ids[count.index]
-  port             = 80
-}
-
-
-resource "aws_lb_listener_rule" "dms" {
-  count        = var.enable_host_routing ? 1 : 0
-  listener_arn = module.alb.https_listener_arns[0]
-  priority     = 101
-  action {
-    type             = "forward"
-    target_group_arn = module.alb.target_group_arns[1]
-  }
-  condition {
-    host_header {
-      values = lookup(var.host_routing_map, "dms", [""])
-    }
-  }
-}
-
-resource "aws_lb_listener_rule" "ganglia" {
-  count        = var.enable_host_routing ? 1 : 0
-  listener_arn = module.alb.https_listener_arns[0]
-  priority     = 102
-  action {
-    type             = "forward"
-    target_group_arn = module.alb.target_group_arns[2]
-  }
-  condition {
-    host_header {
-      values = lookup(var.host_routing_map, "ganglia", [""])
-    }
-  }
-}
-
-resource "aws_lb_listener_rule" "hbase" {
-  count        = var.enable_host_routing ? 1 : 0
-  listener_arn = module.alb.https_listener_arns[0]
-  priority     = 103
-  action {
-    type             = "forward"
-    target_group_arn = module.alb.target_group_arns[3]
-  }
-  condition {
-    host_header {
-      values = lookup(var.host_routing_map, "hbase", [""])
-    }
-  }
-}
-
-resource "aws_lb_listener_rule" "spark" {
-  count        = var.enable_host_routing ? 1 : 0
-  listener_arn = module.alb.https_listener_arns[0]
-  priority     = 104
-  action {
-    type             = "forward"
-    target_group_arn = module.alb.target_group_arns[4]
-  }
-  condition {
-    host_header {
-      values = lookup(var.host_routing_map, "spark", [""])
-    }
-  }
-}
-*/
 
 module "sg_https_lb" {
   source              = "terraform-aws-modules/security-group/aws//modules/https-443"
@@ -269,8 +154,4 @@ module "sg_https_lb" {
     }
   ]
   tags = var.tags
-}
-
-data "aws_instance" "tamr-vm" {
-  instance_id = var.ec2_instance_id
 }

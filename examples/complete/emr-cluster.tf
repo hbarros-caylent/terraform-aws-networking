@@ -60,7 +60,7 @@ module "emr-spark" {
 
   # Scale
   master_instance_on_demand_count = 3
-  core_instance_on_demand_count   = 2
+  core_instance_on_demand_count   = 1
   master_instance_type            = "m4.large"
   core_instance_type              = "r5.xlarge"
   master_ebs_size                 = 50
