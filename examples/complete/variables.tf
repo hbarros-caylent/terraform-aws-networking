@@ -1,13 +1,11 @@
 variable "ingress_cidr_blocks" {
   type        = list(string)
   description = "The cidr range that will be accessing the tamr vm"
-  default     = ["0.0.0.0/0"]
 }
 
 variable "egress_cidr_blocks" {
   type        = list(string)
   description = "The cidr ranges that will be accessible from EMR"
-  default     = ["0.0.0.0/0"]
 }
 
 variable "tls_certificate_arn" {
