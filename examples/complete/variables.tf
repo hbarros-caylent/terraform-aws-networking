@@ -39,31 +39,31 @@ variable "enable_host_routing" {
 }
 
 variable "host_routing_map" {
-  type        = map(object({
-                        hosts= list(string)
-                        port = number
-                      }))
+  type = map(object({
+    hosts = list(string)
+    port  = number
+  }))
   description = "Map with hosts that should be used for routing"
   default = {
     "tamr" = {
       hosts = ["tamr.*.*"]
-      port = 9100
+      port  = 9100
     }
     "dms" = {
       hosts = ["dms.*.*"]
-      port = 9155
+      port  = 9155
     }
     "hbase" = {
       hosts = ["hbase.*.*"]
-      port = 16010
+      port  = 16010
     }
     "spark" = {
       hosts = ["spark.*.*"]
-      port = 18080
+      port  = 18080
     }
     "ganglia" = {
       hosts = ["ganglia.*.*"]
-      port = 80
+      port  = 80
     }
   }
 }

@@ -23,32 +23,32 @@ variable "ec2_instance_id" {
 variable "master_ids" {
   type        = list(string)
   description = "The Tamr VM instance id"
-  default = []
+  default     = []
 }
 
 variable "emr_cluster_id" {
   type        = string
   description = "The EMR Master instance id"
-  default = ""
+  default     = ""
 }
 
-variable "master_fleet_instance_count"{
-  type = number
+variable "master_fleet_instance_count" {
+  type        = number
   description = "Number of on-demand and spot master instances configured"
 }
 
 variable "host_routing_map" {
-  type        = map(object({
-                        instance_ids = list(string)
-                        hosts= list(string)
-                        port = number
-                      }))
+  type = map(object({
+    instance_ids = list(string)
+    hosts        = list(string)
+    port         = number
+  }))
   description = "Map with hosts that should be used for routing"
   default = {
     "tamr" = {
       instance_ids = ["i-000000"]
-      hosts = ["tamr.*.*"]
-      port = 9100
+      hosts        = ["tamr.*.*"]
+      port         = 9100
     }
   }
 }
@@ -79,12 +79,6 @@ variable "tamr_dms_port" {
   type        = string
   description = "Identifies the DMS access HTTP port"
   default     = "9155"
-}
-
-variable "tamr_dms_hosts" {
-  type        = list(string)
-  description = "Specify list of host headers to use in host based routing"
-  default     = []
 }
 
 variable "enable_host_routing" {
