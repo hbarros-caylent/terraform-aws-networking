@@ -98,7 +98,7 @@ resource "aws_lb_target_group_attachment" "default_tamr" {
 Generates a target_group for each key in the host_routing_variable
 */
 resource "aws_lb_target_group" "target_groups" {
-  for_each = var.enable_host_routing ?  var.host_routing_map : {}
+  for_each = var.enable_host_routing ? var.host_routing_map : {}
   name     = each.key
   port     = each.value.port
   health_check {
