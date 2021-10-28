@@ -71,6 +71,6 @@ variable "tamr_dms_port" {
 
 variable "enable_host_routing" {
   type        = bool
-  description = "Enabled the DMS proxying on the port specified in tamr_dms_port"
+  description = "Enabled the proxying for adding https to configurable host headers, ports and multiple instances"
   default     = false
 }
