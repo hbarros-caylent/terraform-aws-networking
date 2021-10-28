@@ -8,7 +8,7 @@ module "alb" {
   subnet_ids                  = module.tamr_networking.load_balancing_subnet_ids
   tags                        = var.tags
   master_fleet_instance_count = 1
-  enable_host_routing = var.enable_host_routing
+  enable_host_routing         = var.enable_host_routing
   host_routing_map = {
     "tamr" = {
       instance_ids = [module.tamr-vm.tamr_instance.ec2_instance_id]
