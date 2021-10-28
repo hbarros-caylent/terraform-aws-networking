@@ -1,13 +1,11 @@
 module "alb" {
   source                      = "../../modules/alb/"
   tls_certificate_arn         = var.tls_certificate_arn
-  emr_cluster_id              = module.emr-spark.tamr_emr_cluster_id
+  emr_cluster_id              = module.emr.tamr_emr_cluster_id
   ec2_instance_id             = module.tamr-vm.tamr_instance.ec2_instance_id
-  master_ids                  = data.aws_instances.masters.ids
   vpc_id                      = module.tamr_networking.vpc_id
   subnet_ids                  = module.tamr_networking.load_balancing_subnet_ids
   tags                        = var.tags
-  master_fleet_instance_count = 1
   enable_host_routing         = var.enable_host_routing
   host_routing_map = {
     "tamr" = {
@@ -42,7 +40,7 @@ data "aws_instances" "masters" {
 
   filter {
     name   = "tag:aws:elasticmapreduce:job-flow-id"
-    values = [module.emr-spark.tamr_emr_cluster_id]
+    values = [module.emr.tamr_emr_cluster_id]
   }
   filter {
     name   = "tag:aws:elasticmapreduce:instance-group-role"

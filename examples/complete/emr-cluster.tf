@@ -22,8 +22,8 @@ module "emr-rootdir-bucket" {
   tags             = var.tags
 }
 
-# EMR Static Spark cluster
-module "emr-spark" {
+# EMR cluster
+module "emr" {
   //source = "git::git@github.com:Datatamer/terraform-aws-emr.git?ref=7.0.1"
   source = "/Users/franco/Repos/terraform-aws-emr"
   # Configurations
@@ -54,9 +54,9 @@ module "emr-spark" {
   emr_ec2_iam_policy_name       = format("%s-%s", "example-complete", "-ec2-policy")
   master_instance_fleet_name    = format("%s-%s", "example-complete", "-MasterInstanceFleet")
   core_instance_fleet_name      = format("%s-%s", "example-complete", "-CoreInstanceFleet")
-  emr_managed_master_sg_name    = format("%s-%s", "example-complete", "-EMR-Spark-Master")
-  emr_managed_core_sg_name      = format("%s-%s", "example-complete", "-EMR-Spark-Core")
-  emr_service_access_sg_name    = format("%s-%s", "example-complete", "-EMR-Spark-Service-Access")
+  emr_managed_master_sg_name    = format("%s-%s", "example-complete", "-EMR-Master")
+  emr_managed_core_sg_name      = format("%s-%s", "example-complete", "-EMR-Core")
+  emr_service_access_sg_name    = format("%s-%s", "example-complete", "-EMR-Service-Access")
 
   # Scale
   master_instance_on_demand_count = 3
