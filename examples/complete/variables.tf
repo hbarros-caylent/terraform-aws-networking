@@ -36,36 +36,6 @@ variable "enable_host_routing" {
   default     = true
 }
 
-variable "host_routing_map" {
-  type = map(object({
-    hosts = list(string)
-    port  = number
-  }))
-  description = "Map with hosts that should be used for routing"
-  default = {
-    "tamr" = {
-      hosts = ["tamr.*.*"]
-      port  = 9100
-    }
-    "dms" = {
-      hosts = ["dms.*.*"]
-      port  = 9155
-    }
-    "hbase" = {
-      hosts = ["hbase.*.*"]
-      port  = 16010
-    }
-    "spark" = {
-      hosts = ["spark.*.*"]
-      port  = 18080
-    }
-    "ganglia" = {
-      hosts = ["ganglia.*.*"]
-      port  = 80
-    }
-  }
-}
-
 variable "ami_id" {
   type        = string
   description = "The AMI to use for the tamr vm"
