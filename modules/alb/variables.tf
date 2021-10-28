@@ -19,22 +19,10 @@ variable "ec2_instance_id" {
   type        = string
   description = "The Tamr VM instance id"
 }
-
-variable "master_ids" {
-  type        = list(string)
-  description = "The Tamr VM instance id"
-  default     = []
-}
-
 variable "emr_cluster_id" {
   type        = string
   description = "The EMR Master instance id"
   default     = ""
-}
-
-variable "master_fleet_instance_count" {
-  type        = number
-  description = "Number of on-demand and spot master instances configured"
 }
 
 variable "host_routing_map" {
