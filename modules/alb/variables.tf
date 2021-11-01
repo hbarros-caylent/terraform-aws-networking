@@ -35,7 +35,7 @@ variable "host_routing_map" {
   description = "Map with hosts that should be used for routing"
   default = {
     "tamr" = {
-      length = 1
+      length       = 1
       instance_ids = ["i-000000"]
       hosts        = ["tamr.*.*"]
       port         = 9100

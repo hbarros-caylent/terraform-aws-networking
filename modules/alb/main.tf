@@ -16,7 +16,7 @@ data "aws_instance" "tamr-vm" {
 
 locals {
   counter = sum(local.counter_lengths)
-  counter_lengths = tolist([for service, data in var.host_routing_map:
+  counter_lengths = tolist([for service, data in var.host_routing_map :
     data.length
   ])
   /*
@@ -136,7 +136,7 @@ resource "aws_lb_target_group_attachment" "tg_attachments" {
 Length Implementation to work around terraform limiting the above one.
 */
 resource "aws_lb_target_group_attachment" "tg_attachments" {
-  count         = local.counter
+  count            = local.counter
   target_group_arn = lookup(local.target_group_map, count.index).arn
   target_id        = lookup(local.target_group_map, count.index).instance
   port             = lookup(local.target_group_map, count.index).port
