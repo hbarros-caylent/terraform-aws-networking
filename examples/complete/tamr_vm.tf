@@ -39,7 +39,7 @@ module "sg_vm_web" {
     "0.0.0.0/0"
   ]
   egress_protocol         = "all"
-  ingress_security_groups = [module.alb.lb_security_group_id]
+  #ingress_security_groups = [module.alb.lb_security_group_id]
   ingress_protocol        = "tcp"
   ingress_ports           = var.enable_host_routing ? [var.tamr_unify_port, var.tamr_dms_port] : [var.tamr_unify_port]
   sg_name_prefix          = format("%s-%s", "example-complete", "tamr-vm")

@@ -15,6 +15,13 @@ data "aws_instance" "tamr-vm" {
 }
 
 locals {
+  counter = sum(local.counter_lengths)
+  counter_lengths = tolist([for service, data in var.host_routing_map:
+    data.length
+  ])
+  /*
+  This is the way to do it, but its not working
+  */
   # Since for_each loops dont accept lists of objects, we convert to map using index as key
   target_group_map = { for index, value in
     # The lists will be nested, so we use flatten to leave just one level
@@ -114,12 +121,23 @@ resource "aws_lb_target_group" "target_groups" {
 
 /*
 Generates a target_group_attachment for each element in the target_group_map
-*/
+
 resource "aws_lb_target_group_attachment" "tg_attachments" {
   for_each         = var.enable_host_routing ? local.target_group_map : {}
   target_group_arn = each.value.arn
   target_id        = each.value.instance
   port             = each.value.port
+}
+*/
+
+/*
+Length Implementation to work around terraform limiting the above one.
+*/
+resource "aws_lb_target_group_attachment" "tg_attachments" {
+  count         = local.counter
+  target_group_arn = lookup(local.target_group_map, count.index).arn
+  target_id        = lookup(local.target_group_map, count.index).instance
+  port             = lookup(local.target_group_map, count.index).port
 }
 
 resource "aws_lb_listener_rule" "listener_rules" {

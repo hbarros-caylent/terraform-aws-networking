@@ -9,11 +9,13 @@ output "lb_security_group_id" {
 }
 
 output "target_groups" {
-  value = local.target_group_map
+  #value = local.target_group_map
+  value = aws_lb_target_group.target_groups
   description = "Target groups used for each service"
 }
 
 output "target_group_attachments" {
   value = aws_lb_target_group_attachment.tg_attachments
+  #value = ""
   description = "Target group attachments to connect target groups with instances"
 }

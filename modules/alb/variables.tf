@@ -27,6 +27,7 @@ variable "emr_cluster_id" {
 
 variable "host_routing_map" {
   type = map(object({
+    length       = number
     instance_ids = list(string)
     hosts        = list(string)
     port         = number
@@ -34,6 +35,7 @@ variable "host_routing_map" {
   description = "Map with hosts that should be used for routing"
   default = {
     "tamr" = {
+      length = 1
       instance_ids = ["i-000000"]
       hosts        = ["tamr.*.*"]
       port         = 9100
@@ -68,6 +70,20 @@ variable "tamr_dms_port" {
   description = "Identifies the DMS access HTTP port"
   default     = "9155"
 }
+
+##### TMP
+variable "counter" {
+  type        = number
+  description = "Identifies the DMS access HTTP port"
+}
+
+variable "master_instances" {
+  type        = list(string)
+  description = "Identifies the DMS access HTTP port"
+}
+
+
+##### /TMP
 
 variable "enable_host_routing" {
   type        = bool
