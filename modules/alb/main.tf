@@ -19,8 +19,8 @@ locals {
   counter_lengths = tolist([for service, data in var.host_routing_map :
     data.length
   ])
-  /*
-  This is the way to do it, but its not working due to terraform limitation
+  
+  #This is the way to do it, but its not working due to terraform limitation
 
   # Since for_each loops dont accept lists of objects, we convert to map using index as key
   target_group_map = { for index, value in
@@ -35,7 +35,6 @@ locals {
           port     = lookup(var.host_routing_map, tg.name).port
         }
   ]]) : index => value }
-  */
 }
 
 resource "aws_lb" "alb" {
