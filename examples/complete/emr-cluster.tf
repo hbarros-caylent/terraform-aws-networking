@@ -25,7 +25,6 @@ module "emr-rootdir-bucket" {
 # EMR cluster
 module "emr" {
   source = "git::git@github.com:Datatamer/terraform-aws-emr.git?ref=7.1.0"
-  #source = "/Users/franco/Repos/terraform-aws-emr"
   # Configurations
   create_static_cluster = true
   release_label         = "emr-5.29.0" # spark 2.4.4

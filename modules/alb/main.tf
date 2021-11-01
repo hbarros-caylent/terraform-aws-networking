@@ -20,8 +20,8 @@ locals {
     data.length
   ])
   /*
-  This is the way to do it, but its not working
-  */
+  This is the way to do it, but its not working due to terraform limitation
+  
   # Since for_each loops dont accept lists of objects, we convert to map using index as key
   target_group_map = { for index, value in
     # The lists will be nested, so we use flatten to leave just one level
@@ -35,6 +35,7 @@ locals {
           port     = lookup(var.host_routing_map, tg.name).port
         }
   ]]) : index => value }
+  */
 }
 
 resource "aws_lb" "alb" {
@@ -43,7 +44,6 @@ resource "aws_lb" "alb" {
   load_balancer_type = "application"
   security_groups    = [module.sg_https_lb.security_group_id]
   subnets            = var.subnet_ids
-  #enable_deletion_protection = true
 }
 
 resource "aws_lb_listener" "https" {
@@ -120,6 +120,7 @@ resource "aws_lb_target_group" "target_groups" {
 }
 
 /*
+When terraform makes for_each loops more flexible, the following implementation will be better.
 Generates a target_group_attachment for each element in the target_group_map
 
 resource "aws_lb_target_group_attachment" "tg_attachments" {

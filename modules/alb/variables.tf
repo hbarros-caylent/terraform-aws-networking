@@ -71,19 +71,6 @@ variable "tamr_dms_port" {
   default     = "9155"
 }
 
-##### TMP
-variable "counter" {
-  type        = number
-  description = "Identifies the DMS access HTTP port"
-}
-
-variable "master_instances" {
-  type        = list(string)
-  description = "Identifies the DMS access HTTP port"
-}
-
-
-##### /TMP
 
 variable "enable_host_routing" {
   type        = bool
