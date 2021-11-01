@@ -32,15 +32,13 @@ To configure access to DMS we use the following variables:
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | ec2\_instance\_id | The Tamr VM instance id | `string` | n/a | yes |
-| master\_fleet\_instance\_count | Number of on-demand and spot master instances configured | `number` | n/a | yes |
 | subnet\_ids | The ids of the subnets where we will deploy the load balancer | `list(string)` | n/a | yes |
 | tls\_certificate\_arn | The tls certificate ARN | `string` | n/a | yes |
 | vpc\_id | The id of the VPC where we will deploy the load balancer | `string` | n/a | yes |
 | emr\_cluster\_id | The EMR Master instance id | `string` | `""` | no |
-| enable\_host\_routing | Enabled the DMS proxying on the port specified in tamr\_dms\_port | `bool` | `false` | no |
-| host\_routing\_map | Map with hosts that should be used for routing | <pre>map(object({<br>    instance_ids = list(string)<br>    hosts        = list(string)<br>    port         = number<br>  }))</pre> | <pre>{<br>  "tamr": {<br>    "hosts": [<br>      "tamr.*.*"<br>    ],<br>    "instance_ids": [<br>      "i-000000"<br>    ],<br>    "port": 9100<br>  }<br>}</pre> | no |
+| enable\_host\_routing | Enabled the proxying for adding https to configurable host headers, ports and multiple instances | `bool` | `false` | no |
+| host\_routing\_map | Map with hosts that should be used for routing | <pre>map(object({<br>    length       = number<br>    instance_ids = list(string)<br>    hosts        = list(string)<br>    port         = number<br>  }))</pre> | <pre>{<br>  "tamr": {<br>    "hosts": [<br>      "tamr.*.*"<br>    ],<br>    "instance_ids": [<br>      "i-000000"<br>    ],<br>    "length": 1,<br>    "port": 9100<br>  }<br>}</pre> | no |
 | ingress\_cidr\_blocks | The cidr range that will be accessing the load\_balancer | `list(string)` | <pre>[<br>  "0.0.0.0/0"<br>]</pre> | no |
-| master\_ids | The Tamr VM instance id | `list(string)` | `[]` | no |
 | name-prefix | n/a | `string` | `"tamr-"` | no |
 | tags | A map of tags to add to all resources. | `map(string)` | `{}` | no |
 | tamr\_dms\_port | Identifies the DMS access HTTP port | `string` | `"9155"` | no |
@@ -50,10 +48,10 @@ To configure access to DMS we use the following variables:
 
 | Name | Description |
 |------|-------------|
-| lb\_security\_group\_id | n/a |
-| load\_balancer | n/a |
-| target\_group\_attachments | n/a |
-| target\_groups | n/a |
+| lb\_security\_group\_id | Security group ID of the loadbalancer |
+| load\_balancer | Load balancer object |
+| target\_group\_attachments | Target group attachments to connect target groups with instances |
+| target\_groups | Target groups used for each service |
 
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 

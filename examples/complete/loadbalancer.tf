@@ -1,7 +1,7 @@
-locals{
+locals {
   host_routing_map = {
     "tamr" = {
-      length       = 1 // This field is only required because of a terraform limitation around resource counts. 
+      length       = 1 // This field is only required because of a terraform limitation around resource counts.
       instance_ids = [module.tamr-vm.tamr_instance.ec2_instance_id]
       hosts        = ["tamr.*.*"]
       port         = var.tamr_unify_port
@@ -34,15 +34,15 @@ locals{
 }
 
 module "alb" {
-  source                      = "../../modules/alb/"
-  tls_certificate_arn         = var.tls_certificate_arn
-  emr_cluster_id              = module.emr.tamr_emr_cluster_id
-  ec2_instance_id             = module.tamr-vm.tamr_instance.ec2_instance_id
-  vpc_id                      = module.tamr_networking.vpc_id
-  subnet_ids                  = module.tamr_networking.load_balancing_subnet_ids
-  tags                        = var.tags
-  enable_host_routing         = var.enable_host_routing
-  host_routing_map            = local.host_routing_map
+  source              = "../../modules/alb/"
+  tls_certificate_arn = var.tls_certificate_arn
+  emr_cluster_id      = module.emr.tamr_emr_cluster_id
+  ec2_instance_id     = module.tamr-vm.tamr_instance.ec2_instance_id
+  vpc_id              = module.tamr_networking.vpc_id
+  subnet_ids          = module.tamr_networking.load_balancing_subnet_ids
+  tags                = var.tags
+  enable_host_routing = var.enable_host_routing
+  host_routing_map    = local.host_routing_map
 }
 
 

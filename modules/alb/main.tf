@@ -21,7 +21,7 @@ locals {
   ])
   /*
   This is the way to do it, but its not working due to terraform limitation
-  
+
   # Since for_each loops dont accept lists of objects, we convert to map using index as key
   target_group_map = { for index, value in
     # The lists will be nested, so we use flatten to leave just one level
@@ -121,7 +121,8 @@ resource "aws_lb_target_group" "target_groups" {
 
 /*
 When terraform makes for_each loops more flexible, the following implementation will be better.
-Generates a target_group_attachment for each element in the target_group_map
+
+#Generates a target_group_attachment for each element in the target_group_map
 
 resource "aws_lb_target_group_attachment" "tg_attachments" {
   for_each         = var.enable_host_routing ? local.target_group_map : {}
