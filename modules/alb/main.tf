@@ -19,7 +19,7 @@ locals {
   counter_lengths = tolist([for service, data in var.host_routing_map :
     data.length
   ])
-  
+
   #This is the way to do it, but its not working due to terraform limitation
 
   # Since for_each loops dont accept lists of objects, we convert to map using index as key
