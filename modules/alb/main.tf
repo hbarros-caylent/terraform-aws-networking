@@ -1,15 +1,3 @@
-
-data "aws_instances" "masters" {
-  filter {
-    name   = "tag:aws:elasticmapreduce:job-flow-id"
-    values = [var.emr_cluster_id]
-  }
-  filter {
-    name   = "tag:aws:elasticmapreduce:instance-group-role"
-    values = ["MASTER"]
-  }
-}
-
 data "aws_instance" "tamr-vm" {
   instance_id = var.ec2_instance_id
 }
