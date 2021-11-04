@@ -36,7 +36,6 @@ This example deploys the following resources:
 | tls\_certificate\_arn | The tls certificate ARN | `string` | n/a | yes |
 | abac\_valid\_tags | Valid tags for maintaining resources when using ABAC IAM Policies with Tag Conditions. Make sure `tags` contain a key value specified here. | `map(list(string))` | `{}` | no |
 | ami\_id | The AMI to use for the tamr vm | `string` | `""` | no |
-| enable\_host\_routing | Enable the proxying for EMR, Tamr and DMS | `bool` | `true` | no |
 | name-prefix | n/a | `string` | `"tamr-"` | no |
 | tags | A map of tags to add to all resources. | `map(string)` | <pre>{<br>  "Name": "tamr-vpc",<br>  "Terraform": "true",<br>  "application": "tamr"<br>}</pre> | no |
 | tamr\_dms\_port | Identifies the DMS access HTTP port | `string` | `"9155"` | no |
