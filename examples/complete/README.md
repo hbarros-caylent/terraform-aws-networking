@@ -34,7 +34,7 @@ This example deploys the following resources:
 | ingress\_cidr\_blocks | The cidr range that will be accessing the tamr vm | `list(string)` | <pre>[<br>  "0.0.0.0/0"<br>]</pre> | no |
 | name-prefix | n/a | `string` | `"tamr-"` | no |
 | tags | A map of tags to add to all resources. | `map(string)` | <pre>{<br>  "Name": "tamr-vpc",<br>  "Terraform": "true",<br>  "application": "tamr"<br>}</pre> | no |
-| tamr\_dms\_hosts | Specify list of host headers to use in host based routing | `list(string)` | `[]` | no |
+| tamr\_dms\_hosts | Specify list of host headers to use in host based routing | `list(string)` | <pre>[<br>  "dms.*.*"<br>]</pre> | no |
 | tamr\_dms\_port | Identifies the DMS access HTTP port | `string` | `"9155"` | no |
 | tamr\_unify\_port | Identifies the default access HTTP port | `string` | `"9100"` | no |
 

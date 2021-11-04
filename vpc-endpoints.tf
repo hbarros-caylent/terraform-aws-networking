@@ -9,30 +9,30 @@ module "endpoints" {
       service         = "s3"
       tags            = { Name = "s3-vpc-endpoint" }
       route_table_ids = flatten([module.vpc.private_route_table_ids[0]])
-       },
-    elasticmapreduce    = {
-    service_type        = "Interface"
-    service             = "elasticmapreduce"
-    tags                = { Name = "elasticmapreduce-interface-endpoint" }
-    private_dns_enabled = true
-    security_group_ids  = module.aws-sg-interface_endpoint.security_group_ids
-    subnet_ids          = [module.vpc.private_subnets[0]]
-    tags                = { Name = "elasticmapreduce-vpc-endpoint" }
+    },
+    elasticmapreduce = {
+      service_type        = "Interface"
+      service             = "elasticmapreduce"
+      tags                = { Name = "elasticmapreduce-interface-endpoint" }
+      private_dns_enabled = true
+      security_group_ids  = module.aws-sg-interface_endpoint.security_group_ids
+      subnet_ids          = [module.vpc.private_subnets[0]]
+      tags                = { Name = "elasticmapreduce-vpc-endpoint" }
     },
   }
   tags = var.tags
 }
 
 module "aws-sg-interface_endpoint" {
-  source                  = "git::git@github.com:Datatamer/terraform-aws-security-groups.git?ref=1.0.0"
-  vpc_id                  = module.vpc.vpc_id
-  ingress_cidr_blocks     = [var.application_subnet_cidr_block]
-  egress_cidr_blocks      = [
+  source              = "git::git@github.com:Datatamer/terraform-aws-security-groups.git?ref=1.0.0"
+  vpc_id              = module.vpc.vpc_id
+  ingress_cidr_blocks = [var.application_subnet_cidr_block]
+  egress_cidr_blocks = [
     "0.0.0.0/0" # TODO: scope down
   ]
-  ingress_protocol        = "tcp"
-  egress_protocol         = "all"
-  ingress_ports           = ["443"]
-  sg_name_prefix          = format("%s-%s", var.name_prefix, "interface-endpoint")
-  tags                    = var.tags
+  ingress_protocol = "tcp"
+  egress_protocol  = "all"
+  ingress_ports    = ["443"]
+  sg_name_prefix   = format("%s-%s", var.name_prefix, "interface-endpoint")
+  tags             = var.tags
 }

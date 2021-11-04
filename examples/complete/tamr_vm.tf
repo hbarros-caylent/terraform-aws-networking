@@ -18,17 +18,17 @@ data "aws_ami" "tamr-vm" {
 }
 
 data "template_file" "install_nginx" {
-  template = "${file("${path.module}/files/install-nginx.tpl")}"
+  template = file("${path.module}/files/install-nginx.tpl")
   vars = {
     tamr_unify_port = var.tamr_unify_port
   }
 }
 
 data "template_file" "setup_dms" {
-  template = "${file("${path.module}/files/setup-dms.tpl")}"
+  template = file("${path.module}/files/setup-dms.tpl")
   vars = {
     tamr_unify_port = var.tamr_unify_port
-    tamr_dms_port = var.tamr_dms_port
+    tamr_dms_port   = var.tamr_dms_port
   }
 }
 
