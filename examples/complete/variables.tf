@@ -30,12 +30,6 @@ variable "tamr_dms_port" {
   default     = "9155"
 }
 
-variable "enable_host_routing" {
-  type        = bool
-  description = "Enable the proxying for EMR, Tamr and DMS"
-  default     = true
-}
-
 variable "ami_id" {
   type        = string
   description = "The AMI to use for the tamr vm"

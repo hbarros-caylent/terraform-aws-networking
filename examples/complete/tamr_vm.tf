@@ -41,7 +41,7 @@ module "sg_vm_web" {
   egress_protocol         = "all"
   ingress_security_groups = [module.alb.lb_security_group_id]
   ingress_protocol        = "tcp"
-  ingress_ports           = var.enable_host_routing ? [var.tamr_unify_port, var.tamr_dms_port] : [var.tamr_unify_port]
+  ingress_ports           = [var.tamr_unify_port, var.tamr_dms_port]
   sg_name_prefix          = format("%s-%s", "example-complete", "tamr-vm")
 
 }
@@ -57,7 +57,7 @@ module "tamr-vm" {
   availability_zone           = local.az
   vpc_id                      = module.tamr_networking.vpc_id
   subnet_id                   = module.tamr_networking.application_subnet_id
-  bootstrap_scripts           = var.enable_host_routing ? [data.template_file.setup_dms.rendered] : [data.template_file.install_nginx.rendered]
+  bootstrap_scripts           = [data.template_file.setup_dms.rendered]
   s3_policy_arns              = []
   depends_on = [
     module.tamr_networking

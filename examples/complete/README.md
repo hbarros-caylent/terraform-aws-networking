@@ -1,5 +1,5 @@
 # TLS ALB Example
-The following example will deploy the necessary resources to access Tamr using HTTPS.
+The following example will deploy the necessary resources to access Tamr and other services using HTTPS and host-based routing
 
 # Description
 This example deploys the following resources:
@@ -7,6 +7,7 @@ This example deploys the following resources:
 - NAT Gateway
 - Tamr VM instance with nginx for validation purposes.
 - Application load_balancer
+- EMR Cluster
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
 
