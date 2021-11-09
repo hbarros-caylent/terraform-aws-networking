@@ -18,7 +18,7 @@ locals {
   public_subnets_cidrs               = var.public_subnets_cidr_blocks
   azs                                = var.availability_zones
 }
-
+#tfsec:ignore:aws-vpc-no-excessive-port-access
 module "vpc" {
   source                 = "terraform-aws-modules/vpc/aws"
   version                = "3.2.0"

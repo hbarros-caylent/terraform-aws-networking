@@ -19,6 +19,29 @@ variable "ec2_instance_id" {
   type        = string
   description = "The Tamr VM instance id"
 }
+variable "emr_cluster_id" {
+  type        = string
+  description = "The EMR Master instance id"
+  default     = ""
+}
+
+variable "host_routing_map" {
+  type = map(object({
+    length       = number
+    instance_ids = list(string)
+    hosts        = list(string)
+    port         = number
+  }))
+  description = "Map with hosts that should be used for routing"
+  default = {
+    "tamr" = {
+      length       = 1
+      instance_ids = ["i-000000"]
+      hosts        = ["tamr.*.*"]
+      port         = 9100
+    }
+  }
+}
 
 variable "vpc_id" {
   type        = string
@@ -48,14 +71,9 @@ variable "tamr_dms_port" {
   default     = "9155"
 }
 
-variable "tamr_dms_hosts" {
-  type        = list(string)
-  description = "Specify list of host headers to use in host based routing"
-  default     = []
-}
 
-variable "enable_dms" {
+variable "enable_host_routing" {
   type        = bool
-  description = "Enabled the DMS proxying on the port specified in tamr_dms_port"
+  description = "Enabled the proxying for adding https to configurable host headers, ports and multiple instances"
   default     = false
 }
