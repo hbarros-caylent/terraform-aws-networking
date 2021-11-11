@@ -136,3 +136,4 @@ func TestMinimalTamrNetwork(t *testing.T) {
 }
 
 //first test with new CA-50
+//testing hugomrbr/terratest:1.0.11
