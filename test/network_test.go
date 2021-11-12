@@ -137,3 +137,4 @@ func TestMinimalTamrNetwork(t *testing.T) {
 
 //first test with new CA-50
 //testing terratest:1.0.11
+// removing go clean modcache
