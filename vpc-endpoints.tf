@@ -7,17 +7,16 @@ module "endpoints" {
     s3 = {
       service_type    = "Gateway"
       service         = "s3"
-      tags            = { Name = "s3-vpc-endpoint" }
+      tags            = {Name = format("%s-%s", var.name_prefix, "s3-vpc-endpoint")}
       route_table_ids = flatten([module.vpc.private_route_table_ids[0]])
     },
     elasticmapreduce = {
       service_type        = "Interface"
       service             = "elasticmapreduce"
-      tags                = { Name = "elasticmapreduce-interface-endpoint" }
+      tags                = {Name = format("%s-%s", var.name_prefix, "emr-interface-endpoint")}
       private_dns_enabled = true
       security_group_ids  = module.aws-sg-interface_endpoint.security_group_ids
       subnet_ids          = [module.vpc.private_subnets[0]]
-      tags                = { Name = "elasticmapreduce-vpc-endpoint" }
     },
   }
   tags = var.tags
@@ -33,6 +32,6 @@ module "aws-sg-interface_endpoint" {
   ingress_protocol = "tcp"
   egress_protocol  = "all"
   ingress_ports    = ["443"]
-  sg_name_prefix   = format("%s-%s", var.name_prefix, "interface-endpoint")
+  sg_name_prefix   = format("%s-%s", var.name_prefix, "interface-endpoint-sg")
   tags             = var.tags
 }
