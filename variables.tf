@@ -75,3 +75,8 @@ variable "tamr_unify_port" {
   description = "Identifies the default access HTTP port"
   default     = "9100"
 }
+
+variable "name_prefix" {
+  type        = string
+  description = "A prefix to add to the names of all created resources."
+}
