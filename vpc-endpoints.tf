@@ -26,9 +26,6 @@ module "aws-sg-interface_endpoint" {
   source              = "git::git@github.com:Datatamer/terraform-aws-security-groups.git?ref=1.0.0"
   vpc_id              = module.vpc.vpc_id
   ingress_cidr_blocks = [var.application_subnet_cidr_block]
-  egress_cidr_blocks = [
-    "0.0.0.0/0" # TODO: scope down
-  ]
   ingress_protocol = "tcp"
   egress_protocol  = "all"
   ingress_ports    = ["443"]
