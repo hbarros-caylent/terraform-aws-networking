@@ -15,20 +15,21 @@ module "endpoints" {
       service             = "elasticmapreduce"
       tags                = {Name = format("%s-%s", var.name_prefix, "emr-interface-endpoint")}
       private_dns_enabled = true
-      security_group_ids  = module.aws-sg-interface_endpoint.security_group_ids
+      security_group_ids  = [aws_security_group.interface_endpoint.id]
       subnet_ids          = [module.vpc.private_subnets[0]]
     },
   }
   tags = var.tags
 }
 
-module "aws-sg-interface_endpoint" {
-  source              = "git::git@github.com:Datatamer/terraform-aws-security-groups.git?ref=1.0.0"
-  vpc_id              = module.vpc.vpc_id
-  ingress_cidr_blocks = [var.application_subnet_cidr_block]
-  ingress_protocol = "tcp"
-  egress_protocol  = "all"
-  ingress_ports    = ["443"]
-  sg_name_prefix   = format("%s-%s", var.name_prefix, "interface-endpoint-sg")
-  tags             = var.tags
+resource "aws_security_group" "interface_endpoint" {
+  description = "Sec Group created to be attached into interface Endpoint for Tamr EMR, it allows TCP traffic between the Tamr VM subnet and EMR cluster."
+
+  ingress = [ {
+    cidr_blocks = [ var.application_subnet_cidr_block ]
+    description = "EMR API"
+    from_port = 443
+    to_port = 443
+    protocol = "TCP"
+  } ]
 }
