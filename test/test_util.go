@@ -16,6 +16,8 @@ type NetworkingModuleTestCase struct {
 	expectApplyError bool
 }
 
+// validateNetwork validates the outputs of the terraform module by doing few different checks:
+// Creation of VPC, subnets, and availability zones.
 func validateNetwork(t *testing.T, terraformOptions *terraform.Options, awsRegion string, expectedVpcName string, expectedAzs []string) {
 	outputs := terraform.OutputAll(t, terraformOptions)
 
@@ -54,6 +56,7 @@ func validateNetwork(t *testing.T, terraformOptions *terraform.Options, awsRegio
 	})
 }
 
+// getAllSubnetsOutput receives the outputs map and appends all values of subnet_id into one sorted list of strings
 func getAllSubnetsOutput(outputs map[string]interface{}) []string {
 	var retVal []string
 	retVal = append(retVal, outputs["compute_subnet_id"].(string))

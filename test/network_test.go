@@ -12,6 +12,7 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
+// initTestCases initializes a list of NetworkingModuleTestCase
 func initTestCases() []NetworkingModuleTestCase {
 	return []NetworkingModuleTestCase{
 		{
@@ -50,6 +51,8 @@ func initTestCases() []NetworkingModuleTestCase {
 		},
 	}
 }
+
+// TestMinimalTamrNetwork runs all testCases
 func TestMinimalTamrNetwork(t *testing.T) {
 	// For convenience - uncomment these as well as the "os" import
 	// when doing local testing if you need to skip any sections.
