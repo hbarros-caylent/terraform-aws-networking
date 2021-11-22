@@ -10,6 +10,7 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
+// NetworkingModuleTestCase is a struct that defines a test case for the terraform-aws-networking module
 type NetworkingModuleTestCase struct {
 	testName         string
 	vars             map[string]interface{}
