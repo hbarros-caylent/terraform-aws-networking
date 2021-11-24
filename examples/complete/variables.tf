@@ -66,7 +66,7 @@ variable "tags" {
   type        = map(string)
   description = "A map of tags to add to all resources."
   default = {
-    "Name" : "tamr-vpc"
+    "Name" : "tamr-vpc",
     "application" : "tamr",
     "Terraform" : "true"
   }
