@@ -48,9 +48,9 @@ module "sg_vm_web" {
 
 module "tamr-vm" {
   source                      = "git::git@github.com:Datatamer/terraform-aws-tamr-vm.git?ref=3.2.0"
-  aws_role_name               = format("%s-tamr-ec2-role", var.name-prefix)
-  aws_instance_profile_name   = format("%s-tamr-ec2-instance-profile", var.name-prefix)
-  aws_emr_creator_policy_name = format("%sEmrCreatorPolicy", var.name-prefix)
+  aws_role_name               = format("%s-tamr-ec2-role", var.name_prefix)
+  aws_instance_profile_name   = format("%s-tamr-ec2-instance-profile", var.name_prefix)
+  aws_emr_creator_policy_name = format("%sEmrCreatorPolicy", var.name_prefix)
   ami                         = local.ami_id
   instance_type               = "r5.2xlarge"
   key_name                    = var.key_pair

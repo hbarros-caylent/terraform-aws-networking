@@ -42,7 +42,7 @@ variable "abac_valid_tags" {
   default     = {}
 }
 
-variable "name-prefix" {
+variable "name_prefix" {
   type        = string
   description = ""
   default     = "tamr-"
