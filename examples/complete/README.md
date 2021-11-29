@@ -8,6 +8,9 @@ This example deploys the following resources:
 - Tamr VM instance with nginx for validation purposes.
 - Application load_balancer
 - EMR Cluster
+
+In this example we will be creating a VPC with an interface VPC endpoint to allow the application subnet to communicate to the EMR API without traversing the internet without the use of InternetGateway nor a NatGateway.
+
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
 
@@ -36,7 +39,7 @@ This example deploys the following resources:
 | tls\_certificate\_arn | The tls certificate ARN | `string` | n/a | yes |
 | abac\_valid\_tags | Valid tags for maintaining resources when using ABAC IAM Policies with Tag Conditions. Make sure `tags` contain a key value specified here. | `map(list(string))` | `{}` | no |
 | ami\_id | The AMI to use for the tamr vm | `string` | `""` | no |
-| name-prefix | n/a | `string` | `"tamr-"` | no |
+| name\_prefix | n/a | `string` | `"tamr-"` | no |
 | tags | A map of tags to add to all resources. | `map(string)` | <pre>{<br>  "Name": "tamr-vpc",<br>  "Terraform": "true",<br>  "application": "tamr"<br>}</pre> | no |
 | tamr\_dms\_port | Identifies the DMS access HTTP port | `string` | `"9155"` | no |
 | tamr\_unify\_port | Identifies the default access HTTP port | `string` | `"9100"` | no |
