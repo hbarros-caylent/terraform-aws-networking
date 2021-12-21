@@ -10,5 +10,7 @@ module "tamr_networking" {
   create_public_subnets         = var.create_public_subnets # false
   create_load_balancing_subnets = var.create_load_balancing_subnets #  false
   enable_nat_gateway            = var.enable_nat_gateway #  false
-  tags = var.tags
+  name_prefix                   = var.name_prefix
+  interface_endpoint_ingress_sg = module.sg_vm_web.security_group_ids[0]
+  tags                          = var.tags
 }

@@ -29,9 +29,17 @@ variable "enable_nat_gateway" {
   type = bool
 }
 
+variable "name_prefix" {
+  type        = string
+  description = ""
+  default     = "tamr-"
+}
+
 variable "tags" {
+  type        = map(string)
+  description = "A map of tags to add to all resources."
   default = {
-    "Name" : "tamr-vpc-minimal"
+    "Name" : "tamr-vpc",
     "application" : "tamr",
     "Terraform" : "true"
   }

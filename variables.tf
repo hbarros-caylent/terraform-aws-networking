@@ -36,7 +36,6 @@ variable "load_balancing_subnets_cidr_blocks" {
   default     = ["0.0.0.0/0", "0.0.0.0/0"]
 }
 
-
 variable "availability_zones" {
   type        = list(string)
   description = "The list of availability zones where we should deploy resources"
@@ -74,4 +73,14 @@ variable "tamr_unify_port" {
   type        = string
   description = "Identifies the default access HTTP port"
   default     = "9100"
+}
+
+variable "name_prefix" {
+  type        = string
+  description = "A prefix to add to the names of all created resources."
+}
+
+variable "interface_endpoint_ingress_sg" {
+  type        = string
+  description = "Application Security group ID to associate with the interface endpoint as allowed ingress traffic."
 }
