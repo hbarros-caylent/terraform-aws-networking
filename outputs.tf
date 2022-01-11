@@ -6,7 +6,6 @@ output "vpc_cidr_block" {
   value = module.vpc.vpc_cidr_block
 }
 
-
 output "compute_subnet_id" {
   value = local.compute_subnet
 }
