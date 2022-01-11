@@ -15,15 +15,23 @@ module "endpoints" {
       service             = "elasticmapreduce"
       tags                = { Name = format("%s-%s", var.name_prefix, "emr-interface-endpoint") }
       private_dns_enabled = true
-      security_group_ids  = [aws_security_group.interface_endpoint.id]
+      security_group_ids  = [aws_security_group.emr_interface_endpoint_sg.id]
       subnet_ids          = [module.vpc.private_subnets[0]]
     },
+    logs = {
+      service_type        = "Interface"
+      service             = "logs"
+      tags                = { Name = format("%s-%s", var.name_prefix, "logs-interface-endpoint") }
+      private_dns_enabled = true
+      security_group_ids  = [aws_security_group.logs_interface_endpoint_sg.id]
+      subnet_ids          = [module.vpc.private_subnets[0]]
+    }
   }
   tags = var.tags
 }
 
-resource "aws_security_group" "interface_endpoint" {
-  name        = format("%s-%s", var.name_prefix, "interface-endpoint-sg")
+resource "aws_security_group" "emr_interface_endpoint_sg" {
+  name        = format("%s-%s", var.name_prefix, "emr_interface-endpoint_sg")
   description = "Security Group to be attached to the EMR Endpoint interface, which allows TCP traffic to the EMR service."
   vpc_id      = module.vpc.vpc_id
 
@@ -31,8 +39,22 @@ resource "aws_security_group" "interface_endpoint" {
     description     = "EMR API"
     from_port       = 443
     to_port         = 443
-    protocol        = "TCP"
+    protocol        = "6"
     security_groups = [var.interface_endpoint_ingress_sg]
+  }
+  tags = var.tags
+}
+
+resource "aws_security_group" "logs_interface_endpoint_sg" {
+  name        = format("%s-%s", var.name_prefix, "logs_interface-endpoint_sg")
+  description = "Security Group to be attached to the EMR Endpoint interface, which allows TCP traffic to the Cloudwatch service."
+  vpc_id      = module.vpc.vpc_id
+  ingress {
+    description = "Cloudwatch API"
+    from_port   = 443
+    to_port     = 443
+    protocol    = "6"
+    cidr_blocks = [aws_subnet.compute_subnet.cidr_block]
   }
   tags = var.tags
 }
