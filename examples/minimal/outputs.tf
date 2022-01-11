@@ -6,7 +6,6 @@ output "vpc_cidr_block" {
   value = module.tamr_networking.vpc_cidr_block
 }
 
-
 output "compute_subnet_id" {
   value = module.tamr_networking.compute_subnet_id
 }
