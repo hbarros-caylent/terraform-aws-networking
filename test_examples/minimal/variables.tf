@@ -8,6 +8,11 @@ variable "ingress_cidr_blocks" {
   description = "The cidr range that will be accessing the tamr vm."
 }
 
+variable "name_prefix" {
+  type        = string
+  description = "A prefix to add to the names of all created resources."
+}
+
 variable "data_subnet_cidr_blocks" {
   type        = list(string)
   description = "The data subnet's CIDR range"
