@@ -35,5 +35,6 @@ No provider.
 | tamr\_ec2\_availability\_zone | n/a |
 | vpc\_cidr\_block | n/a |
 | vpc\_id | n/a |
+| vpce\_logs\_endpoint\_dnsname | n/a |
 
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
