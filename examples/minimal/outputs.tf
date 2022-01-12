@@ -29,3 +29,7 @@ output "tamr_ec2_availability_zone" {
 output "public_subnet_ids" {
   value = module.tamr_networking.public_subnet_ids
 }
+
+output "vpce_logs_endpoint_dnsname" {
+  value = module.tamr_networking.vpce_logs_endpoint_dnsname
+}

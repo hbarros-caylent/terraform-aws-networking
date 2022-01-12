@@ -33,3 +33,7 @@ output "public_subnet_ids" {
 output "load_balancing_subnet_ids" {
   value = local.load_balancing_subnets
 }
+
+output "vpce_logs_endpoint_dnsname" {
+  value = module.endpoints.endpoints["logs"].dns_entry[0]["dns_name"]
+}
