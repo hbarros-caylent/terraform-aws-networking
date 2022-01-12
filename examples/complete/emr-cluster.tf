@@ -24,6 +24,10 @@ module "emr-rootdir-bucket" {
 
 # EMR cluster
 module "emr" {
+  # See CA-131
+  depends_on = [
+    module.tamr_networking
+  ]
   source = "git::git@github.com:Datatamer/terraform-aws-emr.git?ref=7.1.0"
   # Configurations
   create_static_cluster = true

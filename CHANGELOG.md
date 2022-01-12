@@ -1,4 +1,7 @@
 # Tamr Terraform AWS Networking Repo
+## v1.0.1 - December 30th 2021
+* Forces dependency between EMR and Networking module.
+
 ## v1.0.0 - November 29th 2021
 * Refactors ALB Module
 * Adds EMR to complete example
