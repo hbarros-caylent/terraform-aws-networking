@@ -4,7 +4,7 @@ module "sg_vm_web" {
   egress_cidr_blocks = [
     "0.0.0.0/0"
   ]
-  egress_protocol         = "all"
+  egress_protocol         = "TCP"
   ingress_security_groups = []
   ingress_protocol        = ""
   ingress_ports           = []
