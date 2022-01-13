@@ -37,7 +37,7 @@ func initTestCases() []NetworkingModuleTestCase {
 			testName:         "InvalidCIDR",
 			expectApplyError: true,
 			vars: map[string]interface{}{
-				"name_prefix": "this-should-fail"
+				"name_prefix":                   "this-should-fail",
 				"vpc_cidr_block":                "0.0.0.0/0",
 				"ingress_cidr_blocks":           []string{"0.0.0.0/0"},
 				"data_subnet_cidr_blocks":       []string{"172.38.0.0/24", "172.38.1.0/24"},
