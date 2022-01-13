@@ -2,6 +2,7 @@
 ## v1.1.0 - January 11st 2022
 * Adds Cloudwatch VPC Interface Endpoint.
 * Adds Cloudwatch VPC Interface Endpoint security group.
+* Adds a description to each output.
 
 ## v1.0.1 - December 30th 2021
 * Forces dependency between EMR and Networking module.
