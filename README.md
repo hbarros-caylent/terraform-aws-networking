@@ -63,15 +63,16 @@ Includes the following resources:
 
 | Name | Description |
 |------|-------------|
-| application\_subnet\_cidr\_block | n/a |
-| application\_subnet\_id | n/a |
-| compute\_subnet\_id | n/a |
-| data\_subnet\_ids | n/a |
-| load\_balancing\_subnet\_ids | n/a |
-| public\_subnet\_ids | n/a |
-| tamr\_ec2\_availability\_zone | n/a |
-| vpc\_cidr\_block | n/a |
-| vpc\_id | n/a |
+| application\_subnet\_cidr\_block | The CIDR block of the Application Subnet. |
+| application\_subnet\_id | ID of the subnet where mainly the Tamr VM and the Cloudwatch VPC Endpoint will be created. If `abac_valid_tags` key values are set, this subnet is required to have a valid key value tag as well. |
+| compute\_subnet\_id | ID of the subnet where mainly the EMR cluster will be created. If `abac_valid_tags` key values are set, this subnet is required to have a valid key value tag as well. |
+| data\_subnet\_ids | ID of the subnet where mainly the RDS will be created. If `abac_valid_tags` key values are set, this subnet is required to have a valid key value tag as well. |
+| load\_balancing\_subnet\_ids | ID of the Application Load Balancer subnet. |
+| public\_subnet\_ids | ID of the public subnets created in the VPC. |
+| tamr\_ec2\_availability\_zone | The list of availability zones where we should deploy resources. |
+| vpc\_cidr\_block | The CIDR block of the VPC. |
+| vpc\_id | VPC ID of the network. |
+| vpce\_logs\_endpoint\_dnsname | Cloudwatch VPC Interface Endpoint DNS name which will be provided to the script to install and configure the Cloudwatch agent. |
 
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
