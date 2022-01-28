@@ -33,15 +33,6 @@ variable "public_subnets_cidr_blocks" {
   description = "The public subnets' CIDR range"
 }
 
-variable "availability_zones" {
-  type        = list(string)
-  description = "The list of availability zones where we should deploy resources"
-  validation {
-    condition     = length(var.availability_zones) == 2
-    error_message = "Please provide only two availability zones."
-  }
-}
-
 variable "create_public_subnets" {
   type        = bool
   description = "Enable the creation of public subnets for internet facing resources"

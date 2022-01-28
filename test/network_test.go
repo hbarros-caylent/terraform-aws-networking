@@ -26,7 +26,6 @@ func initTestCases() []NetworkingModuleTestCase {
 				"application_subnet_cidr_block": "172.38.2.0/24",
 				"compute_subnet_cidr_block":     "172.38.3.0/24",
 				"public_subnets_cidr_blocks":    []string{"172.38.4.0/24"},
-				"availability_zones":            make([]string, 2),
 				"create_public_subnets":         false,
 				"create_load_balancing_subnets": false,
 				"enable_nat_gateway":            false,
@@ -44,7 +43,6 @@ func initTestCases() []NetworkingModuleTestCase {
 				"application_subnet_cidr_block": "172.38.2.0/24",
 				"compute_subnet_cidr_block":     "172.38.3.0/24",
 				"public_subnets_cidr_blocks":    []string{"172.38.4.0/24"},
-				"availability_zones":            make([]string, 2),
 				"create_public_subnets":         false,
 				"create_load_balancing_subnets": false,
 				"enable_nat_gateway":            false,
@@ -77,11 +75,6 @@ func TestMinimalTamrNetwork(t *testing.T) {
 			expectedName := fmt.Sprintf("terratest-vpc-%s", strings.ToLower(random.UniqueId()))
 			testCase.vars["tags"].(map[string]string)["Name"] = expectedName
 
-			testCase.vars["availability_zones"] = []string{
-				fmt.Sprintf("%sa", awsRegion),
-				fmt.Sprintf("%sb", awsRegion),
-			}
-
 			test_structure.RunTestStage(t, "setup_options", func() {
 				terraformOptions := terraform.WithDefaultRetryableErrors(t, &terraform.Options{
 					TerraformDir: tempTestFolder,
@@ -113,11 +106,12 @@ func TestMinimalTamrNetwork(t *testing.T) {
 
 			test_structure.RunTestStage(t, "validate_network", func() {
 				terraformOptions := test_structure.LoadTerraformOptions(t, tempTestFolder)
-				validateNetwork(t,
+				validateNetwork(
+					t,
 					terraformOptions,
 					awsRegion,
 					expectedName,
-					testCase.vars["availability_zones"].([]string),
+					testCase.vars,
 				)
 			})
 

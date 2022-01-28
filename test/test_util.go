@@ -19,7 +19,7 @@ type NetworkingModuleTestCase struct {
 
 // validateNetwork validates the outputs of the terraform module by doing few different checks:
 // Creation of VPC, subnets, and availability zones.
-func validateNetwork(t *testing.T, terraformOptions *terraform.Options, awsRegion string, expectedVpcName string, expectedAzs []string) {
+func validateNetwork(t *testing.T, terraformOptions *terraform.Options, awsRegion string, expectedVpcName string, testCaseVars map[string]interface{}) {
 	outputs := terraform.OutputAll(t, terraformOptions)
 
 	t.Run("outputs_ok", func(t *testing.T) {
@@ -51,8 +51,8 @@ func validateNetwork(t *testing.T, terraformOptions *terraform.Options, awsRegio
 	})
 
 	t.Run("check_subnets_azs", func(t *testing.T) {
-		for _, s := range subnets {
-			assert.Contains(t, expectedAzs, s.AvailabilityZone)
+		for _, subnet := range subnets {
+			assert.Contains(t, outputs["tamr_ec2_availability_zone"], subnet.AvailabilityZone)
 		}
 	})
 }
