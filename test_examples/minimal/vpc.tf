@@ -7,13 +7,13 @@ module "tamr_networking" {
   data_subnet_cidr_blocks       = var.data_subnet_cidr_blocks
   application_subnet_cidr_block = var.application_subnet_cidr_block
   compute_subnet_cidr_block     = var.compute_subnet_cidr_block
-  availability_zones            = [
+  availability_zones = [
     data.aws_availability_zones.available.names[0],
     data.aws_availability_zones.available.names[1]
   ]
-  create_public_subnets         = false
-  create_load_balancing_subnets = false
-  enable_nat_gateway            = false
+  create_public_subnets         = var.create_public_subnets
+  create_load_balancing_subnets = var.create_load_balancing_subnets
+  enable_nat_gateway            = var.enable_nat_gateway
   tags                          = var.tags
 }
 
