@@ -29,16 +29,11 @@ func validateNetwork(t *testing.T, terraformOptions *terraform.Options, awsRegio
 		}
 	})
 
-	t.Run("get_vpc", func(t *testing.T) {
+	t.Run("check_vpc", func(t *testing.T) {
 		// checks VPC exists by calling DescribeVPC
-		_, err := aws.GetVpcByIdE(t, outputs["vpc_id"].(string), awsRegion)
+		vpcObj, err := aws.GetVpcByIdE(t, outputs["vpc_id"].(string), awsRegion)
 		require.NoError(t, err, "Error trying to Describe VPC")
-	})
-
-	t.Run("check_vpc_name", func(t *testing.T) {
-		// // checks VPC name
-		// vpcName := aws.FindVpcName(vpcObj)
-		// assert.Equal(t, expectedVpcName, vpcName)
+		assert.Equal(t, expectedVpcName, vpcObj.Name)
 	})
 
 	allSubnetsOutput := getAllSubnetsOutput(outputs)
