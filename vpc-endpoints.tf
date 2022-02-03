@@ -54,7 +54,7 @@ resource "aws_security_group" "logs_interface_endpoint" {
     from_port   = 443
     to_port     = 443
     protocol    = "TCP"
-    cidr_blocks = [aws_subnet.compute_subnet.cidr_block]
+    cidr_blocks = [aws_subnet.compute_subnet.cidr_block, module.vpc.private_subnets_cidr_blocks[0]]
   }
   tags = var.tags
 }
