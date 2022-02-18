@@ -31,6 +31,13 @@ variable "compute_subnet_cidr_block" {
 variable "public_subnets_cidr_blocks" {
   type        = list(string)
   description = "The public subnets' CIDR range"
+  default     = ["0.0.0.0/0", "0.0.0.0/0"]
+}
+
+variable "load_balancing_subnets_cidr_blocks" {
+  type        = list(string)
+  description = "The load_balancing subnets' CIDR range"
+  default     = ["0.0.0.0/0", "0.0.0.0/0"]
 }
 
 variable "create_public_subnets" {

@@ -5,6 +5,7 @@ import (
 	"testing"
 
 	"github.com/gruntwork-io/terratest/modules/aws"
+	"github.com/gruntwork-io/terratest/modules/logger"
 	"github.com/gruntwork-io/terratest/modules/terraform"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
@@ -28,6 +29,8 @@ func validateNetwork(t *testing.T, terraformOptions *terraform.Options, awsRegio
 			require.NotNil(t, o)
 		}
 	})
+
+	logger.Log(t, outputs)
 
 	t.Run("check_vpc", func(t *testing.T) {
 		// checks VPC exists by calling DescribeVPC

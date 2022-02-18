@@ -25,11 +25,29 @@ func initTestCases() []NetworkingModuleTestCase {
 				"data_subnet_cidr_blocks":       []string{"172.38.0.0/24", "172.38.1.0/24"},
 				"application_subnet_cidr_block": "172.38.2.0/24",
 				"compute_subnet_cidr_block":     "172.38.3.0/24",
-				"public_subnets_cidr_blocks":    []string{"172.38.4.0/24"},
+				"public_subnets_cidr_blocks":    []string{"172.38.4.0/24", "172.38.5.0/24"},
 				"create_public_subnets":         false,
 				"create_load_balancing_subnets": false,
 				"enable_nat_gateway":            false,
 				"tags":                          make(map[string]string),
+			},
+		},
+		{
+			testName:         "CreateAllSubnets",
+			expectApplyError: false,
+			vars: map[string]interface{}{
+				"name_prefix":                        "all_subnets_terratest",
+				"vpc_cidr_block":                     "172.38.0.0/20",
+				"ingress_cidr_blocks":                []string{"0.0.0.0/0"},
+				"data_subnet_cidr_blocks":            []string{"172.38.0.0/24", "172.38.1.0/24"},
+				"application_subnet_cidr_block":      "172.38.2.0/24",
+				"compute_subnet_cidr_block":          "172.38.3.0/24",
+				"public_subnets_cidr_blocks":         []string{"172.38.4.0/24", "172.38.5.0/24"},
+				"load_balancing_subnets_cidr_blocks": []string{"172.38.6.0/24", "172.38.7.0/24"},
+				"create_public_subnets":              true,
+				"create_load_balancing_subnets":      true,
+				"enable_nat_gateway":                 true,
+				"tags":                               make(map[string]string),
 			},
 		},
 		{
@@ -42,7 +60,6 @@ func initTestCases() []NetworkingModuleTestCase {
 				"data_subnet_cidr_blocks":       []string{"172.38.0.0/24", "172.38.1.0/24"},
 				"application_subnet_cidr_block": "172.38.2.0/24",
 				"compute_subnet_cidr_block":     "172.38.3.0/24",
-				"public_subnets_cidr_blocks":    []string{"172.38.4.0/24"},
 				"create_public_subnets":         false,
 				"create_load_balancing_subnets": false,
 				"enable_nat_gateway":            false,
@@ -53,7 +70,7 @@ func initTestCases() []NetworkingModuleTestCase {
 }
 
 // TestMinimalTamrNetwork runs all testCases
-func TestMinimalTamrNetwork(t *testing.T) {
+func TestTamrNetwork(t *testing.T) {
 	// os.Setenv("TERRATEST_REGION", "us-east-1")
 
 	// list of different buckets that will be created to be tested
@@ -97,6 +114,8 @@ func TestMinimalTamrNetwork(t *testing.T) {
 					// If it failed as expected, we should skip the rest (validate function).
 					t.SkipNow()
 				}
+
+				require.NoError(t, err)
 			})
 
 			defer test_structure.RunTestStage(t, "teardown", func() {
