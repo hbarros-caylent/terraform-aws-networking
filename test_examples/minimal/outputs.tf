@@ -29,3 +29,7 @@ output "tamr_ec2_availability_zone" {
 output "public_subnet_ids" {
   value = module.tamr_networking.tamr_networking.public_subnet_ids
 }
+
+output "load_balancing_subnet_ids" {
+  value       = module.tamr_networking.tamr_networking.load_balancing_subnet_ids
+}

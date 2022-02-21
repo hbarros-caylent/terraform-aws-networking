@@ -69,6 +69,10 @@ func getAllSubnetsOutput(outputs map[string]interface{}) []string {
 		retVal = append(retVal, i.(string))
 	}
 
+	for _, i := range outputs["load_balancing_subnet_ids"].([]interface{}) {
+		retVal = append(retVal, i.(string))
+	}
+
 	sort.Strings(retVal)
 
 	return retVal
