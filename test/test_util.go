@@ -55,10 +55,9 @@ func validateNetwork(t *testing.T, terraformOptions *terraform.Options, awsRegio
 	})
 
 	if outputs["load_balancing_subnet_ids"] != nil {
-		t.Run("check_loadbalancer_is_public", func(t *testing.T) {
+		t.Run("check_loadbalancer_is_not_public", func(t *testing.T) {
 			for _, subnet := range outputs["load_balancing_subnet_ids"].([]interface{}) {
-				_, err := aws.IsPublicSubnetE(t, subnet.(string), awsRegion)
-				assert.NoError(t, err)
+				assert.False(t, aws.IsPublicSubnet(t, subnet.(string), awsRegion))
 			}
 		})
 	}
